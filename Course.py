@@ -1,6 +1,3 @@
-
-
-
 class Course:
 
     def __init__(self, name="", interests=[], after="", required={}, quarters_offered=[], years_offered=""):
@@ -11,7 +8,7 @@ class Course:
         self.quarters_offered = quarters_offered
         self.years_offered = years_offered
 
-    def isOffered(self, time):
+    def is_offered(self, time):
         offered_in_quarter = False
         offered_in_year = True
 
