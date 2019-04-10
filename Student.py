@@ -93,8 +93,10 @@ class Student:
             "STA100": self.sta100_prereq,
         }
         func = switcher.get(course.name)
+        if func is None:
+            return False
         if course.name == "ENG06":
-            return func(block)
+            return func(block)  # ENG06 special case, needs block parameter
         return func()
 
     def ecs32a_rec(self):
