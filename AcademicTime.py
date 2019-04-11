@@ -30,3 +30,11 @@ class AcademicTime:
 
         return newtime
 
+    def __eq__(self, o: object) -> bool:
+        return super().__eq__(o)
+
+    def __ne__(self, o: object) -> bool:
+        return super().__ne__(o)
+
+
+
