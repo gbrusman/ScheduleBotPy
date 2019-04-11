@@ -6,7 +6,7 @@ from Student import Student
 
 class Schedule:
 
-    def __init__(self, student = Student(), classes_offered = []):
+    def __init__(self, student=Student(), classes_offered=[]):
         self.student = student
         self.classes_offered = classes_offered
         self.classes_by_name = {}
