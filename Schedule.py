@@ -41,7 +41,7 @@ class Schedule:
             for course in cur_block.courses:
                 self.student.classes_taken[course.name] = course
             self.schedule[cur_time] = cur_block
-            cur_time = AcademicTime(cur_time.progress_time())
+            cur_time = cur_time.progress_time()
             self.student.cur_time = cur_time
 
     def add_course_to_block(self, course, block, after, time):
@@ -52,18 +52,20 @@ class Schedule:
 
     def add_course_from_after(self, course, block, after, time, index):
         block.courses.append(course)
-        print("Adding " + course.name + " at " + time.quarter + " " + time.year)
+        print("Adding ", course.name, " at ", time.quarter, " ", time.year)
         self.classes_offered.remove(course)
         after.pop(index)
 
     def fill_from_after(self, cur_block, after, cur_time):
         next_after = []
-        for i in range(len(after)):
+        loop_range = range(len(after))
+        for i in loop_range:  # need to recompute this range because len(after) changes in loop
             after_course = self.classes_by_name.get(after[i], None)  # not sure if really what I want (see Schedule.java:120)
             if after_course is not None:
                 if after_course.is_offered(cur_time) and after_course.required[self.student.major]:
                     self.add_course_from_after(after_course, cur_block, after, cur_time, i)
                     next_after.append(after_course.after)
+                    loop_range = range(len(after))  # FIXME: Still doesn't update properly
                     i -= 1
 
         for i in range(len(next_after)):
