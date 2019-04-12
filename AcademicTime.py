@@ -36,5 +36,10 @@ class AcademicTime:
     def __ne__(self, o: object) -> bool:
         return super().__ne__(o)
 
+    def __hash__(self) -> int:
+        return super().__hash__()
+
+
+
 
 

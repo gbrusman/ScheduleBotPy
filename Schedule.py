@@ -21,7 +21,7 @@ class Schedule:
         for interest in interests:
             cur_interest = []
             for course in classes_offered:
-                if course.interests != [] and interest in course.interests:
+                if course.interests is not None and interest in course.interests:
                     cur_interest.append(course.name)
             self.interest_table[interest] = cur_interest
 
@@ -46,7 +46,7 @@ class Schedule:
 
     def add_course_to_block(self, course, block, after, time):
         block.courses.append(course)
-        print("Adding " + course.name + " at " + time.quarter + " " + time.year)
+        print("Adding ", course.name, " at ", time.quarter,  " ", time.year)
         after.append(course.after)
         self.classes_offered.remove(course)
 
@@ -59,7 +59,7 @@ class Schedule:
     def fill_from_after(self, cur_block, after, cur_time):
         next_after = []
         for i in range(len(after)):
-            after_course = self.classes_by_name[after(i)]  # not sure if really what I want (see Schedule.java:120)
+            after_course = self.classes_by_name.get(after[i], None)  # not sure if really what I want (see Schedule.java:120)
             if after_course is not None:
                 if after_course.is_offered(cur_time) and after_course.required[self.student.major]:
                     self.add_course_from_after(after_course, cur_block, after, cur_time, i)
@@ -75,7 +75,7 @@ class Schedule:
 
         while required_or_electives < 2:
             for i in range(len(self.classes_offered)):
-                cur_course = self.classes_offered(i)
+                cur_course = self.classes_offered[i]
                 if len(cur_block.courses) == 2:
                     break
                 if self.class_is_valid(cur_course, cur_time, cur_block):

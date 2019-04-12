@@ -1,6 +1,7 @@
 from AcademicTime import AcademicTime
 from Student import Student
 from Course import Course
+from Schedule import Schedule
 
 if __name__ == "__main__":
     courses_offered = []
@@ -771,6 +772,12 @@ if __name__ == "__main__":
     courses_offered.append(ECN1B)
     courses_offered.append(STA32)
     courses_offered.append(STA100)
+
+    test_cur_time = AcademicTime(2019, "Fall")
+    test_grad_time = AcademicTime(2023, "Spring")
+    test_student = Student(test_cur_time, test_grad_time, "LAMA")
+
+    test_schedule = Schedule(test_student, courses_offered)
 
 
 

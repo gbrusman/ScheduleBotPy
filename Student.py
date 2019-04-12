@@ -264,7 +264,7 @@ class Student:
     def ecn1b_prereq(self):
         return True
 
-    def sta32a_prereq(self):
+    def sta32_prereq(self):
         return self.has_taken("MAT16B") or self.has_taken("MAT21B") or self.has_taken("MAT17B")
 
     def sta100_prereq(self):
