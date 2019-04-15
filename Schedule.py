@@ -89,6 +89,7 @@ class Schedule:
                     if required_or_electives == 0:
                         if cur_course.required[self.student.major]:
                             self.add_course_to_block(cur_course, cur_block, after, cur_time)
+                            i -= 1  # to balance index
                     else:
                         placed_interest = self.try_to_place_interesting_class(cur_course, cur_block, cur_time, after)
                         if not placed_interest:
@@ -130,7 +131,7 @@ class Schedule:
         return placed_interest
 
     def class_is_valid(self, course, time, block):
-        return course.is_offered(time) and self.student.has_prereqs(course, block) and not self.student.has_taken(course.name) and self.student.meets_reccommendations(course) and not self.is_redundant(course, block) and not block.contains(course.name)
+        return course.is_offered(time) and self.student.has_prereqs(course, block) and (not self.student.has_taken(course.name)) and self.student.meets_reccommendations(course) and (not self.is_redundant(course, block)) and (not block.contains(course.name))
 
     def mat67_redundant(self, block):
         return self.student.has_taken("MAT22A") or self.student.has_taken("MAT108") or block.contains("MAT22A") or block.contains("MAT108")
@@ -164,13 +165,76 @@ class Schedule:
     def is_success(self):
         major = self.student.major
         switcher = {
-            "LAMA": self.is_success_LAMA
+            "LAMA": self.is_success_LAMA,
+            "LMOR": self.is_success_LMOR,
+            "LMATBS1": self.is_success_LMATBS1,
+            "LMATBS2": self.is_success_LMATBS2,
+            "LMATAB1": self.is_success_LMATAB1,
+            "LMATAB2": self.is_success_LMATAB2,
+            "LMCOBIO": self.is_success_LMCOBIO,
+            "LMCOMATH": self.is_success_LMCOMATH
+
         }
         func = switcher.get(major)
         return func()
 
     def is_success_LAMA(self):
-        requirements = ["MAT21A", "MAT21B", "MAT21C", "MAT21D", "MAT22B", "ENG06", "ECS32A", "MAT127A", "MAT127C", "MAT135A", "MAT150A", "MAT119A", "MAT185A"]
+        requirements = ["MAT21A", "MAT21B", "MAT21C", "MAT21D", "MAT22A", "MAT22B", "ENG06", "ECS32A", "MAT127A", "MAT127C", "MAT135A", "MAT150A", "MAT119A", "MAT185A"]
+        for course_name in requirements:
+            if course_name not in self.student.classes_taken.keys():
+                return False
+        return True
+
+    def is_success_LMOR(self):
+        requirements = ["MAT21A", "MAT21B", "MAT21C", "MAT21D", "MAT22A", "MAT22B", "ENG06", "ECN1A", "ECN1B", "STA32", "MAT127A", "MAT127B", "MAT127C", "MAT135A", "MAT135B", "MAT150A", "MAT160", "MAT168"]
+        for course_name in requirements:
+            if course_name not in self.student.classes_taken.keys():
+                return False
+        return True
+
+    def is_success_LMATBS1(self):
+        requirements = ["MAT21A", "MAT21B", "MAT21C", "MAT21D", "MAT22A", "MAT22B", "ENG06", "PHY9A", "MAT127A",
+                        "MAT127B", "MAT127C", "MAT135A", "MAT150A", "MAT150B", "MAT150C", "MAT185A"]
+        for course_name in requirements:
+            if course_name not in self.student.classes_taken.keys():
+                return False
+        return True
+
+    def is_success_LMATBS2(self):
+        requirements = ["MAT21A", "MAT21B", "MAT21C", "MAT21D", "MAT22A", "MAT22B", "ENG06", "MAT127A",
+                        "MAT127B", "MAT127C", "MAT135A", "MAT150A", "MAT111", "MAT115A", "MAT141"]
+        for course_name in requirements:
+            if course_name not in self.student.classes_taken.keys():
+                return False
+        return True
+
+    def is_success_LMATAB1(self):
+        requirements = ["MAT21A", "MAT21B", "MAT21C", "MAT21D", "MAT22A", "MAT22B", "ENG06", "MAT127A",
+                        "MAT127B", "MAT127C", "MAT135A", "MAT150A"]
+        for course_name in requirements:
+            if course_name not in self.student.classes_taken.keys():
+                return False
+        return True
+
+    def is_success_LMATAB2(self):
+        requirements = ["MAT21A", "MAT21B", "MAT21C", "MAT21D", "MAT22A", "MAT22B", "ENG06", "MAT127A",
+                        "MAT127B", "MAT127C", "MAT135A", "MAT150A", "MAT111", "MAT115A", "MAT141"]
+        for course_name in requirements:
+            if course_name not in self.student.classes_taken.keys():
+                return False
+        return True
+
+    def is_success_LMCOBIO(self):
+        requirements = ["MAT21A", "MAT21B", "MAT21C", "MAT21D", "MAT22A", "MAT22B", "ENG06", "ECS32A", "MAT127A",
+                        "MAT127B", "MAT127C", "MAT128A", "MAT128B", "MAT128C", "MAT135A", "MAT150A", "MAT124"]
+        for course_name in requirements:
+            if course_name not in self.student.classes_taken.keys():
+                return False
+        return True
+
+    def is_success_LMCOMATH(self):
+        requirements = ["MAT21A", "MAT21B", "MAT21C", "MAT21D", "MAT22A", "MAT22B", "ENG06", "ECS32A", "MAT127A",
+                        "MAT127B", "MAT127C", "MAT128A", "MAT128B", "MAT128C", "MAT135A", "MAT150A", "MAT168"]
         for course_name in requirements:
             if course_name not in self.student.classes_taken.keys():
                 return False

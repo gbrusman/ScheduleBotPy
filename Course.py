@@ -10,25 +10,25 @@ class Course:
 
     def is_offered(self, time):
         offered_in_quarter = False
-        offered_in_year = True
+        offered_in_year = False
 
         if self.years_offered == "ALWAYS":
             offered_in_year = True
-        elif self.years_offered == "EVEN_ALTERNATE":
+        elif self.years_offered == "EVENALTERNATE":
             if time.quarter == "Fall":  # if it's fall and year is even
                 if time.year % 2 == 0:
                     offered_in_year = True
-                else:  # else if it's not fall and year is odd
-                    if time.year % 2 == 1:
-                        offered_in_year = True
-
-        else:  # ODD_ALTERNATE
-            if time.quarter == "Fall": # if it's fall and year is even
+            else:  # else if it's not fall and year is odd
                 if time.year % 2 == 1:
                     offered_in_year = True
-                else:  # else if it's not fall and year is odd
-                    if time.year % 2 == 0:
-                        offered_in_year = True
+
+        else:  # ODDALTERNATE
+            if time.quarter == "Fall":  # if it's fall and year is even
+                if time.year % 2 == 1:
+                    offered_in_year = True
+            else:  # else if it's not fall and year is odd
+                if time.year % 2 == 0:
+                    offered_in_year = True
 
         # now we have to figure out if it's offered in the quarter
         if time.quarter in self.quarters_offered:

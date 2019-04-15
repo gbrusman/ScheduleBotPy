@@ -109,7 +109,7 @@ class Student:
         return self.has_taken("MAT21C")
 
     def mat180_rec(self):
-        return self.cur_time.year != self.grad_time.year
+        return self.cur_time.year == self.grad_time.year  # and self.cur_time.quarter == self.grad_time.quarter
 
     def mat21a_prereq(self):
         return True

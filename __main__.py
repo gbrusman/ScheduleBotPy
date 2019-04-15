@@ -775,7 +775,8 @@ if __name__ == "__main__":
 
     test_cur_time = AcademicTime(2019, "Fall")
     test_grad_time = AcademicTime(2023, "Spring")
-    test_student = Student(test_cur_time, test_grad_time, "LAMA")
+    test_classes_taken = {"MAT21A": MAT21A}
+    test_student = Student(test_cur_time, test_grad_time, "LMCOBIO", [], test_classes_taken)
 
     test_schedule = Schedule(test_student, courses_offered)
 
