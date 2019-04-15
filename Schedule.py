@@ -26,13 +26,17 @@ class Schedule:
             self.interest_table[interest] = cur_interest
 
         self.place_classes()
+        if self.is_success():
+            print("SUCCESS! :D")
+        else:
+            print("FAILURE! ;(")
 
     def place_classes(self):
         grad_time = self.student.grad_time
         cur_time = self.student.cur_time
         cur_time = cur_time.progress_time()  # want to start scheduling on NEXT quarter
         after = []
-        finish_time = self.student.grad_time.progress_time()  # due to semantics we want to stop taking classes the quarter AFTER they graduate
+        finish_time = grad_time.progress_time()  # due to semantics we want to stop taking classes the quarter AFTER they graduate
 
         while cur_time != finish_time:  # need to override __eq__ in AcademicTime
             cur_block = ScheduleBlock(cur_time)
@@ -58,25 +62,26 @@ class Schedule:
 
     def fill_from_after(self, cur_block, after, cur_time):
         next_after = []
-        loop_range = range(len(after))
-        for i in loop_range:  # need to recompute this range because len(after) changes in loop
+        i = 0
+        while i < len(after):  # need to recompute this range because len(after) changes in loop
             after_course = self.classes_by_name.get(after[i], None)  # not sure if really what I want (see Schedule.java:120)
             if after_course is not None:
                 if after_course.is_offered(cur_time) and after_course.required[self.student.major]:
                     self.add_course_from_after(after_course, cur_block, after, cur_time, i)
                     next_after.append(after_course.after)
-                    loop_range = range(len(after))  # FIXME: Still doesn't update properly
                     i -= 1
+            i += 1
 
         for i in range(len(next_after)):
-            after.append(next_after(i))
+            after.append(next_after[i])
 
     def try_to_fill_cur_time(self, cur_block, after, cur_time):
         required_or_electives = 0
         placed_interest = False
 
         while required_or_electives < 2:
-            for i in range(len(self.classes_offered)):
+            i = 0
+            while i < len(self.classes_offered):
                 cur_course = self.classes_offered[i]
                 if len(cur_block.courses) == 2:
                     break
@@ -89,6 +94,7 @@ class Schedule:
                         if not placed_interest:
                             self.add_course_to_block(cur_course, cur_block, after, cur_time)
                         i -= 1  # to balance index
+                i += 1
             required_or_electives += 1
 
     def is_redundant(self, course, block):
@@ -103,7 +109,7 @@ class Schedule:
         func = switcher.get(course.name)
         if func is None:
             return False
-        if course.name == "MAT22A" or course.name == "MAT22AL":
+        if course.name == "MAT22A" or course.name == "MAT22AL" or course.name == "MAT67":
             return func(block)
         return func()
 
@@ -154,10 +160,21 @@ class Schedule:
         
         if self.student.major == "LMOR" and "Computers" not in self.student.interests:
             return self.student.has_taken("MAT128A") or self.student.has_taken("MAT128B")
-        
 
+    def is_success(self):
+        major = self.student.major
+        switcher = {
+            "LAMA": self.is_success_LAMA
+        }
+        func = switcher.get(major)
+        return func()
 
-
+    def is_success_LAMA(self):
+        requirements = ["MAT21A", "MAT21B", "MAT21C", "MAT21D", "MAT22B", "ENG06", "ECS32A", "MAT127A", "MAT127C", "MAT135A", "MAT150A", "MAT119A", "MAT185A"]
+        for course_name in requirements:
+            if course_name not in self.student.classes_taken.keys():
+                return False
+        return True
 
 
 

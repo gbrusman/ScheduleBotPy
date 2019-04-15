@@ -31,10 +31,10 @@ class AcademicTime:
         return newtime
 
     def __eq__(self, o: object) -> bool:
-        return super().__eq__(o)
+        return self.quarter == o.quarter and self.year == o.year
 
     def __ne__(self, o: object) -> bool:
-        return super().__ne__(o)
+        return self.quarter != o.quarter or self.year != o.year
 
     def __hash__(self) -> int:
         return super().__hash__()
