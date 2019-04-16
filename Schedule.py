@@ -35,6 +35,7 @@ class Schedule:
         grad_time = self.student.grad_time
         cur_time = self.student.cur_time
         cur_time = cur_time.progress_time()  # want to start scheduling on NEXT quarter
+        self.student.cur_time = cur_time
         after = []
         finish_time = grad_time.progress_time()  # due to semantics we want to stop taking classes the quarter AFTER they graduate
 
