@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 from tkinter import *
-
+from tkinter.ttk import *
 
 class Window(Frame):
     def __init__(self, master=None):
@@ -10,13 +10,19 @@ class Window(Frame):
 
     def init_window(self):
         self.master.title = "ScheduleBot a.01"
-        self.grid(sticky=N+S+E+W, row=0, column=0)
-        label = Label(root, text="Please fill out the information in the form below")
+        label_frame = Frame(root)
+        label_frame.columnconfigure(0, weight=1)
+        label = Label(label_frame, text="Please fill out the information in the form below")
         label.grid(column=0, row=0)
+        label_frame.grid(sticky=N+S+E+W, row=0, column=0)
         major_choices = ["AB Mathematics: Plan 1 - General Mathematics", "AB Mathematics: Plan 2 - Secondary Teaching", "BS Mathematics: Plan 1 - General Mathematics", "BS Mathematics: Plan 2 - Secondary Teaching", "Applied Mathematics", "Mathematical Analytics and Operations Research", "Mathematical and Scientific Computation - Computational and Mathematical Biology Emphasis", "Mathematical and Scientific Computation - Computational and Mathematics Emphasis"]
-        # w = ComboBox(root, values=choices)  # need to talk to IT people about what libraries are okay to import
+        major_select_box = Combobox(root, values=major_choices, state="readonly", width=45)  # need to talk to IT people about what libraries are okay to import
+        major_select_box.grid(row=5, column=0)
 
+        col_count, row_count = root.grid_size()
         root.columnconfigure(0, weight=1)
+        for row in range(row_count):
+            root.grid_rowconfigure(row, minsize=20)
 
 
 
