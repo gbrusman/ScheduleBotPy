@@ -828,7 +828,7 @@ class MajorSelectPage(tk.Frame):
         prompt_frame.grid(sticky="nsew", row=0, columnspan=2)
         prompt = Label(prompt_frame, text="Please fill out the information in the form below")
         prompt.grid(column=0, row=0, columnspan=2, in_=prompt_frame)
-        self.err_msg = Label(prompt_frame, text="")
+        self.err_msg = tk.Label(prompt_frame, text="", fg="red")
         self.err_msg.grid(column=0, row=1, columnspan=2, in_=prompt_frame)
 
         major_frame = Frame(self)
