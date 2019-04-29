@@ -822,14 +822,14 @@ class MajorSelectPage(tk.Frame):
         self.controller = controller
         self.major = tk.StringVar()
         self.cur_quarter = tk.StringVar()
-        self.cur_year = tk.StringVar()
         self.grad_quarter = tk.StringVar()
-        self.grad_year = tk.StringVar()
         prompt_frame = Frame(self)
         prompt_frame.grid_columnconfigure(0, weight=1)
         prompt_frame.grid(sticky="nsew", row=0, columnspan=2)
         prompt = Label(prompt_frame, text="Please fill out the information in the form below")
         prompt.grid(column=0, row=0, columnspan=2, in_=prompt_frame)
+        self.err_msg = Label(prompt_frame, text="")
+        self.err_msg.grid(column=0, row=1, columnspan=2, in_=prompt_frame)
 
         major_frame = Frame(self)
         major_frame.grid(column=0, row=5)
@@ -856,9 +856,8 @@ class MajorSelectPage(tk.Frame):
 
         cur_year_label = Label(major_frame, text="Current Year: ")
         cur_year_label.grid(column=0, row=2, in_=major_frame, pady=0)
-        self.cur_year_entry = Entry(major_frame, width=15, textvariable=self.cur_year)
+        self.cur_year_entry = Entry(major_frame, width=15)
         self.cur_year_entry.grid(row=2, column=1, in_=major_frame, sticky=tk.W, padx=5)
-        self.cur_year_entry.bind("<<Key>>", self.get_cur_year_value)  # FIXME: need to figure out what event to trigger
 
         grad_quarter_label = Label(major_frame, text="Graduation Quarter: ")
         grad_quarter_label.grid(column=0, row=4, in_=major_frame, pady=10)
@@ -868,10 +867,10 @@ class MajorSelectPage(tk.Frame):
 
         grad_year_label = Label(major_frame, text="Graduation Year: ")
         grad_year_label.grid(column=0, row=5, in_=major_frame, pady=0)
-        self.grad_year_entry = Entry(major_frame, width=15, textvariable=self.grad_year)
+        self.grad_year_entry = Entry(major_frame, width=15)
         self.grad_year_entry.grid(row=5, column=1, in_=major_frame, sticky=tk.W, padx=5)
 
-        next_button = Button(self, text="Next", command=lambda: controller.show_frame("CourseSelectPage"))
+        next_button = Button(self, text="Next", command=lambda: self.goto_course_select())
         next_button.grid(row=9, padx=5, pady=10, sticky=tk.S + tk.E)
 
         col_count, row_count = self.grid_size()
@@ -883,6 +882,33 @@ class MajorSelectPage(tk.Frame):
         major_frame.grid_rowconfigure(3, minsize=20)  # separates current year stuff from grad year stuff
 
 
+    def goto_course_select(self):
+        if self.validate_input():
+            self.get_cur_year_value()
+            self.get_grad_year_value()
+            self.controller.show_frame("CourseSelectPage")
+
+    def validate_input(self):
+        if not self.major.get():
+            self.err_msg["text"] = "Please select a major"
+            return False
+        if not self.cur_quarter.get():
+            self.err_msg["text"] = "Please select a value for Current Quarter"
+            return False
+        if self.cur_year_entry.get() == "" or self.grad_year_entry.get() == "":
+            self.err_msg["text"] = "Please ensure you have entered values for Current Year and Graduation Year"
+            return False
+        if not self.grad_quarter.get():
+            self.err_msg["text"] = "Please select a value for Graduation Quarter"
+            return False
+        if not self.cur_year_entry.get().isdigit() and self.grad_year_entry.get().isdigit():   # checks if year entries are integers
+            self.err_msg["text"] = "Please ensure your year values are integers"
+            return False
+        if int(self.cur_year_entry.get()) > int(self.grad_year_entry.get()):
+            self.err_msg["text"] = "Please ensure the Current Year is less than or equal to the Graduation Year"
+            return False
+        return True
+
     def get_major_value(self, *args):
         self.controller.student.major = self.major.get()
         print(self.controller.student.major)
@@ -892,7 +918,7 @@ class MajorSelectPage(tk.Frame):
         print(self.controller.student.cur_quarter)
 
     def get_cur_year_value(self, *args):
-        self.controller.student.cur_year = int(self.cur_year.get())
+        self.controller.student.cur_year = int(self.cur_year_entry.get())
         print(self.controller.student.cur_year)
 
     def get_grad_quarter_value(self, *args):
@@ -900,7 +926,7 @@ class MajorSelectPage(tk.Frame):
         print(self.controller.student.grad_quarter)
 
     def get_grad_year_value(self, *args):
-        self.controller.student.grad_year = int(self.grad_year.get())
+        self.controller.student.grad_year = int(self.grad_year_entry.get())
         print(self.controller.student.grad_year)
    # def go_to_next_page(self):
 
