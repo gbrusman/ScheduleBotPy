@@ -962,28 +962,40 @@ class CourseSelectPage(tk.Frame):
 
         #self.grid_columnconfigure(0, weight=1)
         self.grid_rowconfigure(0, minsize=50)
+        self.grid_columnconfigure(0, weight=1)
 
         col = 0
         row = 1
         count = 0
         cbox_frame = Frame(self)
-        cbox_frame.grid(column=0, row=5)
+        cbox_frame.grid(row=3, sticky="nsew")
         for course in self.controller.courses_offered:
-            checkbox = Checkbutton(self, text=course.name)
+            checkbox = Checkbutton(cbox_frame, text=course.name)
             checkbox.invoke()  # turns checkbox from default to on
             checkbox.invoke()  # turns checkbox from on to off
-            checkbox.grid(row=row, column=col, sticky="nsew", padx=5)
+            checkbox.grid(row=row, column=col, sticky="nsew", padx=5, in_=cbox_frame)
             row += 1
             count+=1
             if count == 10:  # only 10 checkboxes per column
+                cbox_frame.grid_columnconfigure(col, weight=1)
                 col += 1
                 row = 1
                 count = 0
+        for i in range(10):
+            cbox_frame.grid_rowconfigure(i, weight=1)
 
-        back_button = Button(self, text="Back", command=lambda: controller.show_frame("MajorSelectPage"))
-        back_button.grid(row=25, padx=5, pady=10, sticky="sw")
-        # next_button = Button(self, text="Next")
-        # next_button.grid(row=25, padx=5, pady=10, sticky="se")
+        button_frame = Frame(self)
+        button_frame.grid(row=6, sticky="ew")
+        back_button = Button(button_frame, text="Back", command=lambda: controller.show_frame("MajorSelectPage"))
+        back_button.grid(row=25, column=0, padx=5, pady=10, sticky="sw", in_=button_frame)
+        next_button = Button(button_frame, text="Next")
+        next_button.grid(row=25, column=1, padx=5, pady=10, sticky="se")
+        for i in range(2):
+            button_frame.grid_columnconfigure(i, weight=1)
+        col_size, row_size = self.grid_size()
+        for i in range(row_size):
+            self.grid_rowconfigure(i, minsize=20, weight=1)
+
 
 
 if __name__ == "__main__":
