@@ -969,11 +969,13 @@ class CourseSelectPage(tk.Frame):
         count = 0
         cbox_frame = Frame(self)
         cbox_frame.grid(row=3, sticky="nsew")
+        self.cbox_list = []
         for course in self.controller.courses_offered:
             checkbox = Checkbutton(cbox_frame, text=course.name)
             checkbox.invoke()  # turns checkbox from default to on
             checkbox.invoke()  # turns checkbox from on to off
             checkbox.grid(row=row, column=col, sticky="nsew", padx=5, in_=cbox_frame)
+            self.cbox_list.append(checkbox)
             row += 1
             count+=1
             if count == 10:  # only 10 checkboxes per column
@@ -988,14 +990,25 @@ class CourseSelectPage(tk.Frame):
         button_frame.grid(row=6, sticky="ew")
         back_button = Button(button_frame, text="Back", command=lambda: controller.show_frame("MajorSelectPage"))
         back_button.grid(row=25, column=0, padx=5, pady=10, sticky="sw", in_=button_frame)
-        next_button = Button(button_frame, text="Next")
-        next_button.grid(row=25, column=1, padx=5, pady=10, sticky="se")
+        next_button = Button(button_frame, text="Next", command=lambda: self.goto_interest_select())
+        next_button.grid(row=25, column=1, padx=5, pady=10, sticky="se", in_=button_frame)
         for i in range(2):
             button_frame.grid_columnconfigure(i, weight=1)
         col_size, row_size = self.grid_size()
         for i in range(row_size):
             self.grid_rowconfigure(i, minsize=20, weight=1)
 
+
+    def goto_interest_select(self):
+        self.get_info_from_cboxes()
+
+    def get_info_from_cboxes(self):
+        for cbox in self.cbox_list:
+            if cbox.instate(['selected']):  # https://stackoverflow.com/questions/4236910/getting-tkinter-check-box-state
+                course_reference = self.controller.courses_offered
+                self.controller.student.classes_taken.append(cbox.__getattribute__("text"))  # FIXME: classes_taken is a dict, but append is for a dict. Does classes_taken need to be dict? Or we have access to class reference from courses_offered
+                # FIXME: will need to put classes_by_name into controller to be able to fetch course_reference (I think)
+        print("done")
 
 
 if __name__ == "__main__":
