@@ -966,6 +966,8 @@ class CourseSelectPage(tk.Frame):
         col = 0
         row = 1
         count = 0
+        cbox_frame = Frame(self)
+        cbox_frame.grid(column=0, row=5)
         for course in self.controller.courses_offered:
             checkbox = Checkbutton(self, text=course.name)
             checkbox.invoke()  # turns checkbox from default to on
