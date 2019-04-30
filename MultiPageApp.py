@@ -828,7 +828,7 @@ class MajorSelectPage(tk.Frame):
         prompt_frame.grid(sticky="nsew", row=0, columnspan=2)
         prompt = Label(prompt_frame, text="Please fill out the information in the form below")
         prompt.grid(column=0, row=0, columnspan=2, in_=prompt_frame)
-        self.err_msg = tk.Label(prompt_frame, text="", fg="red")
+        self.err_msg = tk.Label(prompt_frame, text="", fg="red")  # needed to use tk label here for fg option
         self.err_msg.grid(column=0, row=1, columnspan=2, in_=prompt_frame)
 
         major_frame = Frame(self)
@@ -904,10 +904,28 @@ class MajorSelectPage(tk.Frame):
         if not self.cur_year_entry.get().isdigit() and self.grad_year_entry.get().isdigit():   # checks if year entries are integers
             self.err_msg["text"] = "Please ensure your year values are integers"
             return False
-        if int(self.cur_year_entry.get()) > int(self.grad_year_entry.get()):
-            self.err_msg["text"] = "Please ensure the Current Year is less than or equal to the Graduation Year"
+        time_balance = self.are_times_balanced()
+        if not time_balance:
+            self.err_msg["text"] = "Please ensure the Graduation Time is after the Current Time"
             return False
         return True
+
+    def are_times_balanced(self):
+        year_balance = int(self.grad_year_entry.get()) > int(self.cur_year_entry.get())
+        years_equal = int(self.cur_year_entry.get()) == int(self.grad_year_entry.get())
+        if years_equal:
+            if self.cur_quarter.get() == "Fall":  # if FALL and years are equal, then cur_time >= grad_time
+                return False
+            elif self.cur_quarter.get() == "Spring":  # if SPRING and years are equal, then WINTER of same year is before SPRING
+                if self.grad_quarter.get() == "Winter" or self.grad_quarter.get() == "Spring":
+                    return False
+            elif self.cur_quarter.get() == "Winter":  # if WINTER and years are equal, then only WINTER is invalid since grad time would equal cur time
+                if self.grad_quarter.get() == "Winter":
+                    return False
+            return True  # none of the falses were triggered
+        return year_balance  # if years aren't equal then just return whether they're balanced
+
+
 
     def get_major_value(self, *args):
         self.controller.student.major = self.major.get()
@@ -962,6 +980,8 @@ class CourseSelectPage(tk.Frame):
 
         back_button = Button(self, text="Back", command=lambda: controller.show_frame("MajorSelectPage"))
         back_button.grid(row=25, padx=5, pady=10, sticky="sw")
+        # next_button = Button(self, text="Next")
+        # next_button.grid(row=25, padx=5, pady=10, sticky="se")
 
 
 if __name__ == "__main__":
