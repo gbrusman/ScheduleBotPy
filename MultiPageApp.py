@@ -21,9 +21,14 @@ class MultiPageApp(tk.Tk):
 
         self.app_data = {}
         self.student = Student()
-        self.courses_offered = self.init_courses_offered()
+        self.classes_offered = self.init_classes_offered()
+        self.classes_by_name = {}
+
+        for course in self.classes_offered:
+            self.classes_by_name[course.name] = course
+
         self.frames = {}
-        self.page_names = [MajorSelectPage, CourseSelectPage]
+        self.page_names = [MajorSelectPage, CourseSelectPage, InterestSelectPage]
         for F in self.page_names:
             page_name = F.__name__
             frame = F(parent=container, controller=self)
@@ -44,8 +49,8 @@ class MultiPageApp(tk.Tk):
     def get_page(self, page_class):
         return self.frames[page_class]
 
-    def init_courses_offered(self):
-        courses_offered = []
+    def init_classes_offered(self):
+        classes_offered = []
 
         # MAT21A
         required_21A = {}
@@ -759,60 +764,60 @@ class MultiPageApp(tk.Tk):
         quarters_offered_STA100 = ["Fall", "Winter", "Spring"]
         STA100 = Course("STA100", None, None, required_STA100, quarters_offered_STA100, "ALWAYS")
 
-        courses_offered.append(MAT21A)
-        courses_offered.append(MAT21B)
-        courses_offered.append(MAT21C)
-        courses_offered.append(MAT21D)
-        courses_offered.append(MAT22A)
-        courses_offered.append(MAT22AL)
-        courses_offered.append(MAT67)
-        courses_offered.append(MAT22B)
-        courses_offered.append(MAT108)
-        courses_offered.append(MAT111)
-        courses_offered.append(MAT114)
-        courses_offered.append(MAT115A)
-        courses_offered.append(MAT115B)
-        courses_offered.append(MAT116)
-        courses_offered.append(MAT118A)
-        courses_offered.append(MAT118B)
-        courses_offered.append(MAT119A)
-        courses_offered.append(MAT119B)
-        courses_offered.append(MAT124)
-        courses_offered.append(MAT127A)
-        courses_offered.append(MAT127B)
-        courses_offered.append(MAT127C)
-        courses_offered.append(MAT128A)
-        courses_offered.append(MAT128B)
-        courses_offered.append(MAT128C)
-        courses_offered.append(MAT129)
-        courses_offered.append(MAT133)
-        courses_offered.append(MAT135A)
-        courses_offered.append(MAT135B)
-        courses_offered.append(MAT141)
-        courses_offered.append(MAT145)
-        courses_offered.append(MAT146)
-        courses_offered.append(MAT147)
-        courses_offered.append(MAT148)
-        courses_offered.append(MAT150A)
-        courses_offered.append(MAT150B)
-        courses_offered.append(MAT150C)
-        courses_offered.append(MAT160)
-        courses_offered.append(MAT165)
-        courses_offered.append(MAT167)
-        courses_offered.append(MAT168)
-        courses_offered.append(MAT180)
-        courses_offered.append(MAT185A)
-        courses_offered.append(MAT185B)
-        courses_offered.append(MAT189)
-        courses_offered.append(ECS32A)
-        courses_offered.append(ENG06)
-        courses_offered.append(PHY7A)
-        courses_offered.append(PHY9A)
-        courses_offered.append(ECN1A)
-        courses_offered.append(ECN1B)
-        courses_offered.append(STA32)
-        courses_offered.append(STA100)
-        return courses_offered
+        classes_offered.append(MAT21A)
+        classes_offered.append(MAT21B)
+        classes_offered.append(MAT21C)
+        classes_offered.append(MAT21D)
+        classes_offered.append(MAT22A)
+        classes_offered.append(MAT22AL)
+        classes_offered.append(MAT67)
+        classes_offered.append(MAT22B)
+        classes_offered.append(MAT108)
+        classes_offered.append(MAT111)
+        classes_offered.append(MAT114)
+        classes_offered.append(MAT115A)
+        classes_offered.append(MAT115B)
+        classes_offered.append(MAT116)
+        classes_offered.append(MAT118A)
+        classes_offered.append(MAT118B)
+        classes_offered.append(MAT119A)
+        classes_offered.append(MAT119B)
+        classes_offered.append(MAT124)
+        classes_offered.append(MAT127A)
+        classes_offered.append(MAT127B)
+        classes_offered.append(MAT127C)
+        classes_offered.append(MAT128A)
+        classes_offered.append(MAT128B)
+        classes_offered.append(MAT128C)
+        classes_offered.append(MAT129)
+        classes_offered.append(MAT133)
+        classes_offered.append(MAT135A)
+        classes_offered.append(MAT135B)
+        classes_offered.append(MAT141)
+        classes_offered.append(MAT145)
+        classes_offered.append(MAT146)
+        classes_offered.append(MAT147)
+        classes_offered.append(MAT148)
+        classes_offered.append(MAT150A)
+        classes_offered.append(MAT150B)
+        classes_offered.append(MAT150C)
+        classes_offered.append(MAT160)
+        classes_offered.append(MAT165)
+        classes_offered.append(MAT167)
+        classes_offered.append(MAT168)
+        classes_offered.append(MAT180)
+        classes_offered.append(MAT185A)
+        classes_offered.append(MAT185B)
+        classes_offered.append(MAT189)
+        classes_offered.append(ECS32A)
+        classes_offered.append(ENG06)
+        classes_offered.append(PHY7A)
+        classes_offered.append(PHY9A)
+        classes_offered.append(ECN1A)
+        classes_offered.append(ECN1B)
+        classes_offered.append(STA32)
+        classes_offered.append(STA100)
+        return classes_offered
 
 
 class MajorSelectPage(tk.Frame):
@@ -871,7 +876,7 @@ class MajorSelectPage(tk.Frame):
         self.grad_year_entry.grid(row=5, column=1, in_=major_frame, sticky=tk.W, padx=5)
 
         next_button = Button(self, text="Next", command=lambda: self.goto_course_select())
-        next_button.grid(row=9, padx=5, pady=10, sticky=tk.S + tk.E)
+        next_button.grid(row=12, padx=5, pady=10, sticky=tk.S + tk.E)
 
         col_count, row_count = self.grid_size()
         self.grid_columnconfigure(0, weight=1)
@@ -929,24 +934,18 @@ class MajorSelectPage(tk.Frame):
 
     def get_major_value(self, *args):
         self.controller.student.major = self.major.get()
-        print(self.controller.student.major)
 
     def get_cur_quarter_value(self, *args):
         self.controller.student.cur_quarter = self.cur_quarter.get()
-        print(self.controller.student.cur_quarter)
 
     def get_cur_year_value(self, *args):
         self.controller.student.cur_year = int(self.cur_year_entry.get())
-        print(self.controller.student.cur_year)
 
     def get_grad_quarter_value(self, *args):
         self.controller.student.grad_quarter = self.grad_quarter.get()
-        print(self.controller.student.grad_quarter)
 
     def get_grad_year_value(self, *args):
         self.controller.student.grad_year = int(self.grad_year_entry.get())
-        print(self.controller.student.grad_year)
-   # def go_to_next_page(self):
 
 
 class CourseSelectPage(tk.Frame):
@@ -970,7 +969,7 @@ class CourseSelectPage(tk.Frame):
         cbox_frame = Frame(self)
         cbox_frame.grid(row=3, sticky="nsew")
         self.cbox_list = []
-        for course in self.controller.courses_offered:
+        for course in self.controller.classes_offered:
             checkbox = Checkbutton(cbox_frame, text=course.name)
             checkbox.invoke()  # turns checkbox from default to on
             checkbox.invoke()  # turns checkbox from on to off
@@ -987,7 +986,7 @@ class CourseSelectPage(tk.Frame):
             cbox_frame.grid_rowconfigure(i, weight=1)
 
         button_frame = Frame(self)
-        button_frame.grid(row=6, sticky="ew")
+        button_frame.grid(row=7, sticky="ew")
         back_button = Button(button_frame, text="Back", command=lambda: controller.show_frame("MajorSelectPage"))
         back_button.grid(row=25, column=0, padx=5, pady=10, sticky="sw", in_=button_frame)
         next_button = Button(button_frame, text="Next", command=lambda: self.goto_interest_select())
@@ -1001,15 +1000,70 @@ class CourseSelectPage(tk.Frame):
 
     def goto_interest_select(self):
         self.get_info_from_cboxes()
+        self.controller.show_frame("InterestSelectPage")
 
     def get_info_from_cboxes(self):
+        self.controller.student.classes_taken.clear()
         for cbox in self.cbox_list:
             if cbox.instate(['selected']):  # https://stackoverflow.com/questions/4236910/getting-tkinter-check-box-state
-                course_reference = self.controller.courses_offered
-                self.controller.student.classes_taken.append(cbox.__getattribute__("text"))  # FIXME: classes_taken is a dict, but append is for a dict. Does classes_taken need to be dict? Or we have access to class reference from courses_offered
-                # FIXME: will need to put classes_by_name into controller to be able to fetch course_reference (I think)
-        print("done")
+                self.controller.student.classes_taken[(cbox.cget("text"))] = self.controller.classes_by_name[(cbox.cget("text"))]  # https://stackoverflow.com/questions/33545085/how-to-get-the-text-from-a-checkbutton-in-python-tkinter
 
+
+class InterestSelectPage(tk.Frame):
+    def __init__(self, parent, controller):
+        tk.Frame.__init__(self, parent)
+        self.controller = controller
+
+        prompt_frame = Frame(self)
+        prompt_frame.grid_columnconfigure(0, weight=1)
+        prompt_frame.grid(sticky="nsew", row=0, columnspan=2)
+        prompt = Label(prompt_frame, text="OPTIONAL: Please select which fields of mathematics interest you.")
+        prompt.grid(column=0, row=0, columnspan=2, in_=prompt_frame)
+
+        cbox_frame = Frame(self)
+        cbox_frame.grid(row=6, column=0, sticky="nsew")
+        self.cbox_list = []
+        interests = ["Teaching", "Geometry", "Physics", "Biology", "Computers", "Finance", "Abstract", "Data Analysis"]
+        row = 0
+        for interest in interests:
+            checkbox = Checkbutton(cbox_frame, text=interest)
+            checkbox.invoke()  # turns checkbox from default to on
+            checkbox.invoke()  # turns checkbox from on to off
+            checkbox.grid(row=row, sticky="nsew", padx=5, in_=cbox_frame)
+            self.cbox_list.append(checkbox)
+            row += 1
+        for i in range(len(interests)):
+            cbox_frame.grid_rowconfigure(i, weight=1)
+        #cbox_frame.grid_columnconfigure(1, weight=1)
+
+        button_frame = Frame(self)
+        button_frame.grid(row=14, sticky="ew")
+        back_button = Button(button_frame, text="Back", command=lambda: controller.show_frame("CourseSelectPage"))
+        back_button.grid(row=25, column=0, padx=5, pady=10, sticky="sw", in_=button_frame)
+        next_button = Button(button_frame, text="Next", command=lambda: self.goto_schedule_display())
+        next_button.grid(row=25, column=1, padx=5, pady=10, sticky="se", in_=button_frame)
+
+        for i in range(2):
+            button_frame.grid_columnconfigure(i, weight=1)
+
+        num_cols, num_rows = self.grid_size()
+        for i in range(num_rows):
+            self.grid_rowconfigure(i, minsize=20)
+        #for i in range(num_cols):
+            #self.grid_columnconfigure(i, weight=1)
+        self.grid_columnconfigure(0, weight=1)
+
+    def goto_schedule_display(self):
+        self.get_info_from_cboxes()
+        #self.controller.show_frame("ScheduleDisplayPage")
+
+
+    def get_info_from_cboxes(self):
+        self.controller.student.interests.clear()
+        for cbox in self.cbox_list:
+            if cbox.instate(
+                    ['selected']):  # https://stackoverflow.com/questions/4236910/getting-tkinter-check-box-state
+                self.controller.student.interests.append(cbox.cget("text"))  # https://stackoverflow.com/questions/33545085/how-to-get-the-text-from-a-checkbutton-in-python-tkinter
 
 if __name__ == "__main__":
     app = MultiPageApp()
