@@ -28,7 +28,7 @@ class MultiPageApp(tk.Tk):
             self.classes_by_name[course.name] = course
 
         self.frames = {}
-        self.page_names = [MajorSelectPage, CourseSelectPage, InterestSelectPage]
+        self.page_names = [MajorSelectPage, CourseSelectPage, InterestSelectPage, ScheduleDisplayPage]
         for F in self.page_names:
             page_name = F.__name__
             frame = F(parent=container, controller=self)
@@ -1055,15 +1055,62 @@ class InterestSelectPage(tk.Frame):
 
     def goto_schedule_display(self):
         self.get_info_from_cboxes()
-        #self.controller.show_frame("ScheduleDisplayPage")
+        sched_display = self.controller.get_page(ScheduleDisplayPage)   # reference to ScheduleDisplayPage FIXME: doesn't work KEYERROR
+        sched_display.init_schedule()
+        self.controller.show_frame("ScheduleDisplayPage")
 
 
     def get_info_from_cboxes(self):
         self.controller.student.interests.clear()
         for cbox in self.cbox_list:
-            if cbox.instate(
-                    ['selected']):  # https://stackoverflow.com/questions/4236910/getting-tkinter-check-box-state
+            if cbox.instate(['selected']):  # https://stackoverflow.com/questions/4236910/getting-tkinter-check-box-state
                 self.controller.student.interests.append(cbox.cget("text"))  # https://stackoverflow.com/questions/33545085/how-to-get-the-text-from-a-checkbutton-in-python-tkinter
+
+
+class ScheduleDisplayPage(tk.Frame):
+    def __init__(self, parent, controller):
+        tk.Frame.__init__(self, parent)
+        self.controller = controller
+
+    def init_schedule(self):
+        schedule_data = Schedule(self.controller.student, self.controller.classes_offered)
+        schedule = schedule_data.schedule
+        start_time = AcademicTime(self.controller.student.start_time)
+        grad_time = AcademicTime(self.controller.student.grad_time)
+        table_start_time = AcademicTime(start_time)
+
+        while table_start_time.quarter != "Fall":
+            table_start_time = table_start_time.reverse_time()
+
+        cur_time = AcademicTime(start_time)
+        start = True
+        first_year = True
+        year_index = 0
+        year_frame = Frame(self)
+
+        while cur_time.year !=  grad_time.year or (cur_time.year == grad_time.year and cur_time.quarter != "Fall"):
+            if cur_time.quarter == "Spring":
+                if first_year:
+                    year_frame.grid(self, row=year_index, in_=self)
+                    first_year = False
+                year_frame = Frame(self)
+                year_index += 1
+                year_frame.grid(self, row=year_index, in_=self)
+            cur_time = AcademicTime(cur_time.progress_time())
+
+            if start_time.quarter == "Spring":
+                start = False
+            if start:
+                while table_start_time != cur_time:  # adding in invisible columns, could also try adding in real blank columns and setting min columnwidth
+                    block_box = Frame(year_frame)
+                    block_box.grid(in_=year_frame, sticky="ew") #sticky might be wrong, also might need row/column
+                    title = Label(block_box, text=table_start_time.quarter + " " + table_start_time.year)
+                    title.grid(row=0, column=0, in_=block_box)
+
+
+
+
+
 
 if __name__ == "__main__":
     app = MultiPageApp()
