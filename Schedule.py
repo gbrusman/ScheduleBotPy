@@ -22,7 +22,7 @@ class Schedule:
             cur_interest = []
             for course in classes_offered:
                 if course.interests is not None and interest in course.interests:
-                    cur_interest.append(course.name)
+                    cur_interest.append(course)
             self.interest_table[interest] = cur_interest
 
         self.place_classes()
@@ -124,7 +124,7 @@ class Schedule:
                 placed_interest = True
                 break
             else:  # see if there's an "interesting" class that can be placed here (not very efficient implementation)
-                for interest_course in cur_interest_table.values():
+                for interest_course in cur_interest_table:
                     if self.class_is_valid(interest_course, cur_time, cur_block):
                         self.add_course_to_block(interest_course, cur_block, after, cur_time)
                         placed_interest = True
@@ -132,7 +132,7 @@ class Schedule:
         return placed_interest
 
     def class_is_valid(self, course, time, block):
-        return course.is_offered(time) and self.student.has_prereqs(course, block) and (not self.student.has_taken(course.name)) and self.student.meets_reccommendations(course) and (not self.is_redundant(course, block)) and (not block.contains(course.name))
+        return course.is_offered(time) and self.student.has_prereqs(course, block) and (not self.student.has_taken(course.name)) and self.student.meets_reccommendations(course) and (not self.is_redundant(course, block)) and (not block.contains(course))
 
     def mat67_redundant(self, block):
         return self.student.has_taken("MAT22A") or self.student.has_taken("MAT108") or block.contains("MAT22A") or block.contains("MAT108")
