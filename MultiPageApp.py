@@ -828,6 +828,8 @@ class MajorSelectPage(tk.Frame):
         self.major = tk.StringVar()
         self.cur_quarter = tk.StringVar()
         self.grad_quarter = tk.StringVar()
+        self.cur_year = 0
+        self.grad_year = 0
         prompt_frame = Frame(self)
         prompt_frame.grid_columnconfigure(0, weight=1)
         prompt_frame.grid(sticky="nsew", row=0, columnspan=2)
@@ -857,7 +859,7 @@ class MajorSelectPage(tk.Frame):
         cur_quarter_choices = ["Fall", "Winter", "Spring"]
         self.cur_quarter_select_box = Combobox(major_frame, values=cur_quarter_choices, textvariable=self.cur_quarter, state="readonly", width=25)
         self.cur_quarter_select_box.grid(row=1, column=1, in_=major_frame, sticky=tk.W, padx=5)
-        self.cur_quarter_select_box.bind("<<ComboboxSelected>>", self.get_cur_quarter_value)
+        #self.cur_quarter_select_box.bind("<<ComboboxSelected>>", self.get_cur_quarter_value)
 
         cur_year_label = Label(major_frame, text="Current Year: ")
         cur_year_label.grid(column=0, row=2, in_=major_frame, pady=0)
@@ -889,8 +891,13 @@ class MajorSelectPage(tk.Frame):
 
     def goto_course_select(self):
         if self.validate_input():
-            self.get_cur_year_value()
-            self.get_grad_year_value()
+            cur_year = int(self.cur_year_entry.get())
+            grad_year = int(self.grad_year_entry.get())
+
+            #Set Student times here
+            self.controller.student.cur_time = AcademicTime(cur_year, self.cur_quarter.get())
+            self.controller.student.grad_time = AcademicTime(grad_year, self.grad_quarter.get())
+
             self.controller.show_frame("CourseSelectPage")
 
     def validate_input(self):
@@ -933,19 +940,17 @@ class MajorSelectPage(tk.Frame):
 
 
     def get_major_value(self, *args):
-        self.controller.student.major = self.major.get()
-
-    def get_cur_quarter_value(self, *args):
-        self.controller.student.cur_quarter = self.cur_quarter.get()
-
-    def get_cur_year_value(self, *args):
-        self.controller.student.cur_year = int(self.cur_year_entry.get())
-
-    def get_grad_quarter_value(self, *args):
-        self.controller.student.grad_quarter = self.grad_quarter.get()
-
-    def get_grad_year_value(self, *args):
-        self.controller.student.grad_year = int(self.grad_year_entry.get())
+        selected_major_index = self.major_select_box.current()
+        major_map = {0: "LMATAB1",
+                1: "LMATAB2",
+                2: "LMATBS1",
+                3: "LMATBS2",
+                4: "LAMA",
+                5: "LMOR",
+                6: "LMCOBIO",
+                7: "LMCOMATH"}
+        self.controller.student.major = major_map[selected_major_index]
+        #self.controller.student.major = self.major.get()
 
 
 class CourseSelectPage(tk.Frame):
@@ -1055,7 +1060,7 @@ class InterestSelectPage(tk.Frame):
 
     def goto_schedule_display(self):
         self.get_info_from_cboxes()
-        sched_display = self.controller.get_page(ScheduleDisplayPage)   # reference to ScheduleDisplayPage FIXME: doesn't work KEYERROR
+        sched_display = self.controller.get_page('ScheduleDisplayPage')
         sched_display.init_schedule()
         self.controller.show_frame("ScheduleDisplayPage")
 
