@@ -84,6 +84,7 @@ class MajorSelectPage(tk.Frame):
 
             #Set Student times here
             self.controller.student.cur_time = AcademicTime(cur_year, self.cur_quarter.get())
+            self.controller.student.start_time = AcademicTime(cur_year, self.cur_quarter.get())
             self.controller.student.grad_time = AcademicTime(grad_year, self.grad_quarter.get())
 
             self.controller.show_frame("CourseSelectPage")

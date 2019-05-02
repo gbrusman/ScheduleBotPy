@@ -2,8 +2,6 @@ from AcademicTime import AcademicTime
 from ScheduleBlock import ScheduleBlock
 from Course import Course
 
-import copy
-
 class Student:
     def __init__(self, cur_time=AcademicTime(), grad_time=AcademicTime(), major="", interests=[], classes_taken={}):
         self.cur_time = cur_time
@@ -11,7 +9,7 @@ class Student:
         self.major = major
         self.interests = interests
         self.classes_taken = classes_taken
-        self.start_time = copy.deepcopy(cur_time)
+        self.start_time = AcademicTime(cur_time.year, cur_time.quarter)
 
     def is_taking(self, course_name, block):
         if block.contains(course_name):

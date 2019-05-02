@@ -16,14 +16,14 @@ class ScheduleDisplayPage(tk.Frame):
     def init_schedule(self):
         schedule_data = Schedule(self.controller.student, self.controller.classes_offered)
         schedule = schedule_data.schedule
-        start_time = AcademicTime(self.controller.student.start_time)
-        grad_time = AcademicTime(self.controller.student.grad_time)
-        table_start_time = AcademicTime(start_time)
+        start_time = AcademicTime(self.controller.student.start_time.year, self.controller.student.start_time.quarter)
+        grad_time = AcademicTime(self.controller.student.grad_time.year,self.controller.student.grad_time.quarter)
+        table_start_time = AcademicTime(start_time.year, start_time.quarter)
 
         while table_start_time.quarter != "Fall":
             table_start_time = table_start_time.reverse_time()
 
-        cur_time = AcademicTime(start_time)
+        cur_time = AcademicTime(start_time.year, start_time.quarter)
         start = True
         first_year = True
         year_index = 0
@@ -33,13 +33,13 @@ class ScheduleDisplayPage(tk.Frame):
         while cur_time.year != grad_time.year or (cur_time.year == grad_time.year and cur_time.quarter != "Fall"):
             if cur_time.quarter == "Spring":
                 if first_year:
-                    year_frame.grid(self, row=year_index, in_=self)
+                    year_frame.grid(row=year_index, in_=self)
                     first_year = False
                 year_frame = Frame(self)
                 year_index += 1
-                year_frame.grid(self, row=year_index, in_=self)
+                year_frame.grid(row=year_index, in_=self)
                 quarter_index = 0
-            cur_time = AcademicTime(cur_time.progress_time())
+            cur_time = cur_time.progress_time()
 
             if start_time.quarter == "Spring":
                 start = False
@@ -47,11 +47,12 @@ class ScheduleDisplayPage(tk.Frame):
                 while table_start_time != cur_time:  # adding in invisible columns, could also try adding in real blank columns and setting min columnwidth
                     block_box = Frame(year_frame)
                     block_box.grid(column=quarter_index, in_=year_frame, sticky="ew") #sticky might be wrong, also might need row/column
-                    title = Label(block_box, text=table_start_time.quarter + " " + table_start_time.year)
+                    title = Label(block_box, text=table_start_time.quarter + " " + str(table_start_time.year))
                     title.grid(row=0, column=0, in_=block_box)
                     quarter_index += 1
+                    table_start_time = table_start_time.progress_time()
 
-                if cur_time in schedule.keys():
+                if cur_time in schedule.keys():  # FIXME: this if statement is never getting triggered
                     if len(schedule.get(cur_time).courses) > 0:
                         course0 = Entry(block_box, width=20, state="readonly", text=schedule.get(cur_time).courses[0])
                         course0.grid(row=0, pady=5, sticky="w", in_=block_box)
