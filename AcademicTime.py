@@ -36,8 +36,13 @@ class AcademicTime:
     def __ne__(self, o: object) -> bool:
         return self.quarter != o.quarter or self.year != o.year
 
+    def __key(self):
+        return (self.quarter, self.year)
+
     def __hash__(self) -> int:
-        return super().__hash__()
+        return hash(self.__key())
+
+
 
 
 
