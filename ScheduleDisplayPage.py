@@ -53,9 +53,12 @@ class ScheduleDisplayPage(tk.Frame):
                     blank.grid(row=1, column=0, in_=block_box, sticky="w")
                     quarter_index += 1
                     table_start_time = table_start_time.progress_time()
-                #start = False
+                start = False
 
-            #block_box = Frame(year_frame)
+            block_box = Frame(year_frame)
+            title = Label(block_box, text=cur_time.quarter + " " + str(cur_time.year))
+            title.grid(row=0, column=0, in_=block_box)
+
             if cur_time in schedule:  # FIXME: this if statement is never getting triggered, NEED TO FIX __hash__ IN ACADEMIC TIME
                 if len(schedule.get(cur_time).courses) > 0:
                     course0 = Entry(block_box, width=20)
@@ -69,4 +72,5 @@ class ScheduleDisplayPage(tk.Frame):
                     course1.grid(row=2, pady=5, sticky="w", in_=block_box)
                 if len(block_box.children) > 1:
                     block_box.grid(row=0, column=quarter_index, padx=10, sticky="ew", in_=year_frame)
+                    quarter_index += 1
 
