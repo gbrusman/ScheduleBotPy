@@ -31,13 +31,13 @@ class ScheduleDisplayPage(tk.Frame):
         quarter_index = 0
 
         while cur_time.year != grad_time.year or (cur_time.year == grad_time.year and cur_time.quarter != "Fall"):
-            if cur_time.quarter == "Fall":
+            if cur_time.quarter == "Spring":
                 if first_year:
                     year_frame.grid(row=year_index, in_=self)
                     first_year = False
                 year_frame = Frame(self)
                 year_index += 1
-                year_frame.grid(row=year_index, in_=self)
+                year_frame.grid(row=year_index, in_=self, pady=20)
                 quarter_index = 0
             cur_time = cur_time.progress_time()
 
@@ -46,11 +46,9 @@ class ScheduleDisplayPage(tk.Frame):
             if start:
                 while table_start_time != cur_time:  # adding in invisible columns, could also try adding in real blank columns and setting min columnwidth
                     block_box = Frame(year_frame)
-                    block_box.grid(column=quarter_index, in_=year_frame, sticky="ew")  #sticky might be wrong, also might need row/column
-                    title = Label(block_box, text=table_start_time.quarter + " " + str(table_start_time.year))
+                    block_box.grid(row=0, column=quarter_index, in_=year_frame, sticky="ew", padx=10)  # sticky might be wrong, also might need row/column
+                    title = Label(block_box, text="", width=20)  # display blank columns to make display uniform. Width = 20 because that is width of regular block_box
                     title.grid(row=0, column=0, in_=block_box)
-                    blank = Entry(block_box, width=20, state="readonly")
-                    blank.grid(row=1, column=0, in_=block_box, sticky="w")
                     quarter_index += 1
                     table_start_time = table_start_time.progress_time()
                 start = False
@@ -73,4 +71,7 @@ class ScheduleDisplayPage(tk.Frame):
                 if len(block_box.children) > 1:
                     block_box.grid(row=0, column=quarter_index, padx=10, sticky="ew", in_=year_frame)
                     quarter_index += 1
-
+                else:  # never triggering but should probably work.
+                    title.configure(text="", width=20)
+                    block_box.grid(row=0, column=quarter_index, padx=10, sticky="ew", in_=year_frame)
+                    quarter_index += 1
