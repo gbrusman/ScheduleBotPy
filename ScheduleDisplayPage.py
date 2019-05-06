@@ -31,7 +31,6 @@ class ScheduleDisplayPage(tk.Frame):
         quarter_index = 0
         finish_time = grad_time.progress_time()  # probably doesn't work because need copy of grad_time
 
-       # while cur_time.year != grad_time.year or (cur_time.year == grad_time.year and cur_time.quarter != "Fall"):
         while cur_time != finish_time and cur_time != finish_time.progress_time() and cur_time != finish_time.progress_time().progress_time():
             if cur_time.quarter == "Spring":
                 if first_year:
@@ -59,7 +58,7 @@ class ScheduleDisplayPage(tk.Frame):
             title = Label(block_box, text=cur_time.quarter + " " + str(cur_time.year))
             title.grid(row=0, column=0, in_=block_box)
 
-            if cur_time == finish_time:
+            if cur_time == finish_time:  # insert blank columns after end to keep the layout consistent
                 while cur_time.quarter != "Fall":
                     block_box = Frame(year_frame)
                     title = Label(block_box, text="", width=20)
@@ -70,19 +69,15 @@ class ScheduleDisplayPage(tk.Frame):
 
             if cur_time in schedule:  # FIXME: this if statement is never getting triggered, NEED TO FIX __hash__ IN ACADEMIC TIME
                 if len(schedule.get(cur_time).courses) > 0:
-                    course0 = Entry(block_box, width=20)
+                    course0 = tk.Entry(block_box, width=20, readonlybackground="White")  # http://www.tcl.tk/man/tcl/TkCmd/entry.htm#M9
                     course0.insert(0, schedule.get(cur_time).courses[0].name)  # https://stackoverflow.com/questions/14847243/how-can-i-insert-a-string-in-a-entry-widget-that-is-in-the-readonly-state
                     course0.configure(state='readonly')
                     course0.grid(row=1, pady=5, sticky="w", in_=block_box)
                 if len(schedule.get(cur_time).courses) > 1:
-                    course1 = Entry(block_box, width=20)
+                    course1 = tk.Entry(block_box, width=20, readonlybackground="White")
                     course1.insert(1, schedule.get(cur_time).courses[1].name)
                     course1.configure(state='readonly')
                     course1.grid(row=2, pady=5, sticky="w", in_=block_box)
                 if len(block_box.children) > 1:
                     block_box.grid(row=0, column=quarter_index, padx=10, sticky="ew", in_=year_frame)
                     quarter_index += 1
-                #else:  # never triggering but should probably work.
-                    #title.configure(text="", width=20)
-                    #block_box.grid(row=0, column=quarter_index, padx=10, sticky="ew", in_=year_frame)
-                    #quarter_index += 1
