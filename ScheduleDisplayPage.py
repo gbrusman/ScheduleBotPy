@@ -72,11 +72,15 @@ class ScheduleDisplayPage(tk.Frame):
                     course0 = tk.Entry(block_box, width=20, readonlybackground="White")  # http://www.tcl.tk/man/tcl/TkCmd/entry.htm#M9
                     course0.insert(0, schedule.get(cur_time).courses[0].name)  # https://stackoverflow.com/questions/14847243/how-can-i-insert-a-string-in-a-entry-widget-that-is-in-the-readonly-state
                     course0.configure(state='readonly')
+                    if schedule.get(cur_time).courses[0].required[self.controller.student.major]:
+                        course0.configure(readonlybackground="#43f2c0")
                     course0.grid(row=1, pady=5, sticky="w", in_=block_box)
                 if len(schedule.get(cur_time).courses) > 1:
                     course1 = tk.Entry(block_box, width=20, readonlybackground="White")
                     course1.insert(1, schedule.get(cur_time).courses[1].name)
                     course1.configure(state='readonly')
+                    if schedule.get(cur_time).courses[1].required[self.controller.student.major]:
+                        course1.configure(readonlybackground="#43f2c0")
                     course1.grid(row=2, pady=5, sticky="w", in_=block_box)
                 if len(block_box.children) > 1:
                     block_box.grid(row=0, column=quarter_index, padx=10, sticky="ew", in_=year_frame)
