@@ -87,7 +87,10 @@ class MajorSelectPage(tk.Frame):
             self.controller.student.start_time = AcademicTime(cur_year, self.cur_quarter.get())
             self.controller.student.grad_time = AcademicTime(grad_year, self.grad_quarter.get())
 
-            self.controller.show_frame("CourseSelectPage")
+            if self.controller.student.major == "LAMA":
+                self.controller.show_frame("AppliedSeriesChoicePage")
+            else:
+                self.controller.show_frame("CourseSelectPage")
 
 
     def validate_input(self):

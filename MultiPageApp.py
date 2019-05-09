@@ -11,6 +11,7 @@ from MajorSelectPage import MajorSelectPage
 from CourseSelectPage import CourseSelectPage
 from InterestSelectPage import InterestSelectPage
 from ScheduleDisplayPage import ScheduleDisplayPage
+from AppliedSeriesChoicePage import AppliedSeriesChoicePage
 
 #  https://stackoverflow.com/questions/7546050/switch-between-two-frames-in-tkinter
 
@@ -32,7 +33,7 @@ class MultiPageApp(tk.Tk):
             self.classes_by_name[course.name] = course
 
         self.frames = {}
-        self.page_names = [MajorSelectPage, CourseSelectPage, InterestSelectPage, ScheduleDisplayPage]
+        self.page_names = [MajorSelectPage, CourseSelectPage, InterestSelectPage, ScheduleDisplayPage, AppliedSeriesChoicePage]
         for F in self.page_names:
             page_name = F.__name__
             frame = F(parent=container, controller=self)
@@ -716,13 +717,52 @@ class MultiPageApp(tk.Tk):
         quarters_offered_PHY9A = ["Fall", "Spring"]
         PHY9A = Course("PHY9A", None, None, required_PHY9A, quarters_offered_PHY9A, "ALWAYS")
 
+        # PHY9B
+        required_PHY9B = {}
+        required_PHY9B["LMATBS1"] = False
+        required_PHY9B["LMATBS2"] = False
+        required_PHY9B["LMATAB1"] = False
+        required_PHY9B["LMATAB2"] = False
+        required_PHY9B["LAMA"] = False
+        required_PHY9B["LMOR"] = False
+        required_PHY9B["LMCOMATH"] = False
+        required_PHY9B["LMCOBIO"] = False
+        quarters_offered_PHY9B = ["Fall", "Winter"]
+        PHY9B = Course("PHY9B", None, None, required_PHY9B, quarters_offered_PHY9B, "ALWAYS")
+
+        # BISA
+        required_BIS2A = {}
+        required_BIS2A["LMATBS1"] = False
+        required_BIS2A["LMATBS2"] = False
+        required_BIS2A["LMATAB1"] = False
+        required_BIS2A["LMATAB2"] = False
+        required_BIS2A["LAMA"] = False
+        required_BIS2A["LMOR"] = False
+        required_BIS2A["LMCOMATH"] = False
+        required_BIS2A["LMCOBIO"] = False
+        quarters_offered_BIS2A = ["Fall", "Winter", "Spring"]  # add interest?
+        BIS2A = Course("BIS2A", None, None, required_BIS2A, quarters_offered_BIS2A, "ALWAYS")
+       
+        # BIS2B
+        required_BIS2B = {}
+        required_BIS2B["LMATBS1"] = False
+        required_BIS2B["LMATBS2"] = False
+        required_BIS2B["LMATAB1"] = False
+        required_BIS2B["LMATAB2"] = False
+        required_BIS2B["LAMA"] = False
+        required_BIS2B["LMOR"] = False
+        required_BIS2B["LMCOMATH"] = False
+        required_BIS2B["LMCOBIO"] = False
+        quarters_offered_BIS2B = ["Fall", "Winter", "Spring"]  # add interest?
+        BIS2B = Course("BIS2B", None, None, required_BIS2B, quarters_offered_BIS2B, "ALWAYS")
+
         # ECN1A
         required_ECN1A = {}
         required_ECN1A["LMATBS1"] = False
         required_ECN1A["LMATBS2"] = False
         required_ECN1A["LMATAB1"] = False
         required_ECN1A["LMATAB2"] = False
-        required_ECN1A["LAMA"] = True  # Default to ECN, eventually want to ask what 2-Quarter series they want to take
+        required_ECN1A["LAMA"] = False  # Default to ECN, eventually want to ask what 2-Quarter series they want to take
         required_ECN1A["LMOR"] = True  # Same as above ^
         required_ECN1A["LMCOMATH"] = False
         required_ECN1A["LMCOBIO"] = False
@@ -735,7 +775,7 @@ class MultiPageApp(tk.Tk):
         required_ECN1B["LMATBS2"] = False
         required_ECN1B["LMATAB1"] = False
         required_ECN1B["LMATAB2"] = False
-        required_ECN1B["LAMA"] = True  # Default to ECN, eventually want to ask what 2-Quarter series they want to take
+        required_ECN1B["LAMA"] = False  # Default to ECN, eventually want to ask what 2-Quarter series they want to take
         required_ECN1B["LMOR"] = True  # Same as above ^
         required_ECN1B["LMCOMATH"] = False
         required_ECN1B["LMCOBIO"] = False
@@ -817,10 +857,13 @@ class MultiPageApp(tk.Tk):
         classes_offered.append(ENG06)
         classes_offered.append(PHY7A)
         classes_offered.append(PHY9A)
+        classes_offered.append(PHY9B)
         classes_offered.append(ECN1A)
         classes_offered.append(ECN1B)
         classes_offered.append(STA32)
         classes_offered.append(STA100)
+        classes_offered.append(BIS2A)
+        classes_offered.append(BIS2B)
         return classes_offered
 
 

@@ -85,16 +85,19 @@ class Student:
             "ENG06": self.eng06_prereq,
             "PHY7A": self.phy7a_prereq,
             "PHY9A": self.phy9a_prereq,
+            "PHY9B": self.phy9b_prereq,
             "ECN1A": self.ecn1a_prereq,
             "ECN1B": self.ecn1b_prereq,
             "STA32": self.sta32_prereq,
             "STA100": self.sta100_prereq,
+            "BIS2A": self.bis2a_prereq,
+            "BIS2B": self.bis2b_prereq
         }
         func = switcher.get(course.name)
         if func is None:
             return False
-        if course.name == "ENG06":
-            return func(block)  # ENG06 special case, needs block parameter
+        if course.name == "ENG06" or course.name == "PHY9B":
+            return func(block)  # ENG06/PHY9B special case b/c concurrency, needs block parameter
         return func()
 
     def ecs32a_rec(self):
@@ -255,6 +258,15 @@ class Student:
 
     def phy9a_prereq(self):
         return self.has_taken("MAT21B")
+
+    def phy9b_prereq(self, block):
+        return self.has_taken("PHY9A") and self.has_taken("MAT21C") and (self.has_taken("MAT21D") or self.is_taking("MAT21D", block))
+
+    def bis2a_prereq(self):
+        return True
+
+    def bis2b_prereq(self):
+        return True
 
     def ecn1a_prereq(self):
         return True

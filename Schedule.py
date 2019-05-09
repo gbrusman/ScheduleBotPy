@@ -106,7 +106,8 @@ class Schedule:
             "ECS32A": self.ecs32a_redundant,
             "MAT128A": self.mat128a_redundant,
             "MAT128B": self.mat128b_redundant,
-            "MAT128C": self.mat128c_redundant
+            "MAT128C": self.mat128c_redundant,
+            "PHY7A": self.phy7a_redundant
         }
         func = switcher.get(course.name)
         if func is None:
@@ -162,6 +163,12 @@ class Schedule:
         
         if self.student.major == "LMOR" and "Computers" not in self.student.interests:
             return self.student.has_taken("MAT128A") or self.student.has_taken("MAT128B")
+
+    def phy7a_redundant(self):
+        for course in self.classes_offered:
+            if course.name == "PHY9B" and course.required["LAMA"]:  #checks if student is applied and chose physics as 2quarter sequence
+                return True
+        return False
 
     def is_success(self):
         major = self.student.major
