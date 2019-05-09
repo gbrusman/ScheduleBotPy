@@ -6,18 +6,31 @@ from Student import Student
 from Schedule import Schedule
 from AcademicTime import AcademicTime
 from ScheduleBlock import ScheduleBlock
+import copy
 
 
 class ScheduleDisplayPage(tk.Frame):
     def __init__(self, parent, controller):
         tk.Frame.__init__(self, parent)
         self.controller = controller
+        self.schedule_frame = Frame(self)
+        self.schedule_frame.grid(row=0, sticky="ew")
+        button_frame = Frame(self)
+        button_frame.grid(row=14, sticky="ew")
+        back_button = Button(button_frame, text="Back", command=lambda: controller.show_frame("InterestSelectPage"))
+        back_button.grid(row=25, column=0, padx=5, pady=10, sticky="sw", in_=button_frame)
 
     def init_schedule(self):
-        schedule_data = Schedule(self.controller.student, self.controller.classes_offered)
+        # Need to clear frame
+        for widget in self.schedule_frame.winfo_children():
+            widget.destroy()
+        # Need to make new student object because it gets mutated when creating schedule, need to handle case where user hits back button.
+        student = copy.deepcopy(self.controller.student)
+        classes_offered = self.controller.classes_offered.copy()  # Need to make copy of classes_offered for same reason as above
+        schedule_data = Schedule(student, classes_offered)
         schedule = schedule_data.schedule
-        start_time = AcademicTime(self.controller.student.start_time.year, self.controller.student.start_time.quarter)
-        grad_time = AcademicTime(self.controller.student.grad_time.year,self.controller.student.grad_time.quarter)
+        start_time = AcademicTime(student.start_time.year, student.start_time.quarter)
+        grad_time = AcademicTime(student.grad_time.year, student.grad_time.quarter)
         table_start_time = AcademicTime(start_time.year, start_time.quarter)
 
         while table_start_time.quarter != "Fall":
@@ -34,11 +47,11 @@ class ScheduleDisplayPage(tk.Frame):
         while cur_time != finish_time and cur_time != finish_time.progress_time() and cur_time != finish_time.progress_time().progress_time():
             if cur_time.quarter == "Spring":
                 if first_year:
-                    year_frame.grid(row=year_index, in_=self)
+                    year_frame.grid(row=year_index, in_=self.schedule_frame)
                     first_year = False
-                year_frame = Frame(self)
+                year_frame = Frame(self.schedule_frame)
                 year_index += 1
-                year_frame.grid(row=year_index, in_=self, pady=20)
+                year_frame.grid(row=year_index, in_=self.schedule_frame, pady=20)
                 quarter_index = 0
             cur_time = cur_time.progress_time()
 
@@ -67,19 +80,19 @@ class ScheduleDisplayPage(tk.Frame):
                     cur_time = cur_time.progress_time()
                     quarter_index += 1
 
-            if cur_time in schedule:  # FIXME: this if statement is never getting triggered, NEED TO FIX __hash__ IN ACADEMIC TIME
+            if cur_time in schedule:
                 if len(schedule.get(cur_time).courses) > 0:
                     course0 = tk.Entry(block_box, width=20, readonlybackground="White")  # http://www.tcl.tk/man/tcl/TkCmd/entry.htm#M9
                     course0.insert(0, schedule.get(cur_time).courses[0].name)  # https://stackoverflow.com/questions/14847243/how-can-i-insert-a-string-in-a-entry-widget-that-is-in-the-readonly-state
                     course0.configure(state='readonly')
-                    if schedule.get(cur_time).courses[0].required[self.controller.student.major]:
+                    if schedule.get(cur_time).courses[0].required[student.major]:
                         course0.configure(readonlybackground="#43f2c0")
                     course0.grid(row=1, pady=5, sticky="w", in_=block_box)
                 if len(schedule.get(cur_time).courses) > 1:
                     course1 = tk.Entry(block_box, width=20, readonlybackground="White")
                     course1.insert(1, schedule.get(cur_time).courses[1].name)
                     course1.configure(state='readonly')
-                    if schedule.get(cur_time).courses[1].required[self.controller.student.major]:
+                    if schedule.get(cur_time).courses[1].required[student.major]:
                         course1.configure(readonlybackground="#43f2c0")
                     course1.grid(row=2, pady=5, sticky="w", in_=block_box)
                 if len(block_box.children) > 1:
