@@ -730,7 +730,7 @@ class MultiPageApp(tk.Tk):
         quarters_offered_PHY9B = ["Fall", "Winter"]
         PHY9B = Course("PHY9B", None, None, required_PHY9B, quarters_offered_PHY9B, "ALWAYS")
 
-        # BISA
+        # BIS2A
         required_BIS2A = {}
         required_BIS2A["LMATBS1"] = False
         required_BIS2A["LMATBS2"] = False
@@ -755,6 +755,32 @@ class MultiPageApp(tk.Tk):
         required_BIS2B["LMCOBIO"] = False
         quarters_offered_BIS2B = ["Fall", "Winter", "Spring"]  # add interest?
         BIS2B = Course("BIS2B", None, None, required_BIS2B, quarters_offered_BIS2B, "ALWAYS")
+
+        # CHE2A
+        required_CHE2A = {}
+        required_CHE2A["LMATBS1"] = False
+        required_CHE2A["LMATBS2"] = False
+        required_CHE2A["LMATAB1"] = False
+        required_CHE2A["LMATAB2"] = False
+        required_CHE2A["LAMA"] = False
+        required_CHE2A["LMOR"] = False
+        required_CHE2A["LMCOMATH"] = False
+        required_CHE2A["LMCOBIO"] = False
+        quarters_offered_CHE2A = ["Fall", "Winter"]  # add interest?
+        CHE2A = Course("CHE2A", None, None, required_CHE2A, quarters_offered_CHE2A, "ALWAYS")
+
+        # CHE2B
+        required_CHE2B = {}
+        required_CHE2B["LMATBS1"] = False
+        required_CHE2B["LMATBS2"] = False
+        required_CHE2B["LMATAB1"] = False
+        required_CHE2B["LMATAB2"] = False
+        required_CHE2B["LAMA"] = False
+        required_CHE2B["LMOR"] = False
+        required_CHE2B["LMCOMATH"] = False
+        required_CHE2B["LMCOBIO"] = False
+        quarters_offered_CHE2B = ["Winter", "Spring"]  # add interest?
+        CHE2B = Course("CHE2B", None, None, required_CHE2B, quarters_offered_CHE2B, "ALWAYS")
 
         # ECN1A
         required_ECN1A = {}
@@ -864,6 +890,8 @@ class MultiPageApp(tk.Tk):
         classes_offered.append(STA100)
         classes_offered.append(BIS2A)
         classes_offered.append(BIS2B)
+        classes_offered.append(CHE2A)
+        classes_offered.append(CHE2B)
         return classes_offered
 
 

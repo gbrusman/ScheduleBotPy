@@ -91,7 +91,9 @@ class Student:
             "STA32": self.sta32_prereq,
             "STA100": self.sta100_prereq,
             "BIS2A": self.bis2a_prereq,
-            "BIS2B": self.bis2b_prereq
+            "BIS2B": self.bis2b_prereq,
+            "CHE2A": self.che2a_prereq,
+            "CHE2B": self.che2b_prereq,
         }
         func = switcher.get(course.name)
         if func is None:
@@ -267,6 +269,12 @@ class Student:
 
     def bis2b_prereq(self):
         return True
+
+    def che2a_prereq(self):
+        return True
+
+    def che2b_prereq(self):
+        return self.has_taken("CHE2A")
 
     def ecn1a_prereq(self):
         return True
