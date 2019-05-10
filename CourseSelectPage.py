@@ -46,7 +46,7 @@ class CourseSelectPage(tk.Frame):
 
         button_frame = Frame(self)
         button_frame.grid(row=7, sticky="ew")
-        back_button = Button(button_frame, text="Back", command=lambda: controller.show_frame("MajorSelectPage"))
+        back_button = Button(button_frame, text="Back", command=lambda: self.go_back())
         back_button.grid(row=25, column=0, padx=5, pady=10, sticky="sw", in_=button_frame)
         next_button = Button(button_frame, text="Next", command=lambda: self.goto_interest_select())
         next_button.grid(row=25, column=1, padx=5, pady=10, sticky="se", in_=button_frame)
@@ -56,6 +56,11 @@ class CourseSelectPage(tk.Frame):
         for i in range(row_size):
             self.grid_rowconfigure(i, minsize=20, weight=1)
 
+    def go_back(self):
+        if self.controller.student.major == "LAMA":
+            self.controller.show_frame("AppliedSeriesChoicePage")
+        else:
+            self.controller.show_frame("MajorSelectPage")
 
     def goto_interest_select(self):
         self.get_info_from_cboxes()

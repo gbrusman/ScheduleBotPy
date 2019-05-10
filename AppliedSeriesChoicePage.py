@@ -12,6 +12,8 @@ class AppliedSeriesChoicePage(tk.Frame):
         prompt_frame.grid(sticky="nsew", row=0, columnspan=10)
         prompt = Label(prompt_frame, text="Please select which series you are most interested in taking")
         prompt.grid(column=0, row=0, columnspan=2, in_=prompt_frame)
+        self.err_msg = tk.Label(prompt_frame, text="", fg="red")  # needed to use tk label here for fg option
+        self.err_msg.grid(column=0, row=1, columnspan=2, in_=prompt_frame)
         self.grid_rowconfigure(0, minsize=50)
         self.grid_columnconfigure(0, weight=1)
 
@@ -42,8 +44,11 @@ class AppliedSeriesChoicePage(tk.Frame):
         if self.button_var.get() != 0:
             self.get_info_from_rbuttons()
             self.controller.show_frame("CourseSelectPage")
+        else:
+            self.err_msg.configure(text="Please select one of the options below.")
 
     def get_info_from_rbuttons(self):  # This is a horrible way of doing this. Should use classes_by_name and get from dict instead
+        self.reset_choice()
         if self.button_var.get() == 1:
             for course in self.controller.classes_offered:
                 if course.name == "PHY9A" or course.name == "PHY9B":
@@ -64,3 +69,9 @@ class AppliedSeriesChoicePage(tk.Frame):
             for course in self.controller.classes_offered:
                 if course.name == "STA32" or course.name == "STA100":
                     course.required["LAMA"] = True
+
+    def reset_choice(self):
+        two_quarter_list = ["PHY9A", "PHY9B", "BIS2A", "BIS2B", "CHE2A", "CHE2B", "ECN1A", "ECN1B", "STA32", "STA100"]
+        for course in self.controller.classes_offered:
+            if course.name in two_quarter_list:
+                course.required["LAMA"] = False
