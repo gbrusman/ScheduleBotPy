@@ -25,54 +25,56 @@ class MajorSelectPage(tk.Frame):
         prompt.grid(column=0, row=0, columnspan=2, in_=prompt_frame)
         self.err_msg = tk.Label(prompt_frame, text="", fg="red")  # needed to use tk label here for fg option
         self.err_msg.grid(column=0, row=1, columnspan=2, in_=prompt_frame)
+        info_frame = Frame(self)
+        info_frame.grid(row=1, sticky="nsew", columnspan=2)
+        info_frame.columnconfigure(0, weight=1)
 
-        major_frame = Frame(self)
-        major_frame.grid(column=0, row=5)
+        major_frame = Frame(info_frame)
+        major_frame.grid(column=0, row=5, pady=10)
         major_label = Label(major_frame, text="Major: ")
-        major_label.grid(column=0, row=0, in_=major_frame, pady=20)
+        major_label.grid(column=0, row=0, in_=major_frame, pady=20, sticky="e", padx=5)
         major_choices = ["AB Mathematics: Plan 1 - General Mathematics", "AB Mathematics: Plan 2 - Secondary Teaching",
                          "BS Mathematics: Plan 1 - General Mathematics", "BS Mathematics: Plan 2 - Secondary Teaching",
                          "Applied Mathematics", "Mathematical Analytics and Operations Research",
                          "Mathematical and Scientific Computation - Bio Emphasis",
                          "Mathematical and Scientific Computation - Math Emphasis"]
-        self.major_select_box = Combobox(major_frame, values=major_choices, textvariable=self.major, state="readonly",
-                                    width=45)  # need to talk to IT people about what libraries are okay to import
+        self.major_select_box = Combobox(major_frame, values=major_choices, textvariable=self.major, state="readonly", width=45)  # need to talk to IT people about what libraries are okay to import
 
         self.major_select_box.grid(row=0, column=1, in_=major_frame, sticky=tk.E + tk.W, padx=5)
         self.major_select_box.bind("<<ComboboxSelected>>", self.get_major_value)
 
 
         cur_quarter_label = Label(major_frame, text="Current Quarter: ")
-        cur_quarter_label.grid(column=0, row=1, in_=major_frame, pady=10)
+        cur_quarter_label.grid(column=0, row=1, in_=major_frame, pady=10, sticky="e", padx=5)
         cur_quarter_choices = ["Fall", "Winter", "Spring"]
         self.cur_quarter_select_box = Combobox(major_frame, values=cur_quarter_choices, textvariable=self.cur_quarter, state="readonly", width=25)
         self.cur_quarter_select_box.grid(row=1, column=1, in_=major_frame, sticky=tk.W, padx=5)
         #self.cur_quarter_select_box.bind("<<ComboboxSelected>>", self.get_cur_quarter_value)
 
         cur_year_label = Label(major_frame, text="Current Year: ")
-        cur_year_label.grid(column=0, row=2, in_=major_frame, pady=0)
+        cur_year_label.grid(column=0, row=2, in_=major_frame, pady=0, sticky="e", padx=5)
         self.cur_year_entry = Entry(major_frame, width=15)
         self.cur_year_entry.grid(row=2, column=1, in_=major_frame, sticky=tk.W, padx=5)
 
         grad_quarter_label = Label(major_frame, text="Graduation Quarter: ")
-        grad_quarter_label.grid(column=0, row=4, in_=major_frame, pady=10)
+        grad_quarter_label.grid(column=0, row=4, in_=major_frame, pady=10, sticky="e", padx=5)
         grad_quarter_choices = ["Fall", "Winter", "Spring"]
         self.grad_quarter_select_box = Combobox(major_frame, values=grad_quarter_choices, textvariable=self.grad_quarter, state="readonly", width=25)
         self.grad_quarter_select_box.grid(row=4, column=1, in_=major_frame, sticky=tk.W, padx=5)
 
         grad_year_label = Label(major_frame, text="Graduation Year: ")
-        grad_year_label.grid(column=0, row=5, in_=major_frame, pady=0)
+        grad_year_label.grid(column=0, row=5, in_=major_frame, pady=0, sticky="e", padx=5)
         self.grad_year_entry = Entry(major_frame, width=15)
         self.grad_year_entry.grid(row=5, column=1, in_=major_frame, sticky=tk.W, padx=5)
 
         next_button = Button(self, text="Next", command=lambda: self.goto_course_select())
-        next_button.grid(row=12, padx=5, pady=10, sticky=tk.S + tk.E)
+        next_button.grid(row=2, padx=5, pady=10, sticky=tk.S + tk.E)
 
         col_count, row_count = self.grid_size()
         self.grid_columnconfigure(0, weight=1)
         # self.rowconfigure(0, weight=1)
         for row in range(row_count):
-            self.grid_rowconfigure(row, minsize=20)
+            self.grid_rowconfigure(row, minsize=20, weight=1)
 
         major_frame.grid_rowconfigure(3, minsize=20)  # separates current year stuff from grad year stuff
 

@@ -47,9 +47,9 @@ class CourseSelectPage(tk.Frame):
         button_frame = Frame(self)
         button_frame.grid(row=7, sticky="ew")
         back_button = Button(button_frame, text="Back", command=lambda: self.go_back())
-        back_button.grid(row=25, column=0, padx=5, pady=10, sticky="sw", in_=button_frame)
+        back_button.grid(row=25, column=0, padx=5, pady=5, sticky="sw", in_=button_frame)
         next_button = Button(button_frame, text="Next", command=lambda: self.goto_interest_select())
-        next_button.grid(row=25, column=1, padx=5, pady=10, sticky="se", in_=button_frame)
+        next_button.grid(row=25, column=1, padx=5, pady=5, sticky="se", in_=button_frame)
         for i in range(2):
             button_frame.grid_columnconfigure(i, weight=1)
         col_size, row_size = self.grid_size()

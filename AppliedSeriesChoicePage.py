@@ -14,13 +14,19 @@ class AppliedSeriesChoicePage(tk.Frame):
         prompt.grid(column=0, row=0, columnspan=2, in_=prompt_frame)
         self.err_msg = tk.Label(prompt_frame, text="", fg="red")  # needed to use tk label here for fg option
         self.err_msg.grid(column=0, row=1, columnspan=2, in_=prompt_frame)
-        self.grid_rowconfigure(0, minsize=50)
+        for i in range(3):
+            self.grid_rowconfigure(i, minsize=20, weight=1)
         self.grid_columnconfigure(0, weight=1)
+        self.grid_columnconfigure(1, weight=1)
 
         self.button_var = tk.IntVar()
         self.button_var.set(0)
         radio_button_frame = Frame(self)
-        radio_button_frame.grid(row=5, sticky="nsew")
+        radio_button_frame.grid(row=1, sticky="nsew")
+        radio_button_frame.grid_columnconfigure(0, weight=1)
+        for row in range(5):
+            radio_button_frame.grid_rowconfigure(row, weight=1)
+
         phy_button = Radiobutton(radio_button_frame, text="PHY 9A,B", variable=self.button_var, value=1).grid(in_=radio_button_frame, row=0, sticky="nsew", pady=5)
         bis_button = Radiobutton(radio_button_frame, text="BIS 2A,B", variable=self.button_var, value=2).grid(in_=radio_button_frame, row=1, sticky="nsew", pady=5)
         che_button = Radiobutton(radio_button_frame, text="CHE 2A,B", variable=self.button_var, value=3).grid(in_=radio_button_frame, row=2, sticky="nsew", pady=5)
@@ -28,11 +34,14 @@ class AppliedSeriesChoicePage(tk.Frame):
         sta_button = Radiobutton(radio_button_frame, text="STA 32,100", variable=self.button_var, value=5).grid(in_=radio_button_frame, row=4, sticky="nsew", pady=5)
 
         button_frame = Frame(self)
-        button_frame.grid(row=7, sticky="ew")
+        button_frame.grid(row=7, sticky="ew", columnspan=2)
         back_button = Button(button_frame, text="Back", command=lambda: controller.show_frame("MajorSelectPage"))
-        back_button.grid(row=25, column=0, padx=5, pady=10, sticky="sw", in_=button_frame)
+        back_button.grid(row=0, column=0, padx=5, pady=10, sticky="sw", in_=button_frame)
         next_button = Button(button_frame, text="Next", command=lambda: self.goto_course_select())  # also need to change courseselect to go back to here if student is LAMA
-        next_button.grid(row=25, column=1, padx=5, pady=10, sticky="se", in_=button_frame)
+        next_button.grid(row=0, column=1, padx=5, pady=10, sticky="se", in_=button_frame)
+        button_frame.grid_columnconfigure(0, weight=1)
+        button_frame.grid_columnconfigure(1, weight=1)
+       # button_frame.grid_rowconfigure(0, weight=1)
 
         col_count, row_count = self.grid_size() # sizing the window/spacing the rows
         for i in range(row_count):

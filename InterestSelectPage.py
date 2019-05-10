@@ -19,7 +19,7 @@ class InterestSelectPage(tk.Frame):
         prompt.grid(column=0, row=0, columnspan=2, in_=prompt_frame)
 
         cbox_frame = Frame(self)
-        cbox_frame.grid(row=6, column=0, sticky="nsew")
+        cbox_frame.grid(row=2, column=0, sticky="nsew")
         self.cbox_list = []
         interests = ["Teaching", "Geometry", "Physics", "Biology", "Computers", "Finance", "Abstract", "Data Analysis"]
         row = 0
@@ -35,7 +35,7 @@ class InterestSelectPage(tk.Frame):
         #cbox_frame.grid_columnconfigure(1, weight=1)
 
         button_frame = Frame(self)
-        button_frame.grid(row=14, sticky="ew")
+        button_frame.grid(row=7, sticky="ew")
         back_button = Button(button_frame, text="Back", command=lambda: controller.show_frame("CourseSelectPage"))
         back_button.grid(row=25, column=0, padx=5, pady=10, sticky="sw", in_=button_frame)
         next_button = Button(button_frame, text="Next", command=lambda: self.goto_schedule_display())
@@ -46,10 +46,11 @@ class InterestSelectPage(tk.Frame):
 
         num_cols, num_rows = self.grid_size()
         for i in range(num_rows):
-            self.grid_rowconfigure(i, minsize=20)
+            self.grid_rowconfigure(i, minsize=5, weight=1)
         #for i in range(num_cols):
             #self.grid_columnconfigure(i, weight=1)
         self.grid_columnconfigure(0, weight=1)
+        self.grid_rowconfigure(0, minsize=20)
 
     def goto_schedule_display(self):
         self.get_info_from_cboxes()

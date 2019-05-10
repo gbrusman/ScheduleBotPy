@@ -98,3 +98,16 @@ class ScheduleDisplayPage(tk.Frame):
                 if len(block_box.children) > 1:
                     block_box.grid(row=0, column=quarter_index, padx=10, sticky="ew", in_=year_frame)
                     quarter_index += 1
+
+        col_size, row_size = self.grid_size()  # do the same thing with schedule_frame
+        for i in range(row_size):
+            self.grid_rowconfigure(i, weight=1)
+        for i in range(col_size):
+            self.grid_columnconfigure(i, weight=1)
+
+        col_size, row_size = self.schedule_frame.grid_size()  # do the same thing with schedule_frame
+        for i in range(row_size):
+            self.schedule_frame.grid_rowconfigure(i, weight=1)
+        for i in range(col_size):
+            self.schedule_frame.grid_columnconfigure(i, weight=1)
+
