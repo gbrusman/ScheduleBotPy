@@ -900,4 +900,5 @@ class MultiPageApp(tk.Tk):
 
 if __name__ == "__main__":
     app = MultiPageApp()
+    #app.minsize(height=450, width=475)
     app.mainloop()

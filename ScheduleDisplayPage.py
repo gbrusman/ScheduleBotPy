@@ -14,13 +14,14 @@ class ScheduleDisplayPage(tk.Frame):
         tk.Frame.__init__(self, parent)
         self.controller = controller
         self.schedule_frame = Frame(self)
-        self.schedule_frame.grid(row=0, sticky="ew")
+        self.schedule_frame.grid(row=1, sticky="ew")
         button_frame = Frame(self)
         button_frame.grid(row=14, sticky="ew")
         back_button = Button(button_frame, text="Back", command=lambda: controller.show_frame("InterestSelectPage"))
         back_button.grid(row=25, column=0, padx=5, pady=10, sticky="sw", in_=button_frame)
 
     def init_schedule(self):
+        failed = False
         # Need to clear frame
         for widget in self.schedule_frame.winfo_children():
             widget.destroy()
@@ -28,6 +29,8 @@ class ScheduleDisplayPage(tk.Frame):
         student = copy.deepcopy(self.controller.student)
         classes_offered = self.controller.classes_offered.copy()  # Need to make copy of classes_offered for same reason as above
         schedule_data = Schedule(student, classes_offered)
+        if not schedule_data.is_success():
+            failed = True
         schedule = schedule_data.schedule
         start_time = AcademicTime(student.start_time.year, student.start_time.quarter)
         grad_time = AcademicTime(student.grad_time.year, student.grad_time.quarter)
@@ -99,15 +102,20 @@ class ScheduleDisplayPage(tk.Frame):
                     block_box.grid(row=0, column=quarter_index, padx=10, sticky="ew", in_=year_frame)
                     quarter_index += 1
 
+        if failed:
+            failed_label = tk.Label(self, fg="red", text="WARNING: This schedule does not contain all of the classes you will need to graduate. Consider talking to an advisor in person for additional advice.")
+            failed_label.grid(row=0, column=0, pady=10, padx=10, sticky="new", in_=self)
+            self.grid_rowconfigure(0, minsize=35)
         col_size, row_size = self.grid_size()  # do the same thing with schedule_frame
         for i in range(row_size):
             self.grid_rowconfigure(i, weight=1)
         for i in range(col_size):
             self.grid_columnconfigure(i, weight=1)
+        self.grid_rowconfigure(row_size - 1, minsize=35)
 
         col_size, row_size = self.schedule_frame.grid_size()  # do the same thing with schedule_frame
         for i in range(row_size):
-            self.schedule_frame.grid_rowconfigure(i, weight=1)
+            self.schedule_frame.grid_rowconfigure(i, weight=1, minsize=15)
         for i in range(col_size):
             self.schedule_frame.grid_columnconfigure(i, weight=1)
 
