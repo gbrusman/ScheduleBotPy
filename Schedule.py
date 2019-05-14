@@ -207,10 +207,17 @@ class Schedule:
 
     def is_success_LAMA(self):
         requirements = ["MAT21A", "MAT21B", "MAT21C", "MAT21D", "MAT22A", "MAT22B", "MAT108", "ENG06", "ECS32A", "MAT127A", "MAT127B", "MAT127C", "MAT135A", "MAT150A", "MAT119A", "MAT185A"]
+        two_quarter_series = ["PHY9A", "PHY9B", "CHE2A", "CHE2B", "BIS2A", "BIS2B", "STA32", "STA100", "ECN1A", "ECN1B"]
+        num_two_quarter_courses = 0
         for course_name in requirements:
             if course_name not in self.student.classes_taken.keys():
                 return False
         if self.student.num_enrichments < 2:
+            return False
+        for course in two_quarter_series:
+            if self.student.has_taken(course):
+                num_two_quarter_courses += 1
+        if num_two_quarter_courses < 2:
             return False
         return True
 
