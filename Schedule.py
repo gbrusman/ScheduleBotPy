@@ -54,12 +54,16 @@ class Schedule:
         print("Adding ", course.name, " at ", time.quarter,  " ", time.year)
         after.append(course.after)
         self.classes_offered.remove(course)
+        if not course.required[self.student.major]:
+            self.student.num_enrichments += 1
 
     def add_course_from_after(self, course, block, after, time, index):
         block.courses.append(course)
         print("Adding ", course.name, " at ", time.quarter, " ", time.year)
         self.classes_offered.remove(course)
         after.pop(index)
+        if not course.required[self.student.major]:
+            self.student.num_enrichments += 1
 
     def fill_from_after(self, cur_block, after, cur_time):
         next_after = []
@@ -109,12 +113,27 @@ class Schedule:
             "MAT128C": self.mat128c_redundant,
             "PHY7A": self.phy7a_redundant
         }
+        if self.is_pointless(course):
+            return True
         func = switcher.get(course.name)
         if func is None:
             return False
         if course.name == "MAT22A" or course.name == "MAT22AL" or course.name == "MAT67":
             return func(block)
         return func()
+
+    def is_pointless(self, course):  # checks to see if we're adding a class that provides absolutely no benefit
+        if course.required[self.student.major]:
+            return False
+        if not course.name[:3] == "MAT":
+            return True
+        i = 3
+        num_str = ""
+        while course.name[i].isdigit() and i < len(course.name) - 1:
+            num_str += course.name[i]
+            i += 1
+        if not int(num_str) >= 100:
+            return True
 
     def try_to_place_interesting_class(self, cur_course, cur_block, cur_time, after):
         placed_interest = False
@@ -191,6 +210,8 @@ class Schedule:
         for course_name in requirements:
             if course_name not in self.student.classes_taken.keys():
                 return False
+        if self.student.num_enrichments < 2:
+            return False
         return True
 
     def is_success_LMOR(self):
@@ -198,6 +219,8 @@ class Schedule:
         for course_name in requirements:
             if course_name not in self.student.classes_taken.keys():
                 return False
+        if self.student.num_enrichments < 4:  #Enrichment A and B, current system doesn't work here
+            return False
         return True
 
     def is_success_LMATBS1(self):
@@ -206,6 +229,8 @@ class Schedule:
         for course_name in requirements:
             if course_name not in self.student.classes_taken.keys():
                 return False
+        if self.student.num_enrichments < 4:
+            return False
         return True
 
     def is_success_LMATBS2(self):
@@ -214,6 +239,8 @@ class Schedule:
         for course_name in requirements:
             if course_name not in self.student.classes_taken.keys():
                 return False
+        if self.student.num_enrichments < 4:
+            return False
         return True
 
     def is_success_LMATAB1(self):
@@ -222,6 +249,8 @@ class Schedule:
         for course_name in requirements:
             if course_name not in self.student.classes_taken.keys():
                 return False
+        if self.student.num_enrichments < 4:
+            return False
         return True
 
     def is_success_LMATAB2(self):
@@ -230,6 +259,8 @@ class Schedule:
         for course_name in requirements:
             if course_name not in self.student.classes_taken.keys():
                 return False
+        if self.student.num_enrichments < 4:
+            return False
         return True
 
     def is_success_LMCOBIO(self):
@@ -238,6 +269,8 @@ class Schedule:
         for course_name in requirements:
             if course_name not in self.student.classes_taken.keys():
                 return False
+        if self.student.num_enrichments < 2:
+            return False
         return True
 
     def is_success_LMCOMATH(self):
@@ -246,7 +279,6 @@ class Schedule:
         for course_name in requirements:
             if course_name not in self.student.classes_taken.keys():
                 return False
+        if self.student.num_enrichments < 2:
+            return False
         return True
-
-
-

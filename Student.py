@@ -3,13 +3,14 @@ from ScheduleBlock import ScheduleBlock
 from Course import Course
 
 class Student:
-    def __init__(self, cur_time=AcademicTime(), grad_time=AcademicTime(), major="", interests=[], classes_taken={}):
+    def __init__(self, cur_time=AcademicTime(), grad_time=AcademicTime(), major="", interests=[], classes_taken={}, num_enrichments=0):
         self.cur_time = cur_time
         self.grad_time = grad_time
         self.major = major
         self.interests = interests
         self.classes_taken = classes_taken
         self.start_time = AcademicTime(cur_time.year, cur_time.quarter)
+        self.num_enrichments = num_enrichments
 
     def is_taking(self, course_name, block):
         if block.contains(course_name):
