@@ -1186,6 +1186,9 @@ class MultiPageApp(tk.Tk):
         classes_offered.append(ARE155)
         classes_offered.append(ARE156)
         classes_offered.append(ARE157)
+        classes_offered.append(ECS124)
+        classes_offered.append(ECS129)
+        classes_offered.append(ECS170)
         return classes_offered
 
 
