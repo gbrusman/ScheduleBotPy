@@ -36,6 +36,10 @@ class ScheduleDisplayPage(tk.Frame):
         grad_time = AcademicTime(student.grad_time.year, student.grad_time.quarter)
         table_start_time = AcademicTime(start_time.year, start_time.quarter)
 
+        failed_label = tk.Label(self, fg="red",
+                                text="")
+        failed_label.grid(row=0, column=0, pady=10, padx=10, sticky="new", in_=self)
+
         while table_start_time.quarter != "Fall":
             table_start_time = table_start_time.reverse_time()
 
@@ -88,23 +92,25 @@ class ScheduleDisplayPage(tk.Frame):
                     course0 = tk.Entry(block_box, width=20, readonlybackground="White")  # http://www.tcl.tk/man/tcl/TkCmd/entry.htm#M9
                     course0.insert(0, schedule.get(cur_time).courses[0].name)  # https://stackoverflow.com/questions/14847243/how-can-i-insert-a-string-in-a-entry-widget-that-is-in-the-readonly-state
                     course0.configure(state='readonly')
-                    if schedule.get(cur_time).courses[0].required[student.major]:
+                    if not schedule.get(cur_time).courses[0].required[student.major]:
                         course0.configure(readonlybackground="#43f2c0")
                     course0.grid(row=1, pady=5, sticky="w", in_=block_box)
                 if len(schedule.get(cur_time).courses) > 1:
                     course1 = tk.Entry(block_box, width=20, readonlybackground="White")
                     course1.insert(1, schedule.get(cur_time).courses[1].name)
                     course1.configure(state='readonly')
-                    if schedule.get(cur_time).courses[1].required[student.major]:
+                    if not schedule.get(cur_time).courses[1].required[student.major]:
                         course1.configure(readonlybackground="#43f2c0")
                     course1.grid(row=2, pady=5, sticky="w", in_=block_box)
+                else:
+                    blank_course = Label(block_box, width=20, text="")
+                    blank_course.grid(row=2, pady=5, sticky="w", in_=block_box)
                 if len(block_box.children) > 1:
                     block_box.grid(row=0, column=quarter_index, padx=10, sticky="ew", in_=year_frame)
                     quarter_index += 1
 
         if failed:
-            failed_label = tk.Label(self, fg="red", text="WARNING: This schedule does not contain all of the classes you will need to graduate. Consider talking to an advisor in person for additional advice.")
-            failed_label.grid(row=0, column=0, pady=10, padx=10, sticky="new", in_=self)
+            failed_label.configure(text="WARNING: This schedule does not contain all of the classes you will need to graduate. Consider talking to an advisor in person for additional advice.")
             self.grid_rowconfigure(0, minsize=35)
         col_size, row_size = self.grid_size()  # do the same thing with schedule_frame
         for i in range(row_size):

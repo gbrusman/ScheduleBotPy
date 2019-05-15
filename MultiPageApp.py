@@ -808,6 +808,85 @@ class MultiPageApp(tk.Tk):
         quarters_offered_ECN1B = ["Fall", "Winter", "Spring"]
         ECN1B = Course("ECN1B", None, None, required_ECN1B, quarters_offered_ECN1B, "ALWAYS")
 
+        # ECN100A
+        required_ECN100A = {}
+        required_ECN100A["LMATBS1"] = False
+        required_ECN100A["LMATBS2"] = False
+        required_ECN100A["LMATAB1"] = False
+        required_ECN100A["LMATAB2"] = False
+        required_ECN100A["LAMA"] = False
+        required_ECN100A["LMOR"] = False
+        required_ECN100A["LMCOMATH"] = False
+        required_ECN100A["LMCOBIO"] = False
+        quarters_offered_ECN100A = ["Fall", "Winter", "Spring"]
+        ECN100A = Course("ECN100A", None, None, required_ECN100A, quarters_offered_ECN100A, "ALWAYS")
+
+        # ECN100B
+        required_ECN100B = {}
+        required_ECN100B["LMATBS1"] = False
+        required_ECN100B["LMATBS2"] = False
+        required_ECN100B["LMATAB1"] = False
+        required_ECN100B["LMATAB2"] = False
+        required_ECN100B["LAMA"] = False
+        required_ECN100B["LMOR"] = False
+        required_ECN100B["LMCOMATH"] = False
+        required_ECN100B["LMCOBIO"] = False
+        quarters_offered_ECN100B = ["Fall", "Winter", "Spring"]
+        ECN100B = Course("ECN100B", None, None, required_ECN100B, quarters_offered_ECN100B, "ALWAYS")
+
+        # ECN121A
+        required_ECN121A = {}
+        required_ECN121A["LMATBS1"] = False
+        required_ECN121A["LMATBS2"] = False
+        required_ECN121A["LMATAB1"] = False
+        required_ECN121A["LMATAB2"] = False
+        required_ECN121A["LAMA"] = False
+        required_ECN121A["LMOR"] = False
+        required_ECN121A["LMCOMATH"] = False
+        required_ECN121A["LMCOBIO"] = False
+        quarters_offered_ECN121A = ["Fall"]
+        ECN121A = Course("ECN121A", None, None, required_ECN121A, quarters_offered_ECN121A, "ALWAYS")
+
+        # ECN121B
+        required_ECN121B = {}
+        required_ECN121B["LMATBS1"] = False
+        required_ECN121B["LMATBS2"] = False
+        required_ECN121B["LMATAB1"] = False
+        required_ECN121B["LMATAB2"] = False
+        required_ECN121B["LAMA"] = False
+        required_ECN121B["LMOR"] = False
+        required_ECN121B["LMCOMATH"] = False
+        required_ECN121B["LMCOBIO"] = False
+        quarters_offered_ECN121B = ["Spring"]
+        ECN121B = Course("ECN121B", None, None, required_ECN121B, quarters_offered_ECN121B, "ALWAYS")
+
+        # ECN122
+        required_ECN122 = {}
+        required_ECN122["LMATBS1"] = False
+        required_ECN122["LMATBS2"] = False
+        required_ECN122["LMATAB1"] = False
+        required_ECN122["LMATAB2"] = False
+        required_ECN122["LAMA"] = False
+        required_ECN122["LMOR"] = False
+        required_ECN122["LMCOMATH"] = False
+        required_ECN122["LMCOBIO"] = False
+        quarters_offered_ECN122 = ["Winter"]
+        ECN122 = Course("ECN122", None, None, required_ECN122, quarters_offered_ECN122, "ALWAYS")
+
+        # ECN134
+        required_ECN134 = {}
+        required_ECN134["LMATBS1"] = False
+        required_ECN134["LMATBS2"] = False
+        required_ECN134["LMATAB1"] = False
+        required_ECN134["LMATAB2"] = False
+        required_ECN134["LAMA"] = False
+        required_ECN134["LMOR"] = False
+        required_ECN134["LMCOMATH"] = False
+        required_ECN134["LMCOBIO"] = False
+        quarters_offered_ECN134 = ["Fall", "Winter", "Spring"]
+        ECN134 = Course("ECN134", None, None, required_ECN134, quarters_offered_ECN134, "ALWAYS")
+        
+
         # STA32
         required_STA32 = {}
         required_STA32["LMATBS1"] = False
@@ -833,6 +912,203 @@ class MultiPageApp(tk.Tk):
         required_STA100["LMCOBIO"] = False
         quarters_offered_STA100 = ["Fall", "Winter", "Spring"]
         STA100 = Course("STA100", None, None, required_STA100, quarters_offered_STA100, "ALWAYS")
+
+        # STA131A
+        required_STA131A = {}
+        required_STA131A["LMATBS1"] = False
+        required_STA131A["LMATBS2"] = False
+        required_STA131A["LMATAB1"] = False
+        required_STA131A["LMATAB2"] = False
+        required_STA131A["LAMA"] = False
+        required_STA131A["LMOR"] = False
+        required_STA131A["LMCOMATH"] = False
+        required_STA131A["LMCOBIO"] = False
+        quarters_offered_STA131A = ["Fall", "Spring"]
+        STA131A = Course("STA131A", None, None, required_STA131A, quarters_offered_STA131A, "ALWAYS")
+
+        # STA131B
+        required_STA131B = {}
+        required_STA131B["LMATBS1"] = False
+        required_STA131B["LMATBS2"] = False
+        required_STA131B["LMATAB1"] = False
+        required_STA131B["LMATAB2"] = False
+        required_STA131B["LAMA"] = False
+        required_STA131B["LMOR"] = False
+        required_STA131B["LMCOMATH"] = False
+        required_STA131B["LMCOBIO"] = False
+        quarters_offered_STA131B = ["Winter"]
+        STA131B = Course("STA131B", None, None, required_STA131B, quarters_offered_STA131B, "ALWAYS")
+
+        # STA131C
+        required_STA131C = {}
+        required_STA131C["LMATBS1"] = False
+        required_STA131C["LMATBS2"] = False
+        required_STA131C["LMATAB1"] = False
+        required_STA131C["LMATAB2"] = False
+        required_STA131C["LAMA"] = False
+        required_STA131C["LMOR"] = False
+        required_STA131C["LMCOMATH"] = False
+        required_STA131C["LMCOBIO"] = False
+        quarters_offered_STA131C = ["Fall", "Winter"]
+        STA131C = Course("STA131C", None, None, required_STA131C, quarters_offered_STA131C, "ALWAYS")
+
+        # STA137
+        required_STA137 = {}
+        required_STA137["LMATBS1"] = False
+        required_STA137["LMATBS2"] = False
+        required_STA137["LMATAB1"] = False
+        required_STA137["LMATAB2"] = False
+        required_STA137["LAMA"] = False
+        required_STA137["LMOR"] = False
+        required_STA137["LMCOMATH"] = False
+        required_STA137["LMCOBIO"] = False
+        quarters_offered_STA137 = ["Fall", "Winter", "Spring"]
+        STA137 = Course("STA137", None, None, required_STA137, quarters_offered_STA137, "ALWAYS")
+
+        # STA141A
+        required_STA141A = {}
+        required_STA141A["LMATBS1"] = False
+        required_STA141A["LMATBS2"] = False
+        required_STA141A["LMATAB1"] = False
+        required_STA141A["LMATAB2"] = False
+        required_STA141A["LAMA"] = False
+        required_STA141A["LMOR"] = False
+        required_STA141A["LMCOMATH"] = False
+        required_STA141A["LMCOBIO"] = False
+        quarters_offered_STA141A = ["Fall", "Spring"]
+        STA141A = Course("STA141A", None, None, required_STA141A, quarters_offered_STA141A, "ALWAYS")
+
+        # STA141B
+        required_STA141B = {}
+        required_STA141B["LMATBS1"] = False
+        required_STA141B["LMATBS2"] = False
+        required_STA141B["LMATAB1"] = False
+        required_STA141B["LMATAB2"] = False
+        required_STA141B["LAMA"] = False
+        required_STA141B["LMOR"] = False
+        required_STA141B["LMCOMATH"] = False
+        required_STA141B["LMCOBIO"] = False
+        quarters_offered_STA141B = ["Fall", "Winter"]
+        STA141B = Course("STA141B", None, None, required_STA141B, quarters_offered_STA141B, "ALWAYS")
+
+        # ARE100A
+        required_ARE100A = {}
+        required_ARE100A["LMATBS1"] = False
+        required_ARE100A["LMATBS2"] = False
+        required_ARE100A["LMATAB1"] = False
+        required_ARE100A["LMATAB2"] = False
+        required_ARE100A["LAMA"] = False
+        required_ARE100A["LMOR"] = False
+        required_ARE100A["LMCOMATH"] = False
+        required_ARE100A["LMCOBIO"] = False
+        quarters_offered_ARE100A = ["Fall", "Winter", "Spring"]
+        ARE100A = Course("ARE100A", None, None, required_ARE100A, quarters_offered_ARE100A, "ALWAYS")
+
+        # ARE100B
+        required_ARE100B = {}
+        required_ARE100B["LMATBS1"] = False
+        required_ARE100B["LMATBS2"] = False
+        required_ARE100B["LMATAB1"] = False
+        required_ARE100B["LMATAB2"] = False
+        required_ARE100B["LAMA"] = False
+        required_ARE100B["LMOR"] = False
+        required_ARE100B["LMCOMATH"] = False
+        required_ARE100B["LMCOBIO"] = False
+        quarters_offered_ARE100B = ["Fall", "Winter", "Spring"]
+        ARE100B = Course("ARE100B", None, None, required_ARE100B, quarters_offered_ARE100B, "ALWAYS")
+
+        # ARE155
+        required_ARE155 = {}
+        required_ARE155["LMATBS1"] = False
+        required_ARE155["LMATBS2"] = False
+        required_ARE155["LMATAB1"] = False
+        required_ARE155["LMATAB2"] = False
+        required_ARE155["LAMA"] = False
+        required_ARE155["LMOR"] = False
+        required_ARE155["LMCOMATH"] = False
+        required_ARE155["LMCOBIO"] = False
+        quarters_offered_ARE155 = ["Fall", "Winter", "Spring"]
+        ARE155 = Course("ARE155", None, None, required_ARE155, quarters_offered_ARE155, "ALWAYS")
+
+        # ARE156
+        required_ARE156 = {}
+        required_ARE156["LMATBS1"] = False
+        required_ARE156["LMATBS2"] = False
+        required_ARE156["LMATAB1"] = False
+        required_ARE156["LMATAB2"] = False
+        required_ARE156["LAMA"] = False
+        required_ARE156["LMOR"] = False
+        required_ARE156["LMCOMATH"] = False
+        required_ARE156["LMCOBIO"] = False
+        quarters_offered_ARE156 = ["Fall", "Winter", "Spring"]
+        ARE156 = Course("ARE156", None, None, required_ARE156, quarters_offered_ARE156, "ALWAYS")
+
+        # ARE157
+        required_ARE157 = {}
+        required_ARE157["LMATBS1"] = False
+        required_ARE157["LMATBS2"] = False
+        required_ARE157["LMATAB1"] = False
+        required_ARE157["LMATAB2"] = False
+        required_ARE157["LAMA"] = False
+        required_ARE157["LMOR"] = False
+        required_ARE157["LMCOMATH"] = False
+        required_ARE157["LMCOBIO"] = False
+        quarters_offered_ARE157 = ["Spring"]
+        ARE157 = Course("ARE157", None, None, required_ARE157, quarters_offered_ARE157, "ALWAYS")
+        
+        
+
+        # STA141C
+        required_STA141C = {}
+        required_STA141C["LMATBS1"] = False
+        required_STA141C["LMATBS2"] = False
+        required_STA141C["LMATAB1"] = False
+        required_STA141C["LMATAB2"] = False
+        required_STA141C["LAMA"] = False
+        required_STA141C["LMOR"] = False
+        required_STA141C["LMCOMATH"] = False
+        required_STA141C["LMCOBIO"] = False
+        quarters_offered_STA141C = ["Winter", "Spring"]
+        STA141C = Course("STA141C", None, None, required_STA141C, quarters_offered_STA141C, "ALWAYS")
+
+        # ECS124
+        required_ECS124 = {}
+        required_ECS124["LMATBS1"] = False
+        required_ECS124["LMATBS2"] = False
+        required_ECS124["LMATAB1"] = False
+        required_ECS124["LMATAB2"] = False
+        required_ECS124["LAMA"] = False
+        required_ECS124["LMOR"] = False
+        required_ECS124["LMCOMATH"] = False
+        required_ECS124["LMCOBIO"] = False
+        quarters_offered_ECS124 = ["Fall", "Winter", "Spring"]
+        ECS124 = Course("ECS124", None, None, required_ECS124, quarters_offered_ECS124, "ALWAYS")
+
+        # ECS129
+        required_ECS129 = {}
+        required_ECS129["LMATBS1"] = False
+        required_ECS129["LMATBS2"] = False
+        required_ECS129["LMATAB1"] = False
+        required_ECS129["LMATAB2"] = False
+        required_ECS129["LAMA"] = False
+        required_ECS129["LMOR"] = False
+        required_ECS129["LMCOMATH"] = False
+        required_ECS129["LMCOBIO"] = False
+        quarters_offered_ECS129 = ["Winter"]
+        ECS129 = Course("ECS129", None, None, required_ECS129, quarters_offered_ECS129, "ALWAYS")
+
+        # ECS170
+        required_ECS170 = {}
+        required_ECS170["LMATBS1"] = False
+        required_ECS170["LMATBS2"] = False
+        required_ECS170["LMATAB1"] = False
+        required_ECS170["LMATAB2"] = False
+        required_ECS170["LAMA"] = False
+        required_ECS170["LMOR"] = False
+        required_ECS170["LMCOMATH"] = False
+        required_ECS170["LMCOBIO"] = False
+        quarters_offered_ECS170 = ["Winter"]
+        ECS170 = Course("ECS170", None, None, required_ECS170, quarters_offered_ECS170, "ALWAYS")
 
         classes_offered.append(MAT21A)
         classes_offered.append(MAT21B)
@@ -886,12 +1162,30 @@ class MultiPageApp(tk.Tk):
         classes_offered.append(PHY9B)
         classes_offered.append(ECN1A)
         classes_offered.append(ECN1B)
+        classes_offered.append(ECN100A)
+        classes_offered.append(ECN100B)
+        classes_offered.append(ECN121A)
+        classes_offered.append(ECN121B)
+        classes_offered.append(ECN122)
+        classes_offered.append(ECN134)
         classes_offered.append(STA32)
         classes_offered.append(STA100)
+        classes_offered.append(STA131A)
+        classes_offered.append(STA131B)
+        classes_offered.append(STA131C)
+        classes_offered.append(STA137)
+        classes_offered.append(STA141A)
+        classes_offered.append(STA141B)
+        classes_offered.append(STA141C)
         classes_offered.append(BIS2A)
         classes_offered.append(BIS2B)
         classes_offered.append(CHE2A)
         classes_offered.append(CHE2B)
+        classes_offered.append(ARE100A)
+        classes_offered.append(ARE100B)
+        classes_offered.append(ARE155)
+        classes_offered.append(ARE156)
+        classes_offered.append(ARE157)
         return classes_offered
 
 

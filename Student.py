@@ -89,12 +89,33 @@ class Student:
             "PHY9B": self.phy9b_prereq,
             "ECN1A": self.ecn1a_prereq,
             "ECN1B": self.ecn1b_prereq,
+            "ECN100A": self.ecn100a_prereq,
+            "ECN100B": self.ecn100b_prereq,
+            "ECN121A": self.ecn121a_prereq,
+            "ECN121B": self.ecn121b_prereq,
+            "ECN122": self.ecn122_prereq,
+            "ECN134": self.ecn134_prereq,
+            "ARE100A": self.are100a_prereq,
+            "ARE100B": self.are100b_prereq,
+            "ARE155": self.are155_prereq,
+            "ARE156": self.are156_prereq,
+            "ARE157": self.are157_prereq,
             "STA32": self.sta32_prereq,
             "STA100": self.sta100_prereq,
+            "STA131A": self.sta131a_prereq,
+            "STA131B": self.sta131b_prereq,
+            "STA131C": self.sta131c_prereq,
+            "STA137": self.sta137_prereq,
+            "STA141A": self.sta141a_prereq,
+            "STA141B": self.sta141b_prereq,
+            "STA141C": self.sta141c_prereq,
             "BIS2A": self.bis2a_prereq,
             "BIS2B": self.bis2b_prereq,
             "CHE2A": self.che2a_prereq,
             "CHE2B": self.che2b_prereq,
+            "ECS124": self.ecs124_prereq,
+            "ECS129": self.ecs129_prereq,
+            "ECS170": self.ecs170_prereq,
         }
         func = switcher.get(course.name)
         if func is None:
@@ -288,6 +309,74 @@ class Student:
 
     def sta100_prereq(self):
         return self.has_taken("MAT16B") or self.has_taken("MAT21B") or self.has_taken("MAT17B")
+
+    def sta131a_prereq(self):
+        return self.has_taken("MAT21D") and (self.has_taken("MAT22A") or self.has_taken("MAT67"))
+
+    def sta131b_prereq(self):
+        return self.has_taken("STA131A") or self.has_taken("MAT135A")
+
+    def sta131c_prereq(self):
+        return self.has_taken("STA131B")
+
+    def sta137_prereq(self):
+        return self.has_taken("STA108")
+
+    def sta141a_prereq(self):
+        return self.has_taken("STA108") or self.has_taken("STA106")
+
+    def sta141b_prereq(self):
+        return self.has_taken("STA141A")
+
+    def sta141c_prereq(self):
+        return self.has_taken("STA141B")
+
+    def ecn100a_prereq(self):
+        return self.has_taken("ECN1A") and self.has_taken("ECN1B") and self.has_taken("MAT21B")
+
+    def ecn100b_prereq(self):
+        return self.has_taken("ECN100A")
+
+    def ecn121a_prereq(self):
+        return (self.has_taken("ECN100A") or self.has_taken("ARE100A")) and (self.has_taken("ECN100B") or self.has_taken("ARE100B"))
+
+    def ecn121b_prereq(self):
+        return (self.has_taken("ECN100A") or self.has_taken("ARE100A")) and (self.has_taken("ECN100B") or self.has_taken("ARE100B"))
+
+    def ecn122_prereq(self):
+        return self.has_taken("MAT21A") and self.has_taken("MAT21B")
+
+    def ecn134_prereq(self):
+        return (self.has_taken("ECN100A") or self.has_taken("ARE100A")) and self.has_taken("ECN100B") and \
+        (self.has_taken("ECN102") or self.has_taken("ECN140") or self.has_taken("STA108") or self.has_taken("ARE106"))
+
+    def are100a_prereq(self):
+        return self.has_taken("ECN1A") and self.has_taken("ECN1B") and self.has_taken("MAT21A") and self.has_taken("MAT21B")
+
+    def are100b_prereq(self):
+        return self.has_taken("ARE100A")
+
+    def are155_prereq(self):
+        return self.has_taken("ARE100A") and self.has_taken("STA103") and self.has_taken("STA13")
+
+    def are156_prereq(self):
+        return self.has_taken("ARE100B") and self.has_taken("ARE100A") and self.has_taken("ARE155")
+
+    def are157_prereq(self):
+        return self.has_taken("ARE155") and self.has_taken("ARE100A")
+
+    def ecs124_prereq(self):
+        return (self.has_taken("ECS32A") or self.has_taken("ECS36A") or self.has_taken("ENG06")) and \
+               (self.has_taken("STA13") or self.has_taken("STA32") or self.has_taken("STA100") or self.has_taken("MAT135A") or self.has_taken("STA131A")) and \
+               (self.has_taken("BIS2A") or self.has_taken("MCB10"))
+
+    def ecs129_prereq(self):
+        return (self.has_taken("BIS2A") or self.has_taken("MCB10")) and (self.has_taken("ECS32A") or self.has_taken("ECS36A"))
+
+    def ecs170_prereq(self):
+        return self.has_taken("ECS60") or self.has_taken("ECS32B") or self.has_taken("ECS36C")
+
+
 
 
 

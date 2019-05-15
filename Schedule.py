@@ -25,11 +25,29 @@ class Schedule:
                     cur_interest.append(course)
             self.interest_table[interest] = cur_interest
 
+        self.fix_21series()
         self.place_classes()
         if self.is_success():
             print("SUCCESS! :D")
         else:
             print("FAILURE! ;(")
+
+    def fix_21series(self):
+        if "MAT21D" in self.student.classes_taken:
+            if "MAT21C" not in self.student.classes_taken:
+                self.student.classes_taken["MAT21C"] = self.classes_by_name["MAT21C"]
+            if "MAT21B" not in self.student.classes_taken:
+                self.student.classes_taken["MAT21B"] = self.classes_by_name["MAT21B"]
+            if "MAT21A" not in self.student.classes_taken:
+                self.student.classes_taken["MAT21A"] = self.classes_by_name["MAT21A"]
+        if "MAT21C" in self.student.classes_taken:
+            if "MAT21B" not in self.student.classes_taken:
+                self.student.classes_taken["MAT21B"] = self.classes_by_name["MAT21B"]
+            if "MAT21A" not in self.student.classes_taken:
+                self.student.classes_taken["MAT21A"] = self.classes_by_name["MAT21A"]
+        if "MAT21B" in self.student.classes_taken:
+            if "MAT21A" not in self.student.classes_taken:
+                self.student.classes_taken["MAT21A"] = self.classes_by_name["MAT21A"]
 
     def place_classes(self):
         grad_time = self.student.grad_time
@@ -125,7 +143,8 @@ class Schedule:
     def is_pointless(self, course):  # checks to see if we're adding a class that provides absolutely no benefit
         if course.required[self.student.major]:
             return False
-        if not course.name[:3] == "MAT":
+        departments = ["MAT", "ECS", "STA", "ARE", "CHE", "PHY", "ARE", "ECN", "BIS"]
+        if course.name[:3] not in departments:
             return True
         i = 3
         num_str = ""
