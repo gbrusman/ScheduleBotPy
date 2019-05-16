@@ -65,7 +65,7 @@ class ScheduleDisplayPage(tk.Frame):
                     first_year = False
                 year_frame = Frame(self.schedule_frame)
                 year_index += 1
-                year_frame.grid(row=year_index, in_=self.schedule_frame, pady=20)
+                year_frame.grid(row=year_index, in_=self.schedule_frame, pady=10)
                 quarter_index = 0
             cur_time = cur_time.progress_time()
 
@@ -128,7 +128,7 @@ class ScheduleDisplayPage(tk.Frame):
 
         col_size, row_size = self.schedule_frame.grid_size()  # do the same thing with schedule_frame
         for i in range(row_size):
-            self.schedule_frame.grid_rowconfigure(i, weight=1, minsize=15)
+            self.schedule_frame.grid_rowconfigure(i, weight=1, minsize=7)
         for i in range(col_size):
             self.schedule_frame.grid_columnconfigure(i, weight=1)
 
