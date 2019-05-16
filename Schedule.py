@@ -25,7 +25,7 @@ class Schedule:
                     cur_interest.append(course)
             self.interest_table[interest] = cur_interest
 
-        self.fix_21series()
+        self.fix_21series()  # e.g. if student selected they took 21B, adds 21A to their classes_taken to prevent conflicts
         self.place_classes()
         if self.is_success():
             print("SUCCESS! :D")
