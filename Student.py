@@ -3,7 +3,20 @@ from ScheduleBlock import ScheduleBlock
 from Course import Course
 
 class Student:
+    """
+    This is a class to represent the student for which the schedule is being created.
+
+    Attributes:
+        cur_time (AcademicTime): The current time (Quarter, Year).
+        grad_time (AcademicTime): The time the student will gradduate (Quarter, Year).
+        major (string): The major the student is pursuing.
+        interests (list): The students interests within mathematics. Each interest is a string.
+        classes_taken (dict): The classes the student has already taken up until cur_time. Keys are course names, values are Course objects.
+        start_time (AcademicTime): The AcademicTime that represents the student's first quarter at UC Davis.
+        num_enrichments (int): The number of enrichment courses the student has taken up until cur_time.
+    """
     def __init__(self, cur_time=AcademicTime(), grad_time=AcademicTime(), major="", interests=[], classes_taken={}, num_enrichments=0):
+        """The constructor for the Student class."""
         self.cur_time = cur_time
         self.grad_time = grad_time
         self.major = major
@@ -13,12 +26,14 @@ class Student:
         self.num_enrichments = num_enrichments
 
     def is_taking(self, course_name, block):
+        """Function to test whether a student is currently taking a Course (in cur_time). Returns boolean."""
         if block.contains(course_name):
             return True
         return False
 
 
     def meets_reccommendations(self, course):
+        """Function to test whether a student meets the recommendations to take a course. Returns boolean."""
         name = course.name
         # https://jaxenter.com/implement-switch-case-statement-python-138315.html
         switcher = {
@@ -33,9 +48,11 @@ class Student:
         return func()
 
     def has_taken(self, course_name):
+        """Function to test whether a student has already taken a course in a previous quarter. Returns boolean."""
         return course_name in self.classes_taken.keys()
 
     def has_prereqs(self, course, block):
+        """Function to test whether a student has the prereqs necessary to take a course. Returns boolean."""
         switcher = {
             "MAT21A": self.mat21a_prereq,
             "MAT21B": self.mat21b_prereq,

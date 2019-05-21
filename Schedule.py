@@ -5,8 +5,20 @@ from Student import Student
 
 
 class Schedule:
+    """
+    This is a class that contains all of the data of the schedule, and uses that data to create a schedule.
+
+    Attributes:
+        student (Student): The Student object for which the schedule is created.
+        classes_offered (list): The list of classes offered by the UC Davis Math Department.
+        classes_by_name (dict): The list of classes, but in a map format. Keys are course names, values are Course objects.
+        schedule (dict): A map whose keys are objects of type AcademicTime, and whose values are objects of type ScheduleBlock.
+        interest_table (dict): A map whose keys are strings (interests), and whose values are lists of classes that fall under the interest.
+    """
 
     def __init__(self, student=Student(), classes_offered=[]):
+        """The constructor for the Schedule class. Create schedule for student based on student attributes and what classes are offered."""
+
         self.student = student
         self.classes_offered = classes_offered
         self.classes_by_name = {}
@@ -27,12 +39,13 @@ class Schedule:
 
         self.fix_21series()  # e.g. if student selected they took 21B, adds 21A to their classes_taken to prevent conflicts
         self.place_classes()
-        if self.is_success():
-            print("SUCCESS! :D")
-        else:
-            print("FAILURE! ;(")
+        # if self.is_success():
+        #     print("SUCCESS! :D")
+        # else:
+        #     print("FAILURE! ;(")
 
     def fix_21series(self):
+        """Function to add implicit 21 series prereqs to student's classes_taken list"""
         if "MAT21D" in self.student.classes_taken:
             if "MAT21C" not in self.student.classes_taken:
                 self.student.classes_taken["MAT21C"] = self.classes_by_name["MAT21C"]
@@ -50,6 +63,7 @@ class Schedule:
                 self.student.classes_taken["MAT21A"] = self.classes_by_name["MAT21A"]
 
     def place_classes(self):
+        """Function to oversee class placement / creation of the actual schedule."""
         grad_time = self.student.grad_time
         cur_time = self.student.cur_time
         cur_time = cur_time.progress_time()  # want to start scheduling on NEXT quarter
@@ -68,22 +82,25 @@ class Schedule:
             self.student.cur_time = cur_time
 
     def add_course_to_block(self, course, block, after, time):
+        """Function to add a Course object to a ScheduleBlock object"""
         block.courses.append(course)
-        print("Adding ", course.name, " at ", time.quarter,  " ", time.year)
+        #print("Adding ", course.name, " at ", time.quarter,  " ", time.year)
         after.append(course.after)
         self.classes_offered.remove(course)
         if not course.required[self.student.major]:
             self.student.num_enrichments += 1
 
     def add_course_from_after(self, course, block, after, time, index):
+        """Function to add a Course object to a ScheduleBlock object from the after list of a previously added class."""
         block.courses.append(course)
-        print("Adding ", course.name, " at ", time.quarter, " ", time.year)
+        #print("Adding ", course.name, " at ", time.quarter, " ", time.year)
         self.classes_offered.remove(course)
         after.pop(index)
         if not course.required[self.student.major]:
             self.student.num_enrichments += 1
 
     def fill_from_after(self, cur_block, after, cur_time):
+        """Function to fill in classes from after list generated in the previous quarter."""
         next_after = []
         i = 0
         while i < len(after):  # need to recompute this range because len(after) changes in loop
@@ -99,6 +116,7 @@ class Schedule:
             after.append(next_after[i])
 
     def try_to_fill_cur_time(self, cur_block, after, cur_time):
+        """Function to fill the ScheduleBlock at the current time with classes"""
         required_or_electives = 0
         placed_interest = False
 
@@ -122,6 +140,7 @@ class Schedule:
             required_or_electives += 1
 
     def is_redundant(self, course, block):
+        """Function to test whether or not a class is redundant to take. Returns boolean."""
         switcher = {
             "MAT67": self.mat67_redundant,
             "MAT22AL": self.mat22al_redundant,
@@ -141,6 +160,7 @@ class Schedule:
         return func()
 
     def is_pointless(self, course):  # checks to see if we're adding a class that provides absolutely no benefit
+        """Function to test whether or not a class is pointless to take. Returns boolean."""
         if course.required[self.student.major]:
             return False
         departments = ["MAT", "ECS", "STA", "ARE", "CHE", "PHY", "ARE", "ECN", "BIS"]
@@ -155,6 +175,7 @@ class Schedule:
             return True
 
     def try_to_place_interesting_class(self, cur_course, cur_block, cur_time, after):
+        """Function to try to place a course in the current ScheduleBlock that applies to the student's interests."""
         placed_interest = False
         for interest in self.student.interests:  # run through list of student interests
             cur_interest_table = self.interest_table[interest]
@@ -171,6 +192,7 @@ class Schedule:
         return placed_interest
 
     def class_is_valid(self, course, time, block):
+        """Function to test whether or not the course can be taken."""
         return course.is_offered(time) and self.student.has_prereqs(course, block) and (not self.student.has_taken(course.name)) and self.student.meets_reccommendations(course) and (not self.is_redundant(course, block)) and (not block.contains(course))
 
     def mat67_redundant(self, block):
@@ -209,6 +231,7 @@ class Schedule:
         return False
 
     def is_success(self):
+        """Function to test whether the created schedule meets the requirements for graduation. Returns boolean."""
         major = self.student.major
         switcher = {
             "LAMA": self.is_success_LAMA,
