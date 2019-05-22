@@ -33,13 +33,13 @@ class MajorSelectPage(tk.Frame):
         major_frame.grid(column=0, row=5, pady=10)
         major_label = Label(major_frame, text="Major: ")
         major_label.grid(column=0, row=0, in_=major_frame, pady=20, sticky="e", padx=5)
-        major_choices = ["AB Mathematics: Plan 1 - General Mathematics", "AB Mathematics: Plan 2 - Secondary Teaching",
+        self.major_choices = ["AB Mathematics: Plan 1 - General Mathematics", "AB Mathematics: Plan 2 - Secondary Teaching",
                          "BS Mathematics: Plan 1 - General Mathematics", "BS Mathematics: Plan 2 - Secondary Teaching",
                          "Applied Mathematics", "Mathematical Analytics and Operations Research",
                          "Mathematical and Scientific Computation - Bio Emphasis",
                          "Mathematical and Scientific Computation - Math Emphasis"]
-        self.major_select_box = Combobox(major_frame, values=major_choices, textvariable=self.major, state="readonly", width=45)  # need to talk to IT people about what libraries are okay to import
-
+        self.major_select_box = Combobox(major_frame, values=self.major_choices, textvariable=self.major, state="readonly", width=45)  # need to talk to IT people about what libraries are okay to import
+        self.major_select_box.bind('<Configure>', self.on_combo_configure)
         self.major_select_box.grid(row=0, column=1, in_=major_frame, sticky=tk.E + tk.W, padx=5)
         self.major_select_box.bind("<<ComboboxSelected>>", self.get_major_value)
 
@@ -78,6 +78,23 @@ class MajorSelectPage(tk.Frame):
 
         major_frame.grid_rowconfigure(3, minsize=20)  # separates current year stuff from grad year stuff
 
+
+    def on_combo_configure(self, event):
+        # https://stackoverflow.com/questions/39915275/change-width-of-dropdown-listbox-of-a-ttk-combobox
+        # font = tkfont.nametofont(str(event.widget.cget('font')))
+        # width = font.measure(self.major_choices[0] + "0") - event.width
+        # style = tk.ttk.Style()
+        # style.configure('TCombobox', postoffset=(0, 0, width, 0))
+        combo = event.widget
+        style = tk.ttk.Style()
+
+        long = max(combo.cget('values'), key=len)
+
+        font = tkfont.nametofont(str(combo.cget('font')))
+        width = max(0, font.measure(long.strip() + '0') - combo.winfo_width())
+
+        style.configure('TCombobox', postoffset=(0, 0, width, 0))
+        combo.configure(style='TCombobox')
 
     def goto_course_select(self):
         if self.validate_input():

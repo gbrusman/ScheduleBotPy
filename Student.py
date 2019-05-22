@@ -33,7 +33,11 @@ class Student:
 
 
     def meets_reccommendations(self, course):
-        """Function to test whether a student meets the recommendations to take a course. Returns boolean."""
+        """Function to test whether a student meets the recommendations to take a course. Returns boolean.
+
+        Extra Info:
+            These recommendations are not mandated by course requirements, but are recipes for success from the advising team.
+        """
         name = course.name
         # https://jaxenter.com/implement-switch-case-statement-python-138315.html
         switcher = {
