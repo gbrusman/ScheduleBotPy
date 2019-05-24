@@ -15,7 +15,7 @@ class Student:
         start_time (AcademicTime): The AcademicTime that represents the student's first quarter at UC Davis.
         num_enrichments (int): The number of enrichment courses the student has taken up until cur_time.
     """
-    def __init__(self, cur_time=AcademicTime(), grad_time=AcademicTime(), major="", interests=[], classes_taken={}, num_enrichments=0):
+    def __init__(self, cur_time=AcademicTime(), grad_time=AcademicTime(), major="", interests=[], classes_taken={}, num_enrichments=0, num_enrichments_a=0, num_enrichments_b=0):
         """The constructor for the Student class."""
         self.cur_time = cur_time
         self.grad_time = grad_time
@@ -24,6 +24,8 @@ class Student:
         self.classes_taken = classes_taken
         self.start_time = AcademicTime(cur_time.year, cur_time.quarter)
         self.num_enrichments = num_enrichments
+        self.num_enrichments_a = num_enrichments_a
+        self.num_enrichments_b = num_enrichments_b
 
     def is_taking(self, course_name, block):
         """Function to test whether a student is currently taking a Course (in cur_time). Returns boolean."""

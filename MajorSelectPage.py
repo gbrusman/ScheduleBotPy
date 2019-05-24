@@ -80,11 +80,8 @@ class MajorSelectPage(tk.Frame):
 
 
     def on_combo_configure(self, event):
+        """Function to expand ComboBox dropdown menu so all text fits on screen for the major select box."""
         # https://stackoverflow.com/questions/39915275/change-width-of-dropdown-listbox-of-a-ttk-combobox
-        # font = tkfont.nametofont(str(event.widget.cget('font')))
-        # width = font.measure(self.major_choices[0] + "0") - event.width
-        # style = tk.ttk.Style()
-        # style.configure('TCombobox', postoffset=(0, 0, width, 0))
         combo = event.widget
         style = tk.ttk.Style()
 

@@ -71,7 +71,7 @@ class Schedule:
         after = []
         finish_time = grad_time.progress_time()  # due to semantics we want to stop taking classes the quarter AFTER they graduate
 
-        while cur_time != finish_time:  # need to override __eq__ in AcademicTime
+        while cur_time != finish_time:
             cur_block = ScheduleBlock(cur_time)
             self.fill_from_after(cur_block, after, cur_time)
             self.try_to_fill_cur_time(cur_block, after, cur_time)
@@ -87,8 +87,8 @@ class Schedule:
         #print("Adding ", course.name, " at ", time.quarter,  " ", time.year)
         after.append(course.after)
         self.classes_offered.remove(course)
-        if not course.required[self.student.major]:
-            self.student.num_enrichments += 1
+        self.check_enrichments(course)
+
 
     def add_course_from_after(self, course, block, after, time, index):
         """Function to add a Course object to a ScheduleBlock object from the after list of a previously added class."""
@@ -96,8 +96,24 @@ class Schedule:
         #print("Adding ", course.name, " at ", time.quarter, " ", time.year)
         self.classes_offered.remove(course)
         after.pop(index)
+        self.check_enrichments(course)
+
+    def check_enrichments(self, course):
+        enrichment_a = ["STA131B", "STA131C", "STA137", "STA141A", "STA141B", "STA141C"]  # also any math classes
+        enrichment_b = ["ECN100A", "ECN100B", "ECN121A", "ECN121B", "ECN122", "ECN134", "ARE100A", "ARE100B", "ARE155",
+                        "ARE156", "ARE157"]
+
         if not course.required[self.student.major]:
             self.student.num_enrichments += 1
+        i = 3
+        num_str = ""
+        while course.name[i].isdigit() and i < len(course.name) - 1:
+            num_str += course.name[i]
+            i += 1
+        if course.name in enrichment_a or (course.name[:3] == "MAT" and int(num_str) >= 111) and not course.required[self.student.major]:
+            self.student.num_enrichments_a += 1
+        if course.name in enrichment_b:
+            self.student.num_enrichments_b += 1
 
     def fill_from_after(self, cur_block, after, cur_time):
         """Function to fill in classes from after list generated in the previous quarter."""
@@ -148,7 +164,12 @@ class Schedule:
             "MAT128A": self.mat128a_redundant,
             "MAT128B": self.mat128b_redundant,
             "MAT128C": self.mat128c_redundant,
-            "PHY7A": self.phy7a_redundant
+            "PHY7A": self.phy7a_redundant,
+            "ECS124": self.ecs124_redundant,
+            "ECS129": self.ecs129_redundant,
+            "ECS170": self.ecs170_redundant,
+            "STA141A": self.sta141a_redundant,
+            "ENG06": self.eng06_redundant
         }
         if self.is_pointless(course):
             return True
@@ -193,7 +214,38 @@ class Schedule:
 
     def class_is_valid(self, course, time, block):
         """Function to test whether or not the course can be taken."""
-        return course.is_offered(time) and self.student.has_prereqs(course, block) and (not self.student.has_taken(course.name)) and self.student.meets_reccommendations(course) and (not self.is_redundant(course, block)) and (not block.contains(course))
+        # FIXME: include enrichment A/B checker (i.e. don't let it put 3 enrichment A's)
+        return course.is_offered(time) and self.student.has_prereqs(course, block) and \
+               (not self.student.has_taken(course.name)) and self.student.meets_reccommendations(course) and \
+               (not self.is_redundant(course, block)) and (not block.contains(course))
+
+    def ecs124_redundant(self):  # might need to check if student is actually LMCO Math/Bio
+        redundancies = ["ECS129", "ECS170", "STA141A"]
+        for name in redundancies:
+            if self.student.has_taken(name):
+                return True
+        return False
+
+    def ecs129_redundant(self):
+        redundancies = ["ECS124", "ECS170", "STA141A"]
+        for name in redundancies:
+            if self.student.has_taken(name):
+                return True
+        return False
+
+    def ecs170_redundant(self):
+        redundancies = ["ECS129", "ECS124", "STA141A"]
+        for name in redundancies:
+            if self.student.has_taken(name):
+                return True
+        return False
+
+    def sta141a_redundant(self):
+        redundancies = ["ECS129", "ECS170", "ECS124"]
+        for name in redundancies:
+            if self.student.has_taken(name):
+                return True
+        return False
 
     def mat67_redundant(self, block):
         return self.student.has_taken("MAT22A") or self.student.has_taken("MAT108") or block.contains("MAT22A") or block.contains("MAT108")
@@ -204,11 +256,20 @@ class Schedule:
     def ecs32a_redundant(self):
         return self.student.major == "LMATAB1" or self.student.major == "LMATBS2"
 
+    def eng06_redundant(self):
+        major_list = ["LMATAB1", "LMATAB2", "LMATBS1", "LMATBS2"]
+        if self.student.major in major_list:
+            return self.student.has_taken("ECS32A") and self.student.has_taken("MAT22AL")
+        if self.student.major == "LMOR":
+            return self.student.has_taken("MAT22AL") and self.student.has_taken("ECS32A")
+        return False
+
     def mat128a_redundant(self):
         if self.student.major == "LAMA":
             return self.student.has_taken("MAT128B") and self.student.has_taken("MAT128C")
         if self.student.major == "LMOR" and "Computers" not in self.student.interests:
             return self.student.has_taken("MAT128B") or self.student.has_taken("MAT128C")
+        return False
 
     def mat128b_redundant(self):
         if self.student.major == "LAMA" and "Computers" not in self.student.interests:
@@ -216,6 +277,7 @@ class Schedule:
         
         if self.student.major == "LMOR" and "Computers" not in self.student.interests:
             return self.student.has_taken("MAT128A") or self.student.has_taken("MAT128C")
+        return False
 
     def mat128c_redundant(self):
         if self.student.major == "LAMA" and "Computers" not in self.student.interests:
@@ -223,6 +285,7 @@ class Schedule:
         
         if self.student.major == "LMOR" and "Computers" not in self.student.interests:
             return self.student.has_taken("MAT128A") or self.student.has_taken("MAT128B")
+        return False
 
     def phy7a_redundant(self):
         for course in self.classes_offered:
@@ -329,5 +392,16 @@ class Schedule:
             if course_name not in self.student.classes_taken.keys():
                 return False
         if self.student.num_enrichments < 2:
+            return False
+        return
+
+    def new_is_success(self):
+        for course_name in self.classes_by_name:
+            if self.classes_by_name[course_name].required[self.student.major] and course_name not in self.student.classes_taken.keys():
+                return False
+        # FIXME: NEED TO ADD MAJOR-SPECIFIC ENRICHMENT REQUIREMENTS HERE
+        enrichments_needed = {"LMATAB1": 4, "LMATAB2": 4, "LMATBS1": 4, "LMATBS2": 4, "LAMA": 2, "LMCOBIO": 2, "LMCOMATH": 2, "LMOR": 4}
+        num_needed = enrichments_needed[self.student.major]
+        if self.student.num_enrichments < num_needed:
             return False
         return True

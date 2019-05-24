@@ -1,12 +1,14 @@
 class Course:
 
-    def __init__(self, name="", interests=[], after="", required={}, quarters_offered=[], years_offered=""):
+    def __init__(self, name="", interests=[], after="", required={}, quarters_offered=[], years_offered="", enrichment_a=False, enricjment_b=False):
         self.name = name
         self.interests = interests
         self.after = after
         self.required = required
         self.quarters_offered = quarters_offered
         self.years_offered = years_offered
+        enrichment_a = enrichment_a
+        enricjment_b = enricjment_b
 
     def is_offered(self, time):
         offered_in_quarter = False
