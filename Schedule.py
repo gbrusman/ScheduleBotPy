@@ -99,21 +99,30 @@ class Schedule:
         self.check_enrichments(course)
 
     def check_enrichments(self, course):
-        enrichment_a = ["STA131B", "STA131C", "STA137", "STA141A", "STA141B", "STA141C"]  # also any math classes
-        enrichment_b = ["ECN100A", "ECN100B", "ECN121A", "ECN121B", "ECN122", "ECN134", "ARE100A", "ARE100B", "ARE155",
-                        "ARE156", "ARE157"]
-
+        # only really need enrichment a/b checks for LMOR but it won't hurt the other cases
+        if course.enrichment_a:
+            self.student.num_enrichments_a += 1
+        if course.enrichment_b:
+            self.student.num_enrichments_b += 1
         if not course.required[self.student.major]:
             self.student.num_enrichments += 1
-        i = 3
-        num_str = ""
-        while course.name[i].isdigit() and i < len(course.name) - 1:
-            num_str += course.name[i]
-            i += 1
-        if course.name in enrichment_a or (course.name[:3] == "MAT" and int(num_str) >= 111) and not course.required[self.student.major]:
-            self.student.num_enrichments_a += 1
-        if course.name in enrichment_b:
-            self.student.num_enrichments_b += 1
+
+    # def check_enrichments(self, course):
+    #     enrichment_a = ["STA131B", "STA131C", "STA137", "STA141A", "STA141B", "STA141C"]  # also any math classes
+    #     enrichment_b = ["ECN100A", "ECN100B", "ECN121A", "ECN121B", "ECN122", "ECN134", "ARE100A", "ARE100B", "ARE155",
+    #                     "ARE156", "ARE157"]
+    #
+    #     if not course.required[self.student.major]:
+    #         self.student.num_enrichments += 1
+    #     i = 3
+    #     num_str = ""
+    #     while course.name[i].isdigit() and i < len(course.name) - 1:
+    #         num_str += course.name[i]
+    #         i += 1
+    #     if course.name in enrichment_a or (course.name[:3] == "MAT" and int(num_str) >= 111) and not course.required[self.student.major]:
+    #         self.student.num_enrichments_a += 1
+    #     if course.name in enrichment_b:
+    #         self.student.num_enrichments_b += 1
 
     def fill_from_after(self, cur_block, after, cur_time):
         """Function to fill in classes from after list generated in the previous quarter."""
