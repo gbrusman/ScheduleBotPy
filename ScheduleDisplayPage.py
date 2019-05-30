@@ -36,7 +36,7 @@ class ScheduleDisplayPage(tk.Frame):
         student = copy.deepcopy(self.controller.student)
         classes_offered = self.controller.classes_offered.copy()  # Need to make copy of classes_offered for same reason as above
         schedule_data = Schedule(student, classes_offered)
-        if not schedule_data.is_success():
+        if not schedule_data.new_is_success():
             failed = True
         schedule = schedule_data.schedule
         start_time = AcademicTime(student.start_time.year, student.start_time.quarter)

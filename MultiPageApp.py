@@ -673,11 +673,11 @@ class MultiPageApp(tk.Tk):
 
         # MAT185B
         required_185B = {}
-        required_185B["LMATBS1"] = True
+        required_185B["LMATBS1"] = False
         required_185B["LMATBS2"] = False
         required_185B["LMATAB1"] = False
         required_185B["LMATAB2"] = False
-        required_185B["LAMA"] = True
+        required_185B["LAMA"] = False
         required_185B["LMOR"] = False
         required_185B["LMCOMATH"] = False
         required_185B["LMCOBIO"] = False

@@ -38,11 +38,19 @@ class Schedule:
             self.interest_table[interest] = cur_interest
 
         self.fix_21series()  # e.g. if student selected they took 21B, adds 21A to their classes_taken to prevent conflicts
+        self.fix_MAT67()  # if student has taken MAT 67 then mark 108 and 22a as not required
         self.place_classes()
         # if self.is_success():
         #     print("SUCCESS! :D")
         # else:
         #     print("FAILURE! ;(")
+
+    def fix_MAT67(self):
+        """function that marks 108 and 22A as not required if the student has already taken MAT67"""
+        if "MAT67" in self.student.classes_taken:
+            for i in range(len(self.classes_offered)):
+                if self.classes_offered[i].name == "MAT108" or self.classes_offered[i].name == "MAT22A":
+                    self.classes_offered[i].required[self.student.major] = False
 
     def fix_21series(self):
         """Function to add implicit 21 series prereqs to student's classes_taken list"""
@@ -149,7 +157,7 @@ class Schedule:
             i = 0
             while i < len(self.classes_offered):
                 cur_course = self.classes_offered[i]
-                if len(cur_block.courses) == 2:
+                if len(cur_block.courses) == 2:  # FIXME: change to allow 2 MAT + 1 OTHER class
                     break
                 if self.class_is_valid(cur_course, cur_time, cur_block):
                     if required_or_electives == 0:
