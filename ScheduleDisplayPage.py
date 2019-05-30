@@ -13,25 +13,14 @@ class ScheduleDisplayPage(tk.Frame):
     def __init__(self, parent, controller):
         tk.Frame.__init__(self, parent)
         self.controller = controller
-        # self.schedule_frame = Frame(self)
-        # self.schedule_frame.grid(row=1, sticky="ew")
-        # button_frame = Frame(self)
-        # button_frame.grid(row=14, sticky="ew")
-        # back_button = Button(button_frame, text="Back", command=lambda: controller.show_frame("InterestSelectPage"))
-        # back_button.grid(row=25, column=0, padx=5, pady=10, sticky="sw", in_=button_frame)
-        # color_frame = Frame(self)
-        # color_frame.grid(row=13, sticky="ew", in_=self)
-        # color_frame.columnconfigure(0, weight=1)
-        # color_canvas = tk.Canvas(self, width=100, height=25)
-        # color_canvas.create_rectangle(5, 0, 30, 25, fill="#43f2c0")
-        # color_canvas.create_text(150, 10, text="= Enrichment Course", anchor="e")
-        # color_canvas.grid(sticky="nsew", in_=color_frame)
+
 
     def init_schedule(self):
         # Need to clear frame
         for widget in self.winfo_children():
             widget.destroy()
 
+        #Now need to put frame back (or add in for the first time)
         self.schedule_frame = Frame(self)
         self.schedule_frame.grid(row=1, sticky="ew")
         button_frame = Frame(self)
