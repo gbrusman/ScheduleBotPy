@@ -100,7 +100,7 @@ class ScheduleDisplayPage(tk.Frame):
                     cur_time = cur_time.progress_time()
                     quarter_index += 1
 
-            if cur_time in schedule:
+            if cur_time in schedule:  #FIXME: turn this into for loop
                 if len(schedule.get(cur_time).courses) > 0:
                     course0 = tk.Entry(block_box, width=20, readonlybackground="White")  # http://www.tcl.tk/man/tcl/TkCmd/entry.htm#M9
                     course0.insert(0, schedule.get(cur_time).courses[0].name)  # https://stackoverflow.com/questions/14847243/how-can-i-insert-a-string-in-a-entry-widget-that-is-in-the-readonly-state
