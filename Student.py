@@ -8,7 +8,7 @@ class Student:
 
     Attributes:
         cur_time (AcademicTime): The current time (Quarter, Year).
-        grad_time (AcademicTime): The time the student will gradduate (Quarter, Year).
+        grad_time (AcademicTime): The time the student will graduate (Quarter, Year).
         major (string): The major the student is pursuing.
         interests (list): The students interests within mathematics. Each interest is a string.
         classes_taken (dict): The classes the student has already taken up until cur_time. Keys are course names, values are Course objects.

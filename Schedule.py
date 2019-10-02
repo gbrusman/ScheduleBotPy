@@ -425,9 +425,7 @@ class Schedule:
         if self.student.num_enrichments < num_needed:
             return False
         if self.student.major == "LMOR":
-            if self.student.num_enrichments_a < 2:
-                return False
-            if self.student.num_enrichments_b < 2:
+            if self.student.num_enrichments_a < 2 or self.student.num_enrichments_b < 2:
                 return False
         return True
 
