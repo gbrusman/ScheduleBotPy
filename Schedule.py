@@ -209,7 +209,7 @@ class Schedule:
             return True
         i = 3
         num_str = ""
-        while course.name[i].isdigit() and i < len(course.name) - 1:
+        while i < len(course.name) and course.name[i].isdigit(): #FIXME: should be len(course.name) - 1 but the -1 is causing error
             num_str += course.name[i]
             i += 1
         if not int(num_str) >= 100:
