@@ -395,7 +395,7 @@ class MultiPageApp(tk.Tk):
         required_128B["LMATAB1"] = False
         required_128B["LMATAB2"] = False
         required_128B["LAMA"] = True
-        required_128B["LMOR"] = True
+        required_128B["LMOR"] = False
         required_128B["LMCOMATH"] = True
         required_128B["LMCOBIO"] = True
         quarters_offered_128B = ["Winter"]
@@ -408,8 +408,8 @@ class MultiPageApp(tk.Tk):
         required_128C["LMATBS2"] = False
         required_128C["LMATAB1"] = False
         required_128C["LMATAB2"] = False
-        required_128C["LAMA"] = True
-        required_128C["LMOR"] = True
+        required_128C["LAMA"] = False
+        required_128C["LMOR"] = False
         required_128C["LMCOMATH"] = True
         required_128C["LMCOBIO"] = True
         quarters_offered_128C = ["Spring"]

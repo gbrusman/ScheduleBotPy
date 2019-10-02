@@ -150,7 +150,8 @@ class MajorSelectPage(tk.Frame):
 
     def get_major_value(self, *args):
         selected_major_index = self.major_select_box.current()
-        major_map = {0: "LMATAB1",
+        major_map = {
+                0: "LMATAB1",
                 1: "LMATAB2",
                 2: "LMATBS1",
                 3: "LMATBS2",

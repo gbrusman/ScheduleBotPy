@@ -8,7 +8,7 @@ class Student:
 
     Attributes:
         cur_time (AcademicTime): The current time (Quarter, Year).
-        grad_time (AcademicTime): The time the student will gradduate (Quarter, Year).
+        grad_time (AcademicTime): The time the student will graduate (Quarter, Year).
         major (string): The major the student is pursuing.
         interests (list): The students interests within mathematics. Each interest is a string.
         classes_taken (dict): The classes the student has already taken up until cur_time. Keys are course names, values are Course objects.
@@ -46,7 +46,11 @@ class Student:
             "ECS32A": self.ecs32a_rec,
             "MAT108": self.mat108_rec,
             "MAT22A": self.mat22a_rec,
-            "MAT180": self.mat180_rec
+            "MAT180": self.mat180_rec,
+            "MAT150A": self.mat150a_rec,
+            "MAT185A": self.mat185a_rec,
+            "MAT128B": self.mat128b_rec,
+            "MAT128C": self.mat128c_rec
         }
         func = switcher.get(name)
         if func is None:
@@ -156,8 +160,22 @@ class Student:
     def mat22a_rec(self):
         return self.has_taken("MAT21C")
 
+    def mat128b_rec(self):
+        return self.has_taken("MAT128A")
+
+    def mat128c_rec(self):
+        return self.has_taken("MAT128A")
+
+    def mat150a_rec(self):
+        return self.num_enrichments >= 1  # will help push it back to senior year
+
+    def mat185a_rec(self):
+        return self.num_enrichments >= 1 # will help push it back to senior year
+
     def mat180_rec(self):
-        return self.cur_time.year == self.grad_time.year  # and self.cur_time.quarter == self.grad_time.quarter
+        #return self.cur_time.year == self.grad_time.year  # and self.cur_time.quarter == self.grad_time.quarter
+        #return self.can_graduate("MAT180")
+        return self.num_enrichments >= 2
 
     def mat21a_prereq(self):
         return True
@@ -398,6 +416,9 @@ class Student:
 
     def ecs170_prereq(self):
         return self.has_taken("ECS60") or self.has_taken("ECS32B") or self.has_taken("ECS36C")
+
+
+
 
 
 

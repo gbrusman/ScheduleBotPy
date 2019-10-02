@@ -72,14 +72,14 @@ class Schedule:
 
     def place_classes(self):
         """Function to oversee class placement / creation of the actual schedule."""
-        grad_time = self.student.grad_time
+       # grad_time = self.student.grad_time
         cur_time = self.student.cur_time
         cur_time = cur_time.progress_time()  # want to start scheduling on NEXT quarter
         self.student.cur_time = cur_time
         after = []
-        finish_time = grad_time.progress_time()  # due to semantics we want to stop taking classes the quarter AFTER they graduate
+        #finish_time = grad_time.progress_time()  # due to semantics we want to stop taking classes the quarter AFTER they graduate
 
-        while cur_time != finish_time:
+        while not self.new_is_success():
             cur_block = ScheduleBlock(cur_time)
             self.fill_from_after(cur_block, after, cur_time)
             self.try_to_fill_cur_time(cur_block, after, cur_time)
@@ -92,7 +92,7 @@ class Schedule:
     def add_course_to_block(self, course, block, after, time):
         """Function to add a Course object to a ScheduleBlock object"""
         block.courses.append(course)
-        #print("Adding ", course.name, " at ", time.quarter,  " ", time.year)
+        print("Adding ", course.name, " at ", time.quarter,  " ", time.year)
         after.append(course.after)
         self.classes_offered.remove(course)
         self.check_enrichments(course)
@@ -101,7 +101,7 @@ class Schedule:
     def add_course_from_after(self, course, block, after, time, index):
         """Function to add a Course object to a ScheduleBlock object from the after list of a previously added class."""
         block.courses.append(course)
-        #print("Adding ", course.name, " at ", time.quarter, " ", time.year)
+        print("Adding ", course.name, " at ", time.quarter, " ", time.year)
         self.classes_offered.remove(course)
         after.pop(index)
         self.check_enrichments(course)
@@ -157,9 +157,12 @@ class Schedule:
             i = 0
             while i < len(self.classes_offered):
                 cur_course = self.classes_offered[i]
-                if len(cur_block.courses) == 2:  # FIXME: change to allow 2 MAT + 1 OTHER class
+                if len(cur_block.courses) == 3:  # FIXME: change to allow 2 MAT + 1 OTHER class
                     break
                 if self.class_is_valid(cur_course, cur_time, cur_block):
+                    if self.num_math_classes(cur_block) == 2 and cur_course.name[:3] == "MAT":  # don't want to take >2 math courses in one quarter
+                        i += 1
+                        continue
                     if required_or_electives == 0:
                         if cur_course.required[self.student.major]:
                             self.add_course_to_block(cur_course, cur_block, after, cur_time)
@@ -206,7 +209,7 @@ class Schedule:
             return True
         i = 3
         num_str = ""
-        while course.name[i].isdigit() and i < len(course.name) - 1:
+        while i < len(course.name) and course.name[i].isdigit(): #FIXME: should be len(course.name) - 1 but the -1 is causing error
             num_str += course.name[i]
             i += 1
         if not int(num_str) >= 100:
@@ -421,4 +424,14 @@ class Schedule:
         num_needed = enrichments_needed[self.student.major]
         if self.student.num_enrichments < num_needed:
             return False
+        if self.student.major == "LMOR":
+            if self.student.num_enrichments_a < 2 or self.student.num_enrichments_b < 2:
+                return False
         return True
+
+    def num_math_classes(self, block):
+        num_math_classes = 0
+        for course in block.courses:
+            if course.name[:3] == "MAT":
+                num_math_classes += 1
+        return num_math_classes
