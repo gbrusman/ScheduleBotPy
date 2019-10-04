@@ -1147,7 +1147,7 @@ class MultiPageApp(tk.Tk):
         required_ATM120["LMCOMATH"] = False
         required_ATM120["LMCOBIO"] = False
         quarters_offered_ATM120 = {"Fall"}
-        ATM120 = Course("ATM120", quarters_offered=quarters_offered_ATM120, approved_ud_nonmath=True)
+        ATM120 = Course(name="ATM120", required=required_ATM120, quarters_offered=quarters_offered_ATM120, approved_ud_nonmath=True)
 
         # ATM121A
         required_ATM121A = {}
@@ -1160,7 +1160,7 @@ class MultiPageApp(tk.Tk):
         required_ATM121A["LMCOMATH"] = False
         required_ATM121A["LMCOBIO"] = False
         quarters_offered_ATM121A = {"Winter"}
-        ATM121A = Course("ATM121A", quarters_offered=quarters_offered_ATM121A, approved_ud_nonmath=True)
+        ATM121A = Course(name="ATM121A", required=required_ATM121A, quarters_offered=quarters_offered_ATM121A, approved_ud_nonmath=True)
 
         # ATM121B
         required_ATM121B = {}
@@ -1173,7 +1173,7 @@ class MultiPageApp(tk.Tk):
         required_ATM121B["LMCOMATH"] = False
         required_ATM121B["LMCOBIO"] = False
         quarters_offered_ATM121B = {"Spring"}
-        ATM121B = Course("ATM121B", quarters_offered=quarters_offered_ATM121B, approved_ud_nonmath=True)
+        ATM121B = Course(name="ATM121B", required=required_ATM121B, quarters_offered=quarters_offered_ATM121B, approved_ud_nonmath=True)
         
         #APPROVED_UD_NON_MATH
         required_APPROVED_UD_NON_MATH = {}
@@ -1186,7 +1186,7 @@ class MultiPageApp(tk.Tk):
         required_APPROVED_UD_NON_MATH["LMCOMATH"] = False
         required_APPROVED_UD_NON_MATH["LMCOBIO"] = False
         quarters_offered_APPROVED_UD_NON_MATH = {"Fall", "Winter", "Spring"}
-        APPROVED_UD_NON_MATH = Course("Approved Upper Division Non-Math", quarters_offered=quarters_offered_APPROVED_UD_NON_MATH, approved_ud_nonmath=True)
+        APPROVED_UD_NON_MATH = Course(name="Approved Upper Division Non-Math", required=required_APPROVED_UD_NON_MATH, quarters_offered=quarters_offered_APPROVED_UD_NON_MATH, approved_ud_nonmath=True)
 
         # BIOLOGY_REQUIREMENT
         required_BIOLOGY_REQUIREMENT = {}
@@ -1199,8 +1199,8 @@ class MultiPageApp(tk.Tk):
         required_BIOLOGY_REQUIREMENT["LMCOMATH"] = False
         required_BIOLOGY_REQUIREMENT["LMCOBIO"] = True
         quarters_offered_BIOLOGY_REQUIREMENT = {"Fall", "Winter", "Spring"}
-        BIOLOGY_REQUIREMENT = Course("Biology Requirement",
-                                      quarters_offered=quarters_offered_BIOLOGY_REQUIREMENT, biology_requirement=True)
+        BIOLOGY_REQUIREMENT = Course(name="Biology Requirement",
+                                      required=required_BIOLOGY_REQUIREMENT, quarters_offered=quarters_offered_BIOLOGY_REQUIREMENT, biology_requirement=True)
 
 
         # COMPUTATION_REQUIREMENT
@@ -1214,8 +1214,8 @@ class MultiPageApp(tk.Tk):
         required_COMPUTATION_REQUIREMENT["LMCOMATH"] = True
         required_COMPUTATION_REQUIREMENT["LMCOBIO"] = False
         quarters_offered_COMPUTATION_REQUIREMENT = {"Fall", "Winter", "Spring"}
-        COMPUTATION_REQUIREMENT = Course("Computation Requirement",
-                                      quarters_offered=quarters_offered_COMPUTATION_REQUIREMENT, computation_requirement=True)
+        COMPUTATION_REQUIREMENT = Course(name="Computation Requirement",
+                                      required=required_COMPUTATION_REQUIREMENT, quarters_offered=quarters_offered_COMPUTATION_REQUIREMENT, computation_requirement=True)
 
         classes_offered.append(MAT21A)
         classes_offered.append(MAT21B)
