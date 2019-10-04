@@ -115,7 +115,14 @@ class ScheduleDisplayPage(tk.Frame):
                     if not schedule.get(cur_time).courses[1].required[student.major]:
                         course1.configure(readonlybackground="#43f2c0")
                     course1.grid(row=2, pady=5, sticky="w", in_=block_box)
-                else:
+                if len(schedule.get(cur_time).courses) > 2:
+                    course2 = tk.Entry(block_box, width=20, readonlybackground="White")
+                    course2.insert(2, schedule.get(cur_time).courses[2].name)
+                    course2.configure(state='readonly')
+                    if not schedule.get(cur_time).courses[2].required[student.major]:
+                        course2.configure(readonlybackground="#43f2c0")
+                    course2.grid(row=3, pady=5, sticky="w", in_=block_box)
+                else: #FIXME: will need to duplicate this to make 2 blank courses if we are supporting up to 3 classes per quarter
                     blank_course = Label(block_box, width=20, text="")
                     blank_course.grid(row=2, pady=5, sticky="w", in_=block_box)
                 if len(block_box.children) > 1:

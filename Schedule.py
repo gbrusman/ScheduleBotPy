@@ -3,6 +3,10 @@ from Course import Course
 from ScheduleBlock import ScheduleBlock
 from Student import Student
 
+MAX_TOT_CLASSES_PER_QUARTER = 3
+MAX_MATH_CLASSES_PER_QUARTER = 2
+LMOR_ENRICHMENTS_A_NEEDED = 2
+LMOR_ENRICHMENTS_B_NEEDED = 2
 
 class Schedule:
     """
@@ -157,10 +161,10 @@ class Schedule:
             i = 0
             while i < len(self.classes_offered):
                 cur_course = self.classes_offered[i]
-                if len(cur_block.courses) == 3:  # FIXME: change to allow 2 MAT + 1 OTHER class
+                if len(cur_block.courses) == MAX_TOT_CLASSES_PER_QUARTER:
                     break
                 if self.class_is_valid(cur_course, cur_time, cur_block):
-                    if self.num_math_classes(cur_block) == 2 and cur_course.name[:3] == "MAT":  # don't want to take >2 math courses in one quarter
+                    if self.num_math_classes(cur_block) == MAX_MATH_CLASSES_PER_QUARTER and cur_course.name[:3] == "MAT":  # don't want to take >2 math courses in one quarter
                         i += 1
                         continue
                     if required_or_electives == 0:
@@ -204,6 +208,12 @@ class Schedule:
         """Function to test whether or not a class is pointless to take. Returns boolean."""
         if course.required[self.student.major]:
             return False
+
+        #FIXME: This check for enrichments becomes more complicated b/c of enrichment a/b with LMOR (can make a separate check for LMOR)
+        #enrichments_needed = {"LMATAB1": 4, "LMATAB2": 4, "LMATBS1": 4, "LMATBS2": 4, "LAMA": 2, "LMCOBIO": 2, "LMCOMATH": 2, "LMOR": 4}
+        #if self.student.num_enrichments >= enrichments_needed[self.student.major] and : #FIXME: Want to check if student has the required amount of enrichments and if the class is an enrichment course but NOT an approved upper-div non-math class (b/c LAMA needs both)
+        #FIXME: Might want to have a variable for each class that says whether it is an "approved upper-div non-math class" b/c otherwise this check becomes very complicated and that information could be useful later.
+
         departments = ["MAT", "ECS", "STA", "ARE", "CHE", "PHY", "ARE", "ECN", "BIS"]
         if course.name[:3] not in departments:
             return True
@@ -313,108 +323,6 @@ class Schedule:
                 return True
         return False
 
-    def is_success(self):
-        """Function to test whether the created schedule meets the requirements for graduation. Returns boolean."""
-        major = self.student.major
-        switcher = {
-            "LAMA": self.is_success_LAMA,
-            "LMOR": self.is_success_LMOR,
-            "LMATBS1": self.is_success_LMATBS1,
-            "LMATBS2": self.is_success_LMATBS2,
-            "LMATAB1": self.is_success_LMATAB1,
-            "LMATAB2": self.is_success_LMATAB2,
-            "LMCOBIO": self.is_success_LMCOBIO,
-            "LMCOMATH": self.is_success_LMCOMATH
-
-        }
-        func = switcher.get(major)
-        return func()
-
-    def is_success_LAMA(self):
-        requirements = ["MAT21A", "MAT21B", "MAT21C", "MAT21D", "MAT22A", "MAT22B", "MAT108", "ENG06", "ECS32A", "MAT127A", "MAT127B", "MAT127C", "MAT135A", "MAT150A", "MAT119A", "MAT185A"]
-        two_quarter_series = ["PHY9A", "PHY9B", "CHE2A", "CHE2B", "BIS2A", "BIS2B", "STA32", "STA100", "ECN1A", "ECN1B"]
-        num_two_quarter_courses = 0
-        for course_name in requirements:
-            if course_name not in self.student.classes_taken.keys():
-                return False
-        if self.student.num_enrichments < 2:
-            return False
-        for course in two_quarter_series:
-            if self.student.has_taken(course):
-                num_two_quarter_courses += 1
-        if num_two_quarter_courses < 2:
-            return False
-        return True
-
-    def is_success_LMOR(self):
-        requirements = ["MAT21A", "MAT21B", "MAT21C", "MAT21D", "MAT22A", "MAT22B", "MAT108", "ENG06", "ECN1A", "ECN1B", "STA32", "MAT127A", "MAT127B", "MAT127C", "MAT135A", "MAT135B", "MAT150A", "MAT160", "MAT168"]
-        for course_name in requirements:
-            if course_name not in self.student.classes_taken.keys():
-                return False
-        if self.student.num_enrichments < 4:  #Enrichment A and B, current system doesn't work here
-            return False
-        return True
-
-    def is_success_LMATBS1(self):
-        requirements = ["MAT21A", "MAT21B", "MAT21C", "MAT21D", "MAT22A", "MAT22B", "MAT108", "ENG06", "PHY9A", "MAT127A",
-                        "MAT127B", "MAT127C", "MAT135A", "MAT150A", "MAT150B", "MAT150C", "MAT185A"]
-        for course_name in requirements:
-            if course_name not in self.student.classes_taken.keys():
-                return False
-        if self.student.num_enrichments < 4:
-            return False
-        return True
-
-    def is_success_LMATBS2(self):
-        requirements = ["MAT21A", "MAT21B", "MAT21C", "MAT21D", "MAT22A", "MAT22B", "MAT108", "ENG06", "MAT127A",
-                        "MAT127B", "MAT127C", "MAT135A", "MAT150A", "MAT111", "MAT115A", "MAT141"]
-        for course_name in requirements:
-            if course_name not in self.student.classes_taken.keys():
-                return False
-        if self.student.num_enrichments < 4:
-            return False
-        return True
-
-    def is_success_LMATAB1(self):
-        requirements = ["MAT21A", "MAT21B", "MAT21C", "MAT21D", "MAT22A", "MAT22B", "MAT108", "ENG06", "MAT127A",
-                        "MAT127B", "MAT127C", "MAT135A", "MAT150A"]
-        for course_name in requirements:
-            if course_name not in self.student.classes_taken.keys():
-                return False
-        if self.student.num_enrichments < 4:
-            return False
-        return True
-
-    def is_success_LMATAB2(self):
-        requirements = ["MAT21A", "MAT21B", "MAT21C", "MAT21D", "MAT22A", "MAT108", "MAT22B", "ENG06", "MAT127A",
-                        "MAT127B", "MAT127C", "MAT135A", "MAT150A", "MAT111", "MAT115A", "MAT141"]
-        for course_name in requirements:
-            if course_name not in self.student.classes_taken.keys():
-                return False
-        if self.student.num_enrichments < 4:
-            return False
-        return True
-
-    def is_success_LMCOBIO(self):
-        requirements = ["MAT21A", "MAT21B", "MAT21C", "MAT21D", "MAT22A", "MAT22B", "ENG06", "MAT108", "ECS32A", "MAT127A",
-                        "MAT127B", "MAT127C", "MAT128A", "MAT128B", "MAT128C", "MAT135A", "MAT150A", "MAT124"]
-        for course_name in requirements:
-            if course_name not in self.student.classes_taken.keys():
-                return False
-        if self.student.num_enrichments < 2:
-            return False
-        return True
-
-    def is_success_LMCOMATH(self):
-        requirements = ["MAT21A", "MAT21B", "MAT21C", "MAT21D", "MAT22A", "MAT22B", "ENG06", "MAT108", "ECS32A", "MAT127A",
-                        "MAT127B", "MAT127C", "MAT128A", "MAT128B", "MAT128C", "MAT135A", "MAT150A", "MAT168"]
-        for course_name in requirements:
-            if course_name not in self.student.classes_taken.keys():
-                return False
-        if self.student.num_enrichments < 2:
-            return False
-        return
-
     def new_is_success(self):
         for course_name in self.classes_by_name:
             if self.classes_by_name[course_name].required[self.student.major] and course_name not in self.student.classes_taken.keys():
@@ -425,7 +333,7 @@ class Schedule:
         if self.student.num_enrichments < num_needed:
             return False
         if self.student.major == "LMOR":
-            if self.student.num_enrichments_a < 2 or self.student.num_enrichments_b < 2:
+            if self.student.num_enrichments_a < LMOR_ENRICHMENTS_A_NEEDED or self.student.num_enrichments_b < LMOR_ENRICHMENTS_B_NEEDED:
                 return False
         return True
 
