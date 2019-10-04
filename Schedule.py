@@ -119,23 +119,6 @@ class Schedule:
         if not course.required[self.student.major]:
             self.student.num_enrichments += 1
 
-    # def check_enrichments(self, course):
-    #     enrichment_a = ["STA131B", "STA131C", "STA137", "STA141A", "STA141B", "STA141C"]  # also any math classes
-    #     enrichment_b = ["ECN100A", "ECN100B", "ECN121A", "ECN121B", "ECN122", "ECN134", "ARE100A", "ARE100B", "ARE155",
-    #                     "ARE156", "ARE157"]
-    #
-    #     if not course.required[self.student.major]:
-    #         self.student.num_enrichments += 1
-    #     i = 3
-    #     num_str = ""
-    #     while course.name[i].isdigit() and i < len(course.name) - 1:
-    #         num_str += course.name[i]
-    #         i += 1
-    #     if course.name in enrichment_a or (course.name[:3] == "MAT" and int(num_str) >= 111) and not course.required[self.student.major]:
-    #         self.student.num_enrichments_a += 1
-    #     if course.name in enrichment_b:
-    #         self.student.num_enrichments_b += 1
-
     def fill_from_after(self, cur_block, after, cur_time):
         """Function to fill in classes from after list generated in the previous quarter."""
         next_after = []
@@ -210,20 +193,29 @@ class Schedule:
             return False
 
         #FIXME: This check for enrichments becomes more complicated b/c of enrichment a/b with LMOR (can make a separate check for LMOR)
-        #enrichments_needed = {"LMATAB1": 4, "LMATAB2": 4, "LMATBS1": 4, "LMATBS2": 4, "LAMA": 2, "LMCOBIO": 2, "LMCOMATH": 2, "LMOR": 4}
+        enrichments_needed = {"LMATAB1": 4, "LMATAB2": 4, "LMATBS1": 4, "LMATBS2": 4, "LAMA": 2, "LMCOBIO": 2, "LMCOMATH": 2, "LMOR": 4}
         #if self.student.num_enrichments >= enrichments_needed[self.student.major] and : #FIXME: Want to check if student has the required amount of enrichments and if the class is an enrichment course but NOT an approved upper-div non-math class (b/c LAMA needs both)
         #FIXME: Might want to have a variable for each class that says whether it is an "approved upper-div non-math class" b/c otherwise this check becomes very complicated and that information could be useful later.
+        if self.student.major=="LMOR":
+            if (self.student.num_enrichments_a >= 2 and course.enrichment_a) or (self.student.num_enrichments_b >= 2 and course.enrichment_b):
+                return True
+        else:
+            if self.student.num_enrichments >= enrichments_needed[self.student.major] and (course.enrichment_a or course.enrichment_b) and (not course.approved_ud_nonmath):
+                return True
 
+
+        #FIXME: need to make better definition of what constitutes "pointless", i.e. STA100 is not enrichment A or B but is upper division but it's also pointless for LAMA
         departments = ["MAT", "ECS", "STA", "ARE", "CHE", "PHY", "ARE", "ECN", "BIS"]
         if course.name[:3] not in departments:
             return True
         i = 3
         num_str = ""
-        while i < len(course.name) and course.name[i].isdigit(): #FIXME: should be len(course.name) - 1 but the -1 is causing error
+        while i < len(course.name) and course.name[i].isdigit():
             num_str += course.name[i]
             i += 1
         if not int(num_str) >= 100:
             return True
+        return False
 
     def try_to_place_interesting_class(self, cur_course, cur_block, cur_time, after):
         """Function to try to place a course in the current ScheduleBlock that applies to the student's interests."""
