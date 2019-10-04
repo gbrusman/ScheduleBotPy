@@ -1,6 +1,6 @@
 class Course:
 
-    def __init__(self, name="", interests=[], after="", required={}, quarters_offered=[], years_offered="", enrichment_a=False, enrichment_b=False):
+    def __init__(self, name="", interests=[], after=None, required={}, quarters_offered=[], years_offered="ALWAYS", enrichment_a=False, enrichment_b=False, approved_ud_nonmath=False, biology_requirement=False, computation_requirement=False):
         self.name = name
         self.interests = interests
         self.after = after
@@ -9,6 +9,9 @@ class Course:
         self.years_offered = years_offered
         self.enrichment_a = enrichment_a
         self.enrichment_b = enrichment_b
+        self.approved_ud_nonmath = approved_ud_nonmath
+        self.biology_requirement = biology_requirement
+        self.computation_requirement = computation_requirement
 
     def is_offered(self, time):
         offered_in_quarter = False

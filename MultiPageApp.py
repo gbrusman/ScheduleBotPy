@@ -303,7 +303,7 @@ class MultiPageApp(tk.Tk):
         quarters_offered_119A = ["Fall", "Winter"]
         interests_119A = ["Physics"]
         
-        MAT119A = Course("MAT119A", interests_119A, "MAT119B", required_119A, quarters_offered_119A, "ALWAYS", )
+        MAT119A = Course("MAT119A", interests_119A, "MAT119B", required_119A, quarters_offered_119A, "ALWAYS")
 
         # MAT119B
         required_119B = {}
@@ -1135,6 +1135,88 @@ class MultiPageApp(tk.Tk):
         quarters_offered_ECS170 = ["Winter"]
         ECS170 = Course("ECS170", None, None, required_ECS170, quarters_offered_ECS170, "ALWAYS")
 
+        # Info for ATM offerings taken from ATM site
+        #ATM120
+        required_ATM120 = {}
+        required_ATM120["LMATBS1"] = False
+        required_ATM120["LMATBS2"] = False
+        required_ATM120["LMATAB1"] = False
+        required_ATM120["LMATAB2"] = False
+        required_ATM120["LAMA"] = False
+        required_ATM120["LMOR"] = False
+        required_ATM120["LMCOMATH"] = False
+        required_ATM120["LMCOBIO"] = False
+        quarters_offered_ATM120 = {"Fall"}
+        ATM120 = Course("ATM120", quarters_offered=quarters_offered_ATM120, approved_ud_nonmath=True)
+
+        # ATM121A
+        required_ATM121A = {}
+        required_ATM121A["LMATBS1"] = False
+        required_ATM121A["LMATBS2"] = False
+        required_ATM121A["LMATAB1"] = False
+        required_ATM121A["LMATAB2"] = False
+        required_ATM121A["LAMA"] = False
+        required_ATM121A["LMOR"] = False
+        required_ATM121A["LMCOMATH"] = False
+        required_ATM121A["LMCOBIO"] = False
+        quarters_offered_ATM121A = {"Winter"}
+        ATM121A = Course("ATM121A", quarters_offered=quarters_offered_ATM121A, approved_ud_nonmath=True)
+
+        # ATM121B
+        required_ATM121B = {}
+        required_ATM121B["LMATBS1"] = False
+        required_ATM121B["LMATBS2"] = False
+        required_ATM121B["LMATAB1"] = False
+        required_ATM121B["LMATAB2"] = False
+        required_ATM121B["LAMA"] = False
+        required_ATM121B["LMOR"] = False
+        required_ATM121B["LMCOMATH"] = False
+        required_ATM121B["LMCOBIO"] = False
+        quarters_offered_ATM121B = {"Spring"}
+        ATM121B = Course("ATM121B", quarters_offered=quarters_offered_ATM121B, approved_ud_nonmath=True)
+        
+        #APPROVED_UD_NON_MATH
+        required_APPROVED_UD_NON_MATH = {}
+        required_APPROVED_UD_NON_MATH["LMATBS1"] = False
+        required_APPROVED_UD_NON_MATH["LMATBS2"] = False
+        required_APPROVED_UD_NON_MATH["LMATAB1"] = False
+        required_APPROVED_UD_NON_MATH["LMATAB2"] = False
+        required_APPROVED_UD_NON_MATH["LAMA"] = True
+        required_APPROVED_UD_NON_MATH["LMOR"] = False
+        required_APPROVED_UD_NON_MATH["LMCOMATH"] = False
+        required_APPROVED_UD_NON_MATH["LMCOBIO"] = False
+        quarters_offered_APPROVED_UD_NON_MATH = {"Fall", "Winter", "Spring"}
+        APPROVED_UD_NON_MATH = Course("Approved Upper Division Non-Math", quarters_offered=quarters_offered_APPROVED_UD_NON_MATH, approved_ud_nonmath=True)
+
+        # BIOLOGY_REQUIREMENT
+        required_BIOLOGY_REQUIREMENT = {}
+        required_BIOLOGY_REQUIREMENT["LMATBS1"] = False
+        required_BIOLOGY_REQUIREMENT["LMATBS2"] = False
+        required_BIOLOGY_REQUIREMENT["LMATAB1"] = False
+        required_BIOLOGY_REQUIREMENT["LMATAB2"] = False
+        required_BIOLOGY_REQUIREMENT["LAMA"] = False
+        required_BIOLOGY_REQUIREMENT["LMOR"] = False
+        required_BIOLOGY_REQUIREMENT["LMCOMATH"] = False
+        required_BIOLOGY_REQUIREMENT["LMCOBIO"] = True
+        quarters_offered_BIOLOGY_REQUIREMENT = {"Fall", "Winter", "Spring"}
+        BIOLOGY_REQUIREMENT = Course("Biology Requirement",
+                                      quarters_offered=quarters_offered_BIOLOGY_REQUIREMENT, biology_requirement=True)
+        
+
+        # COMPUTATION_REQUIREMENT
+        required_COMPUTATION_REQUIREMENT = {}
+        required_COMPUTATION_REQUIREMENT["LMATBS1"] = False
+        required_COMPUTATION_REQUIREMENT["LMATBS2"] = False
+        required_COMPUTATION_REQUIREMENT["LMATAB1"] = False
+        required_COMPUTATION_REQUIREMENT["LMATAB2"] = False
+        required_COMPUTATION_REQUIREMENT["LAMA"] = False
+        required_COMPUTATION_REQUIREMENT["LMOR"] = False
+        required_COMPUTATION_REQUIREMENT["LMCOMATH"] = False
+        required_COMPUTATION_REQUIREMENT["LMCOBIO"] = True
+        quarters_offered_COMPUTATION_REQUIREMENT = {"Fall", "Winter", "Spring"}
+        COMPUTATION_REQUIREMENT = Course("Computation Requirement",
+                                      quarters_offered=quarters_offered_COMPUTATION_REQUIREMENT, computation_requirement=True)
+
         classes_offered.append(MAT21A)
         classes_offered.append(MAT21B)
         classes_offered.append(MAT21C)
@@ -1214,6 +1296,12 @@ class MultiPageApp(tk.Tk):
         classes_offered.append(ARE155)
         classes_offered.append(ARE156)
         classes_offered.append(ARE157)
+        classes_offered.append(ATM120)
+        classes_offered.append(ATM121A)
+        classes_offered.append(ATM121B)
+        classes_offered.append(APPROVED_UD_NON_MATH)
+        classes_offered.append(BIOLOGY_REQUIREMENT)
+        classes_offered.append(COMPUTATION_REQUIREMENT)
         return classes_offered
 
 
