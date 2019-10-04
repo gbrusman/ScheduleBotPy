@@ -143,6 +143,9 @@ class Student:
             "ECS124": self.ecs124_prereq,
             "ECS129": self.ecs129_prereq,
             "ECS170": self.ecs170_prereq,
+            "Approved Upper Division Non-Math": self.APPROVED_UD_NONMATH_prereq,
+            "Biology Requirement": self.BIOLOGY_REQUIREMENT_prereq,
+            "Computation Requirement": self.COMPUTATION_REQUIREMENT_prereq,
         }
         func = switcher.get(course.name)
         if func is None:
@@ -416,6 +419,15 @@ class Student:
 
     def ecs170_prereq(self):
         return self.has_taken("ECS60") or self.has_taken("ECS32B") or self.has_taken("ECS36C")
+
+    def APPROVED_UD_NONMATH_prereq(self):
+        return self.has_taken("MAT108") and self.has_taken("MAT128A") #randomly came up with these prereqs. Wanted this class to be hopefully junior year-ish?
+
+    def BIOLOGY_REQUIREMENT_prereq(self):
+        return self.has_taken("MAT124") and self.has_taken("MAT128A") #randomly came up with these as above
+
+    def COMPUTATION_REQUIREMENT_prereq(self):
+        return self.has_taken("MAT128A") #randomly came up with this as above
 
 
 
