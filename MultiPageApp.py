@@ -1201,7 +1201,7 @@ class MultiPageApp(tk.Tk):
         quarters_offered_BIOLOGY_REQUIREMENT = {"Fall", "Winter", "Spring"}
         BIOLOGY_REQUIREMENT = Course("Biology Requirement",
                                       quarters_offered=quarters_offered_BIOLOGY_REQUIREMENT, biology_requirement=True)
-        
+
 
         # COMPUTATION_REQUIREMENT
         required_COMPUTATION_REQUIREMENT = {}
@@ -1296,12 +1296,12 @@ class MultiPageApp(tk.Tk):
         classes_offered.append(ARE155)
         classes_offered.append(ARE156)
         classes_offered.append(ARE157)
-        classes_offered.append(ATM120)
-        classes_offered.append(ATM121A)
-        classes_offered.append(ATM121B)
         classes_offered.append(APPROVED_UD_NON_MATH)
         classes_offered.append(BIOLOGY_REQUIREMENT)
         classes_offered.append(COMPUTATION_REQUIREMENT)
+        classes_offered.append(ATM120)
+        classes_offered.append(ATM121A)
+        classes_offered.append(ATM121B)
         return classes_offered
 
 
