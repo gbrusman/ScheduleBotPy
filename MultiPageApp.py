@@ -1211,8 +1211,8 @@ class MultiPageApp(tk.Tk):
         required_COMPUTATION_REQUIREMENT["LMATAB2"] = False
         required_COMPUTATION_REQUIREMENT["LAMA"] = False
         required_COMPUTATION_REQUIREMENT["LMOR"] = False
-        required_COMPUTATION_REQUIREMENT["LMCOMATH"] = False
-        required_COMPUTATION_REQUIREMENT["LMCOBIO"] = True
+        required_COMPUTATION_REQUIREMENT["LMCOMATH"] = True
+        required_COMPUTATION_REQUIREMENT["LMCOBIO"] = False
         quarters_offered_COMPUTATION_REQUIREMENT = {"Fall", "Winter", "Spring"}
         COMPUTATION_REQUIREMENT = Course("Computation Requirement",
                                       quarters_offered=quarters_offered_COMPUTATION_REQUIREMENT, computation_requirement=True)
