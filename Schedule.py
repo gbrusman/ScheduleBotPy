@@ -200,7 +200,7 @@ class Schedule:
             if (self.student.num_enrichments_a >= 2 and course.enrichment_a) or (self.student.num_enrichments_b >= 2 and course.enrichment_b):
                 return True
         else:
-            if self.student.num_enrichments >= enrichments_needed[self.student.major] and (course.enrichment_a or course.enrichment_b) and (not course.approved_ud_nonmath):
+            if self.student.num_enrichments >= enrichments_needed[self.student.major] and (not course.required[self.student.major]) and (not course.approved_ud_nonmath):  # And they've taken the approved_ud_nonmath?
                 return True
 
 
