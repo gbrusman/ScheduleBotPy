@@ -26,6 +26,16 @@ class Student:
         self.num_enrichments = num_enrichments
         self.num_enrichments_a = num_enrichments_a
         self.num_enrichments_b = num_enrichments_b
+        self.has_taken_approved_ud_nonmath_req = False
+        self.has_taken_biology_req = False
+        self.has_taken_computation_req = False
+
+    def check_major_specific_requirements(self):
+        for course in self.classes_taken:
+            if self.classes_taken[course].approved_ud_non_math:
+                self.has_taken_approved_ud_nonmath_req = True
+            if self.classes_taken[course].biology_requirement:
+                self.has_taken_biology_req = True
 
     def is_taking(self, course_name, block):
         """Function to test whether a student is currently taking a Course (in cur_time). Returns boolean."""

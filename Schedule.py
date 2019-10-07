@@ -196,6 +196,7 @@ class Schedule:
 
         #FIXME: will also need check to see whether or not student has already taken UD math class
         #FIXME: similarly, will also need check to see if the class is a computation/biology course and whether the student still needs to take that requirement
+            #FIXME: LAMA needs approved UD Non-Math, LMCOBIO needs Biology, LMCOMATH needs computation
         #FIXME: after this is all implemented, maybe can delete bottom part but idk
         if self.student.major=="LMOR":
             if (self.student.num_enrichments_a >= 2 and course.enrichment_a) or (self.student.num_enrichments_b >= 2 and course.enrichment_b):
