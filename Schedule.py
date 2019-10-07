@@ -192,10 +192,11 @@ class Schedule:
         if course.required[self.student.major]:
             return False
 
-        #FIXME: This check for enrichments becomes more complicated b/c of enrichment a/b with LMOR (can make a separate check for LMOR)
         enrichments_needed = {"LMATAB1": 4, "LMATAB2": 4, "LMATBS1": 4, "LMATBS2": 4, "LAMA": 2, "LMCOBIO": 2, "LMCOMATH": 2, "LMOR": 4}
-        #if self.student.num_enrichments >= enrichments_needed[self.student.major] and : #FIXME: Want to check if student has the required amount of enrichments and if the class is an enrichment course but NOT an approved upper-div non-math class (b/c LAMA needs both)
-        #FIXME: Might want to have a variable for each class that says whether it is an "approved upper-div non-math class" b/c otherwise this check becomes very complicated and that information could be useful later.
+
+        #FIXME: will also need check to see whether or not student has already taken UD math class
+        #FIXME: similarly, will also need check to see if the class is a computation/biology course and whether the student still needs to take that requirement
+        #FIXME: after this is all implemented, maybe can delete bottom part but idk
         if self.student.major=="LMOR":
             if (self.student.num_enrichments_a >= 2 and course.enrichment_a) or (self.student.num_enrichments_b >= 2 and course.enrichment_b):
                 return True
