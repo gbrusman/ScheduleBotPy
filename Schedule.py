@@ -117,7 +117,7 @@ class Schedule:
         if course.enrichment_b:
             self.student.num_enrichments_b += 1
         #FIXME: Want the below to be like (if course.enrichment and not course.required[self.student.major])
-        if course.enrichment and not course.required[self.student.major]: #FIXME: This ain't right b/c classes that aren't required aren't necessarily enrichments. This logic could work though with other tweaks outside of this funtion.
+        if course.enrichment and not course.required[self.student.major]: #FIXME: (What was previouslyt here) This ain't right b/c classes that aren't required aren't necessarily enrichments. This logic could work though with other tweaks outside of this funtion.
             self.student.num_enrichments += 1
 
     def fill_from_after(self, cur_block, after, cur_time):
