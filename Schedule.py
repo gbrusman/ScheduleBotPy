@@ -110,13 +110,14 @@ class Schedule:
         after.pop(index)
         self.check_enrichments(course)
 
-    def check_enrichments(self, course):
+    def check_enrichments(self, course):  # FIXME: change function name to update_enrichment_counts and fix the bottom condition
         # only really need enrichment a/b checks for LMOR but it won't hurt the other cases
         if course.enrichment_a:
             self.student.num_enrichments_a += 1
         if course.enrichment_b:
             self.student.num_enrichments_b += 1
-        if not course.required[self.student.major]:
+        #FIXME: Want the below to be like (if course.enrichment and not course.required[self.student.major])
+        if course.enrichment and not course.required[self.student.major]: #FIXME: This ain't right b/c classes that aren't required aren't necessarily enrichments. This logic could work though with other tweaks outside of this funtion.
             self.student.num_enrichments += 1
 
     def fill_from_after(self, cur_block, after, cur_time):
@@ -194,17 +195,24 @@ class Schedule:
 
         enrichments_needed = {"LMATAB1": 4, "LMATAB2": 4, "LMATBS1": 4, "LMATBS2": 4, "LAMA": 2, "LMCOBIO": 2, "LMCOMATH": 2, "LMOR": 4}
 
-        #FIXME: will also need check to see whether or not student has already taken UD math class
-        #FIXME: similarly, will also need check to see if the class is a computation/biology course and whether the student still needs to take that requirement
-            #FIXME: LAMA needs approved UD Non-Math, LMCOBIO needs Biology, LMCOMATH needs computation
         #FIXME: after this is all implemented, maybe can delete bottom part but idk
-        if self.student.major=="LMOR":
-            if (self.student.num_enrichments_a >= 2 and course.enrichment_a) or (self.student.num_enrichments_b >= 2 and course.enrichment_b):
+
+        #FIXME: Approved_UD_Nonmath is technically an enrichment course, but is also not enrichment A or B which means it might break LMOR. ;(
+        if self.student.major == "LMOR":
+            if (self.student.num_enrichments_a >= enrichments_needed[self.student.major] and course.enrichment_a) or (self.student.num_enrichments_b >= 2 and course.enrichment_b):
+                return True
+        elif self.student.major == "LAMA":
+            if (self.student.num_enrichments >= enrichments_needed[self.student.major]) or (self.student.has_taken_approved_ud_nonmath_req and course.approved_ud_nonmath):
+                return True
+        elif self.student.major == "LMCOBIO":
+            if self.student.num_enrichments >= enrichments_needed[self.student.major] or (self.student.has_taken_biology_req and course.biology_requirement):
+                return True
+        elif self.student.major == "LMCOBIO":
+            if self.student.num_enrichments >= enrichments_needed[self.student.major] or (self.student.has_taken_biology_req and course.computation_requirement):
                 return True
         else:
-            if self.student.num_enrichments >= enrichments_needed[self.student.major] and (not course.required[self.student.major]) and (not course.approved_ud_nonmath):  # And they've taken the approved_ud_nonmath?
+            if self.student.num_enrichments >= enrichments_needed[self.student.major] and (not course.approved_ud_nonmath):  # And they've taken the approved_ud_nonmath?
                 return True
-
 
         #FIXME: need to make better definition of what constitutes "pointless", i.e. STA100 is not enrichment A or B but is upper division but it's also pointless for LAMA
         departments = ["MAT", "ECS", "STA", "ARE", "CHE", "PHY", "ARE", "ECN", "BIS"]

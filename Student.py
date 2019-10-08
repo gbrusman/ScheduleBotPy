@@ -36,6 +36,8 @@ class Student:
                 self.has_taken_approved_ud_nonmath_req = True
             if self.classes_taken[course].biology_requirement:
                 self.has_taken_biology_req = True
+            if self.classes_taken[course].computation_requirement:
+                self.has_taken_computation_req = True
 
     def is_taking(self, course_name, block):
         """Function to test whether a student is currently taking a Course (in cur_time). Returns boolean."""

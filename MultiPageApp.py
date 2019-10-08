@@ -199,7 +199,7 @@ class MultiPageApp(tk.Tk):
         required_111["LMCOBIO"] = False
         quarters_offered_111 = ["Winter"]
         interests_111 = ["Teaching"]
-        MAT111 = Course("MAT111", interests_111, None, required_111, quarters_offered_111, "ALWAYS", True)
+        MAT111 = Course("MAT111", interests_111, None, required_111, quarters_offered_111, "ALWAYS", True, enrichment=True)
 
         # MAT114
         required_114 = {}
@@ -213,7 +213,7 @@ class MultiPageApp(tk.Tk):
         required_114["LMCOBIO"] = False
         quarters_offered_114 = ["Winter"]
         interests_114 = ["Geometry"]
-        MAT114 = Course("MAT114", interests_114, None, required_114, quarters_offered_114, "EVENALTERNATE", True)
+        MAT114 = Course("MAT114", interests_114, None, required_114, quarters_offered_114, "EVENALTERNATE", True, enrichment=True)
 
         # MAT115A
         required_115A = {}
@@ -228,7 +228,7 @@ class MultiPageApp(tk.Tk):
         quarters_offered_115A = ["Fall"]
         interests_115A = ["Teaching"]
         
-        MAT115A = Course("MAT115A", interests_115A, "MAT115B", required_115A, quarters_offered_115A, "ALWAYS", True)
+        MAT115A = Course("MAT115A", interests_115A, "MAT115B", required_115A, quarters_offered_115A, "ALWAYS", True, enrichment=True)
 
         # MAT115B
         required_115B = {}
@@ -243,7 +243,7 @@ class MultiPageApp(tk.Tk):
         quarters_offered_115B = ["Winter"]
         interests_115B = ["Teaching"]
         
-        MAT115B = Course("MAT115B", interests_115B, None, required_115B, quarters_offered_115B, "EVENALTERNATE", True)
+        MAT115B = Course("MAT115B", interests_115B, None, required_115B, quarters_offered_115B, "EVENALTERNATE", True, enrichment=True)
 
         # MAT116
         required_116 = {}
@@ -258,7 +258,7 @@ class MultiPageApp(tk.Tk):
         quarters_offered_116 = ["Spring"]
         interests_116 = ["Geometry"]
         
-        MAT116 = Course("MAT116", interests_116, None, required_116, quarters_offered_116, "ODDALTERNATE", True)
+        MAT116 = Course("MAT116", interests_116, None, required_116, quarters_offered_116, "ODDALTERNATE", True, enrichment=True)
 
         # MAT118A
         required_118A = {}
@@ -273,7 +273,7 @@ class MultiPageApp(tk.Tk):
         quarters_offered_118A = ["Fall"]
         interests_118A = ["Physics"]
         
-        MAT118A = Course("MAT118A", interests_118A, "MAT118B", required_118A, quarters_offered_118A, "ALWAYS", True)
+        MAT118A = Course("MAT118A", interests_118A, "MAT118B", required_118A, quarters_offered_118A, "ALWAYS", True, enrichment=True)
 
         # MAT118B
         required_118B = {}
@@ -288,7 +288,7 @@ class MultiPageApp(tk.Tk):
         quarters_offered_118B = ["Winter"]
         interests_118B = ["Physics"]
         
-        MAT118B = Course("MAT118B", interests_118B, None, required_118B, quarters_offered_118B, "ODDALTERNATE", True)
+        MAT118B = Course("MAT118B", interests_118B, None, required_118B, quarters_offered_118B, "ODDALTERNATE", True, enrichment=True)
 
         # MAT119A
         required_119A = {}
@@ -303,7 +303,7 @@ class MultiPageApp(tk.Tk):
         quarters_offered_119A = ["Fall", "Winter"]
         interests_119A = ["Physics"]
         
-        MAT119A = Course("MAT119A", interests_119A, "MAT119B", required_119A, quarters_offered_119A, "ALWAYS")
+        MAT119A = Course("MAT119A", interests_119A, "MAT119B", required_119A, quarters_offered_119A, "ALWAYS", enrichment=True)
 
         # MAT119B
         required_119B = {}
@@ -318,7 +318,7 @@ class MultiPageApp(tk.Tk):
         quarters_offered_119B = ["Spring"]
         interests_119B = ["Physics"]
         
-        MAT119B = Course("MAT119B", interests_119B, None, required_119B, quarters_offered_119B, "EVENALTERNATE", True)
+        MAT119B = Course("MAT119B", interests_119B, None, required_119B, quarters_offered_119B, "EVENALTERNATE", True, enrichment=True)
 
         # MAT124
         required_124 = {}
@@ -333,7 +333,7 @@ class MultiPageApp(tk.Tk):
         quarters_offered_124 = ["Spring"]
         interests_124 = ["Biology"]
         
-        MAT124 = Course("MAT124", interests_124, None, required_124, quarters_offered_124, "ODDALTERNATE", True)
+        MAT124 = Course("MAT124", interests_124, None, required_124, quarters_offered_124, "ODDALTERNATE", True, enrichment=True)
 
         # MAT127A
         required_127A = {}
@@ -414,7 +414,7 @@ class MultiPageApp(tk.Tk):
         required_128C["LMCOBIO"] = True
         quarters_offered_128C = ["Spring"]
         interests_128C = ["Computers"]
-        MAT128C = Course("MAT128C", interests_128C, None, required_128C, quarters_offered_128C, "ALWAYS")
+        MAT128C = Course("MAT128C", interests_128C, None, required_128C, quarters_offered_128C, "ALWAYS", enrichment=True)
 
         # MAT129
         required_129 = {}
@@ -428,7 +428,7 @@ class MultiPageApp(tk.Tk):
         required_129["LMCOBIO"] = False
         quarters_offered_129 = ["Fall"]
         
-        MAT129 = Course("MAT129", None, None, required_129, quarters_offered_129, "ODDALTERNATE", True)
+        MAT129 = Course("MAT129", None, None, required_129, quarters_offered_129, "ODDALTERNATE", True, enrichment=True)
 
         # MAT133
         required_133 = {}
@@ -443,7 +443,7 @@ class MultiPageApp(tk.Tk):
         quarters_offered_133 = ["Spring"]
         interests_133 = ["Finance"]
         
-        MAT133 = Course("MAT133", interests_133, None, required_133, quarters_offered_133, "ALWAYS", True)
+        MAT133 = Course("MAT133", interests_133, None, required_133, quarters_offered_133, "ALWAYS", True, enrichment=True)
 
         # MAT135A
         required_135A = {}
@@ -469,7 +469,7 @@ class MultiPageApp(tk.Tk):
         required_135B["LMCOMATH"] = False
         required_135B["LMCOBIO"] = False
         quarters_offered_135B = ["Spring"]
-        MAT135B = Course("MAT135B", None, None, required_135B, quarters_offered_135B, "ALWAYS")
+        MAT135B = Course("MAT135B", None, None, required_135B, quarters_offered_135B, "ALWAYS", enrichment=True)
 
         # MAT141
         required_141 = {}
@@ -484,7 +484,7 @@ class MultiPageApp(tk.Tk):
         quarters_offered_141 = ["Winter", "Spring"]
         interests_141 = ["Geometry", "Teaching"]
         
-        MAT141 = Course("MAT141", interests_141, None, required_141, quarters_offered_141, "ALWAYS", True)
+        MAT141 = Course("MAT141", interests_141, None, required_141, quarters_offered_141, "ALWAYS", True, enrichment=True)
 
         # MAT145
         required_145 = {}
@@ -499,7 +499,7 @@ class MultiPageApp(tk.Tk):
         quarters_offered_145 = ["Fall", "Winter", "Spring"]
         interests_145 = ["Teaching"]
         
-        MAT145 = Course("MAT145", interests_145, None, required_145, quarters_offered_145, "ALWAYS", True)
+        MAT145 = Course("MAT145", interests_145, None, required_145, quarters_offered_145, "ALWAYS", True, enrichment=True)
 
         # MAT146
         required_146 = {}
@@ -513,7 +513,7 @@ class MultiPageApp(tk.Tk):
         required_146["LMCOBIO"] = False
         quarters_offered_146 = ["Spring"]
         
-        MAT146 = Course("MAT146", None, None, required_146, quarters_offered_146, "EVENALTERNATE", True)
+        MAT146 = Course("MAT146", None, None, required_146, quarters_offered_146, "EVENALTERNATE", True, enrichment=True)
 
         # MAT147
         required_147 = {}
@@ -528,7 +528,7 @@ class MultiPageApp(tk.Tk):
         quarters_offered_147 = ["Winter"]
         interests_147 = ["Abstract"]
         
-        MAT147 = Course("MAT147", interests_147, None, required_147, quarters_offered_147, "ALWAYS", True)
+        MAT147 = Course("MAT147", interests_147, None, required_147, quarters_offered_147, "ALWAYS", True, enrichment=True)
 
         # MAT148
         required_148 = {}
@@ -542,7 +542,7 @@ class MultiPageApp(tk.Tk):
         required_148["LMCOBIO"] = False
         quarters_offered_148 = ["Winter"]
         
-        MAT148 = Course("MAT148", None, None, required_148, quarters_offered_148, "ODDALTERNATE", True)
+        MAT148 = Course("MAT148", None, None, required_148, quarters_offered_148, "ODDALTERNATE", True, enrichment=True)
 
         # MAT150A
         required_150A = {}
@@ -570,7 +570,7 @@ class MultiPageApp(tk.Tk):
         quarters_offered_150B = ["Winter"]
         interests_150B = ["Abstract"]
         
-        MAT150B = Course("MAT150B", interests_150B, "MAT150C", required_150B, quarters_offered_150B, "ALWAYS", True)
+        MAT150B = Course("MAT150B", interests_150B, "MAT150C", required_150B, quarters_offered_150B, "ALWAYS", True, enrichment=True)
 
         # MAT150C
         required_150C = {}
@@ -585,7 +585,7 @@ class MultiPageApp(tk.Tk):
         quarters_offered_150C = ["Spring"]
         interests_150C = ["Abstract"]
         
-        MAT150C = Course("MAT150C", interests_150C, None, required_150C, quarters_offered_150C, "ALWAYS", True)
+        MAT150C = Course("MAT150C", interests_150C, None, required_150C, quarters_offered_150C, "ALWAYS", True, enrichment=True)
 
         # MAT160
         required_160 = {}
@@ -599,7 +599,7 @@ class MultiPageApp(tk.Tk):
         required_160["LMCOBIO"] = False
         quarters_offered_160 = ["Spring"]
         interests_160 = ["Computers", "Data Analysis"]
-        MAT160 = Course("MAT160", interests_160, None, required_160, quarters_offered_160, "ALWAYS")
+        MAT160 = Course("MAT160", interests_160, None, required_160, quarters_offered_160, "ALWAYS", enrichment=True)
 
         # MAT165
         required_165 = {}
@@ -614,7 +614,7 @@ class MultiPageApp(tk.Tk):
         quarters_offered_165 = ["Fall"]
         interests_165 = ["Computers"]
         
-        MAT165 = Course("MAT165", interests_165, None, required_165, quarters_offered_165, "EVENALTERNATE", True)
+        MAT165 = Course("MAT165", interests_165, None, required_165, quarters_offered_165, "EVENALTERNATE", True, enrichment=True)
 
         # MAT167
         required_167 = {}
@@ -628,7 +628,7 @@ class MultiPageApp(tk.Tk):
         required_167["LMCOBIO"] = False
         quarters_offered_167 = ["Fall", "Winter"]
         interests_167 = ["Teaching", "Data Analysis"]
-        MAT167 = Course("MAT167", interests_167, None, required_167, quarters_offered_167, "ALWAYS")
+        MAT167 = Course("MAT167", interests_167, None, required_167, quarters_offered_167, "ALWAYS", enrichment=True)
 
         # MAT168
         required_168 = {}
@@ -642,7 +642,7 @@ class MultiPageApp(tk.Tk):
         required_168["LMCOBIO"] = False
         quarters_offered_168 = ["Fall", "Winter"]
         interests_168 = ["Computers", "Data Analysis"]
-        MAT168 = Course("MAT168", interests_168, None, required_168, quarters_offered_168, "ALWAYS")
+        MAT168 = Course("MAT168", interests_168, None, required_168, quarters_offered_168, "ALWAYS", enrichment=True)
 
         # MAT180
         required_180 = {}
@@ -669,7 +669,7 @@ class MultiPageApp(tk.Tk):
         required_185A["LMCOBIO"] = False
         quarters_offered_185A = ["Fall", "Winter"]
         
-        MAT185A = Course("MAT185A", None, "MAT185B", required_185A, quarters_offered_185A, "ALWAYS", True)
+        MAT185A = Course("MAT185A", None, "MAT185B", required_185A, quarters_offered_185A, "ALWAYS", True, enrichment=True)
 
         # MAT185B
         required_185B = {}
@@ -683,7 +683,7 @@ class MultiPageApp(tk.Tk):
         required_185B["LMCOBIO"] = False
         quarters_offered_185B = ["Spring"]
         
-        MAT185B = Course("MAT185B", None, None, required_185B, quarters_offered_185B, "ODDALTERNATE", True)
+        MAT185B = Course("MAT185B", None, None, required_185B, quarters_offered_185B, "ODDALTERNATE", True, enrichment=True)
 
         # MAT189
         required_189 = {}
@@ -799,7 +799,7 @@ class MultiPageApp(tk.Tk):
         required_CHE2B["LMOR"] = False
         required_CHE2B["LMCOMATH"] = False
         required_CHE2B["LMCOBIO"] = False
-        quarters_offered_CHE2B = ["Winter", "Spring"]  # add interest?
+        quarters_offered_CHE2B = ["Winter", "Spring"]
         CHE2B = Course("CHE2B", None, None, required_CHE2B, quarters_offered_CHE2B, "ALWAYS")
 
         # ECN1A
@@ -808,8 +808,8 @@ class MultiPageApp(tk.Tk):
         required_ECN1A["LMATBS2"] = False
         required_ECN1A["LMATAB1"] = False
         required_ECN1A["LMATAB2"] = False
-        required_ECN1A["LAMA"] = False  # Default to ECN, eventually want to ask what 2-Quarter series they want to take
-        required_ECN1A["LMOR"] = True  # Same as above ^
+        required_ECN1A["LAMA"] = False
+        required_ECN1A["LMOR"] = True  # Default to ECN
         required_ECN1A["LMCOMATH"] = False
         required_ECN1A["LMCOBIO"] = False
         quarters_offered_ECN1A = ["Fall", "Winter", "Spring"]
@@ -821,8 +821,8 @@ class MultiPageApp(tk.Tk):
         required_ECN1B["LMATBS2"] = False
         required_ECN1B["LMATAB1"] = False
         required_ECN1B["LMATAB2"] = False
-        required_ECN1B["LAMA"] = False  # Default to ECN, eventually want to ask what 2-Quarter series they want to take
-        required_ECN1B["LMOR"] = True  # Same as above ^
+        required_ECN1B["LAMA"] = False
+        required_ECN1B["LMOR"] = True  # Default to ECN
         required_ECN1B["LMCOMATH"] = False
         required_ECN1B["LMCOBIO"] = False
         quarters_offered_ECN1B = ["Fall", "Winter", "Spring"]
