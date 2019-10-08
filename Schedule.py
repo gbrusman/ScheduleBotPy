@@ -202,19 +202,23 @@ class Schedule:
             if (self.student.num_enrichments_a >= enrichments_needed[self.student.major] and course.enrichment_a) or (self.student.num_enrichments_b >= 2 and course.enrichment_b):
                 return True
         elif self.student.major == "LAMA":
-            if (self.student.num_enrichments >= enrichments_needed[self.student.major]) or (self.student.has_taken_approved_ud_nonmath_req and course.approved_ud_nonmath):
+            if (self.student.num_enrichments >= enrichments_needed[self.student.major] and course.enrichment) or (self.student.has_taken_approved_ud_nonmath_req and course.approved_ud_nonmath):
                 return True
         elif self.student.major == "LMCOBIO":
-            if self.student.num_enrichments >= enrichments_needed[self.student.major] or (self.student.has_taken_biology_req and course.biology_requirement):
+            if (self.student.num_enrichments >= enrichments_needed[self.student.major] and course.enrichmment) or (self.student.has_taken_biology_req and course.biology_requirement):
                 return True
         elif self.student.major == "LMCOBIO":
-            if self.student.num_enrichments >= enrichments_needed[self.student.major] or (self.student.has_taken_biology_req and course.computation_requirement):
+            if (self.student.num_enrichments >= enrichments_needed[self.student.major] and course.enrichment) or (self.student.has_taken_biology_req and course.computation_requirement):
                 return True
         else:
-            if self.student.num_enrichments >= enrichments_needed[self.student.major] and (not course.approved_ud_nonmath):  # And they've taken the approved_ud_nonmath?
+            if (self.student.num_enrichments >= enrichments_needed[self.student.major] and course.enrichment) and (not course.approved_ud_nonmath):  # And they've taken the approved_ud_nonmath?
                 return True
 
         #FIXME: need to make better definition of what constitutes "pointless", i.e. STA100 is not enrichment A or B but is upper division but it's also pointless for LAMA
+        #FIXME: below part will say that any upper div class in these departments is useful, when that is not true
+        if not course.enrichment: # FIXME: Might block from picking any courses outside of the math department.
+            return True
+
         departments = ["MAT", "ECS", "STA", "ARE", "CHE", "PHY", "ARE", "ECN", "BIS"]
         if course.name[:3] not in departments:
             return True
