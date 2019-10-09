@@ -1104,8 +1104,8 @@ class MultiPageApp(tk.Tk):
         required_ECS124["LMATAB2"] = False
         required_ECS124["LAMA"] = False
         required_ECS124["LMOR"] = False
-        required_ECS124["LMCOMATH"] = True
-        required_ECS124["LMCOBIO"] = False
+        required_ECS124["LMCOMATH"] = False
+        required_ECS124["LMCOBIO"] = True
         quarters_offered_ECS124 = ["Fall", "Winter", "Spring"]
         ECS124 = Course("ECS124", None, None, required_ECS124, quarters_offered_ECS124, "ALWAYS")
 

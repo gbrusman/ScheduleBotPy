@@ -199,7 +199,7 @@ class Schedule:
             if (self.student.num_enrichments >= enrichments_needed[self.student.major] and course.enrichment) or (self.student.has_taken_approved_ud_nonmath_req and course.approved_ud_nonmath):
                 return True
         elif self.student.major == "LMCOBIO":
-            if (self.student.num_enrichments >= enrichments_needed[self.student.major] and course.enrichmment) or (self.student.has_taken_biology_req and course.biology_requirement):
+            if (self.student.num_enrichments >= enrichments_needed[self.student.major] and course.enrichment) or (self.student.has_taken_biology_req and course.biology_requirement):
                 return True
         elif self.student.major == "LMCOBIO":
             if (self.student.num_enrichments >= enrichments_needed[self.student.major] and course.enrichment) or (self.student.has_taken_biology_req and course.computation_requirement):
