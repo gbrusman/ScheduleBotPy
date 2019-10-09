@@ -39,6 +39,30 @@ class Student:
             if self.classes_taken[course].computation_requirement:
                 self.has_taken_computation_req = True
 
+    def initialize_enrichment_counts(self):
+        for course in self.classes_taken:
+            if self.classes_taken[course].enrichment and not self.classes_taken[course].required[self.major]:
+                self.num_enrichments += 1
+            if self.classes_taken[course].enrichment_a:
+                self.num_enrichments_a += 1
+                self.num_enrichments += 1
+            if self.classes_taken[course].enrichment_b:
+                self.num_enrichments_b += 1
+                self.num_enrichments += 1
+
+    def update_enrichment_counts(self, course):
+        # only really need enrichment a/b checks for LMOR but it won't hurt the other cases
+        if course.enrichment_a:
+            self.num_enrichments_a += 1
+            if self.major == "LMOR":
+                self.num_enrichments += 1
+        if course.enrichment_b:
+            self.num_enrichments_b += 1
+            if self.major == "LMOR":
+                self.num_enrichments += 1
+        if course.enrichment and not course.required[self.major]: #FIXME: (What was previouslyt here) This ain't right b/c classes that aren't required aren't necessarily enrichments. This logic could work though with other tweaks outside of this funtion.
+            self.num_enrichments += 1
+
     def is_taking(self, course_name, block):
         """Function to test whether a student is currently taking a Course (in cur_time). Returns boolean."""
         if block.contains(course_name):

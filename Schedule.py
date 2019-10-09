@@ -43,6 +43,7 @@ class Schedule:
 
         self.fix_21series()  # e.g. if student selected they took 21B, adds 21A to their classes_taken to prevent conflicts
         self.fix_MAT67()  # if student has taken MAT 67 then mark 108 and 22a as not required
+        self.student.initialize_enrichment_counts()
         self.place_classes()
         # if self.is_success():
         #     print("SUCCESS! :D")
@@ -99,7 +100,7 @@ class Schedule:
         print("Adding ", course.name, " at ", time.quarter,  " ", time.year)
         after.append(course.after)
         self.classes_offered.remove(course)
-        self.check_enrichments(course)
+        self.student.update_enrichment_counts(course)
 
 
     def add_course_from_after(self, course, block, after, time, index):
@@ -108,17 +109,8 @@ class Schedule:
         print("Adding ", course.name, " at ", time.quarter, " ", time.year)
         self.classes_offered.remove(course)
         after.pop(index)
-        self.check_enrichments(course)
+        self.student.update_enrichment_counts(course)
 
-    def check_enrichments(self, course):  # FIXME: change function name to update_enrichment_counts and fix the bottom condition
-        # only really need enrichment a/b checks for LMOR but it won't hurt the other cases
-        if course.enrichment_a:
-            self.student.num_enrichments_a += 1
-        if course.enrichment_b:
-            self.student.num_enrichments_b += 1
-        #FIXME: Want the below to be like (if course.enrichment and not course.required[self.student.major])
-        if course.enrichment and not course.required[self.student.major]: #FIXME: (What was previouslyt here) This ain't right b/c classes that aren't required aren't necessarily enrichments. This logic could work though with other tweaks outside of this funtion.
-            self.student.num_enrichments += 1
 
     def fill_from_after(self, cur_block, after, cur_time):
         """Function to fill in classes from after list generated in the previous quarter."""
@@ -195,11 +187,13 @@ class Schedule:
 
         enrichments_needed = {"LMATAB1": 4, "LMATAB2": 4, "LMATBS1": 4, "LMATBS2": 4, "LAMA": 2, "LMCOBIO": 2, "LMCOMATH": 2, "LMOR": 4}
 
-        #FIXME: after this is all implemented, maybe can delete bottom part but idk
+        #FIXME: after this is all implemented, maybe can delete bottom part but idk (edit: don't delete the bottom part)
 
         #FIXME: Approved_UD_Nonmath is technically an enrichment course, but is also not enrichment A or B which means it might break LMOR. ;(
         if self.student.major == "LMOR":
-            if (self.student.num_enrichments_a >= enrichments_needed[self.student.major] and course.enrichment_a) or (self.student.num_enrichments_b >= 2 and course.enrichment_b):
+            if self.student.num_enrichments_b < 2 and course.enrichment_b:
+                return False
+            if (self.student.num_enrichments_a >= 2 and course.enrichment_a) or (self.student.num_enrichments_b >= 2 and course.enrichment_b):
                 return True
         elif self.student.major == "LAMA":
             if (self.student.num_enrichments >= enrichments_needed[self.student.major] and course.enrichment) or (self.student.has_taken_approved_ud_nonmath_req and course.approved_ud_nonmath):
@@ -213,6 +207,7 @@ class Schedule:
         else:
             if (self.student.num_enrichments >= enrichments_needed[self.student.major] and course.enrichment) and (not course.approved_ud_nonmath):  # And they've taken the approved_ud_nonmath?
                 return True
+
 
         #FIXME: need to make better definition of what constitutes "pointless", i.e. STA100 is not enrichment A or B but is upper division but it's also pointless for LAMA
         #FIXME: below part will say that any upper div class in these departments is useful, when that is not true
@@ -336,11 +331,11 @@ class Schedule:
         # FIXME: NEED TO ADD MAJOR-SPECIFIC ENRICHMENT REQUIREMENTS HERE
         enrichments_needed = {"LMATAB1": 4, "LMATAB2": 4, "LMATBS1": 4, "LMATBS2": 4, "LAMA": 2, "LMCOBIO": 2, "LMCOMATH": 2, "LMOR": 4}
         num_needed = enrichments_needed[self.student.major]
-        if self.student.num_enrichments < num_needed:
-            return False
         if self.student.major == "LMOR":
             if self.student.num_enrichments_a < LMOR_ENRICHMENTS_A_NEEDED or self.student.num_enrichments_b < LMOR_ENRICHMENTS_B_NEEDED:
                 return False
+        elif self.student.num_enrichments < num_needed:
+            return False
         return True
 
     def num_math_classes(self, block):

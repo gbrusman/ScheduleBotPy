@@ -303,7 +303,7 @@ class MultiPageApp(tk.Tk):
         quarters_offered_119A = ["Fall", "Winter"]
         interests_119A = ["Physics"]
         
-        MAT119A = Course("MAT119A", interests_119A, "MAT119B", required_119A, quarters_offered_119A, "ALWAYS", enrichment=True)
+        MAT119A = Course("MAT119A", interests_119A, "MAT119B", required_119A, quarters_offered_119A, "ALWAYS", enrichment_a = True, enrichment=True)
 
         # MAT119B
         required_119B = {}
@@ -628,7 +628,7 @@ class MultiPageApp(tk.Tk):
         required_167["LMCOBIO"] = False
         quarters_offered_167 = ["Fall", "Winter"]
         interests_167 = ["Teaching", "Data Analysis"]
-        MAT167 = Course("MAT167", interests_167, None, required_167, quarters_offered_167, "ALWAYS", enrichment=True)
+        MAT167 = Course("MAT167", interests_167, None, required_167, quarters_offered_167, "ALWAYS", enrichment=True, enrichment_a=True)
 
         # MAT168
         required_168 = {}
