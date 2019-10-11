@@ -999,7 +999,7 @@ class MultiPageApp(tk.Tk):
         required_STA141A["LMATAB2"] = False
         required_STA141A["LAMA"] = False
         required_STA141A["LMOR"] = False
-        required_STA141A["LMCOMATH"] = True
+        required_STA141A["LMCOMATH"] = False
         required_STA141A["LMCOBIO"] = False
         quarters_offered_STA141A = ["Fall", "Spring"]
         STA141A = Course("STA141A", None, None, required_STA141A, quarters_offered_STA141A, "ALWAYS", True)
@@ -1105,7 +1105,7 @@ class MultiPageApp(tk.Tk):
         required_ECS124["LAMA"] = False
         required_ECS124["LMOR"] = False
         required_ECS124["LMCOMATH"] = False
-        required_ECS124["LMCOBIO"] = True
+        required_ECS124["LMCOBIO"] = False
         quarters_offered_ECS124 = ["Fall", "Winter", "Spring"]
         ECS124 = Course("ECS124", None, None, required_ECS124, quarters_offered_ECS124, "ALWAYS")
 
@@ -1117,7 +1117,7 @@ class MultiPageApp(tk.Tk):
         required_ECS129["LMATAB2"] = False
         required_ECS129["LAMA"] = False
         required_ECS129["LMOR"] = False
-        required_ECS129["LMCOMATH"] = True
+        required_ECS129["LMCOMATH"] = False
         required_ECS129["LMCOBIO"] = False
         quarters_offered_ECS129 = ["Winter"]
         ECS129 = Course("ECS129", None, None, required_ECS129, quarters_offered_ECS129, "ALWAYS")
@@ -1130,7 +1130,7 @@ class MultiPageApp(tk.Tk):
         required_ECS170["LMATAB2"] = False
         required_ECS170["LAMA"] = False
         required_ECS170["LMOR"] = False
-        required_ECS170["LMCOMATH"] = True
+        required_ECS170["LMCOMATH"] = False
         required_ECS170["LMCOBIO"] = False
         quarters_offered_ECS170 = ["Winter"]
         ECS170 = Course("ECS170", None, None, required_ECS170, quarters_offered_ECS170, "ALWAYS")
