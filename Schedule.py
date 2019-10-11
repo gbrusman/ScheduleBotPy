@@ -27,6 +27,7 @@ class Schedule:
         self.classes_offered = classes_offered
         self.classes_by_name = {}
         self.schedule = {}
+        self.finish_time = AcademicTime()
         for course in classes_offered:
             self.classes_by_name[course.name] = course
 
@@ -93,6 +94,8 @@ class Schedule:
             self.schedule[cur_time] = cur_block
             cur_time = cur_time.progress_time()
             self.student.cur_time = cur_time
+        self.finish_time.quarter = cur_time.quarter
+        self.finish_time.year = cur_time.year
 
     def add_course_to_block(self, course, block, after, time):
         """Function to add a Course object to a ScheduleBlock object"""

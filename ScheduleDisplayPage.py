@@ -46,7 +46,6 @@ class ScheduleDisplayPage(tk.Frame):
             failed = True
         schedule = schedule_data.schedule
         start_time = AcademicTime(student.start_time.year, student.start_time.quarter)
-        grad_time = AcademicTime(student.grad_time.year, student.grad_time.quarter)
         table_start_time = AcademicTime(start_time.year, start_time.quarter)
 
         failed_label = tk.Label(self, fg="red",
@@ -62,7 +61,7 @@ class ScheduleDisplayPage(tk.Frame):
         year_index = 0
         year_frame = Frame(self)
         quarter_index = 0
-        finish_time = grad_time.progress_time()  # probably doesn't work because need copy of grad_time
+        finish_time = schedule_data.finish_time  # FIXME: change finish_time to be the last quarter in the schedule
 
         while cur_time != finish_time and cur_time != finish_time.progress_time() and cur_time != finish_time.progress_time().progress_time():
             if cur_time.quarter == "Spring":
