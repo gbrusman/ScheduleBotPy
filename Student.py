@@ -38,8 +38,8 @@ class Student:
                 self.has_taken_computation_req = True
 
     def initialize_enrichment_counts(self):
-        enrichment_counted = False
         for course in self.classes_taken:
+            enrichment_counted = False
             if self.classes_taken[course].enrichment and not self.classes_taken[course].required[self.major]:
                 self.num_enrichments += 1
                 enrichment_counted = True
@@ -47,6 +47,7 @@ class Student:
                 self.num_enrichments_a += 1
                 if not enrichment_counted:
                     self.num_enrichments += 1
+                    enrichment_counted = True
             if self.classes_taken[course].enrichment_b:
                 self.num_enrichments_b += 1
                 if not enrichment_counted:

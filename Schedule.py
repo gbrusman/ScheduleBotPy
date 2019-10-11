@@ -149,10 +149,11 @@ class Schedule:
                         if cur_course.required[self.student.major]:
                             self.add_course_to_block(cur_course, cur_block, after, cur_time)
                             i -= 1  # to balance index
-                    else:
+                    else:  # FIXME: Causing issue with being able to pick 3 MAT classes in a quarter
                         placed_interest = self.try_to_place_interesting_class(cur_course, cur_block, cur_time, after)
                         if not placed_interest:
-                            self.add_course_to_block(cur_course, cur_block, after, cur_time)
+                            if not (self.num_math_classes(cur_block) == MAX_MATH_CLASSES_PER_QUARTER and cur_course.name[:3] == "MAT"):
+                                self.add_course_to_block(cur_course, cur_block, after, cur_time)
                         i -= 1  # to balance index
                 i += 1
             required_or_electives += 1
@@ -234,15 +235,17 @@ class Schedule:
         for interest in self.student.interests:  # run through list of student interests
             cur_interest_table = self.interest_table[interest]
             if cur_course in cur_interest_table:  # add course if it coincides with interest
-                self.add_course_to_block(cur_course, cur_block, after, cur_time)
-                placed_interest = True
-                break
+                if not (self.num_math_classes(cur_block) == MAX_MATH_CLASSES_PER_QUARTER and cur_course.name[:3] == "MAT"):
+                    self.add_course_to_block(cur_course, cur_block, after, cur_time)
+                    placed_interest = True
+                    break
             else:  # see if there's an "interesting" class that can be placed here (not very efficient implementation)
                 for interest_course in cur_interest_table:
                     if self.class_is_valid(interest_course, cur_time, cur_block):
-                        self.add_course_to_block(interest_course, cur_block, after, cur_time)
-                        placed_interest = True
-                        break
+                        if not (self.num_math_classes(cur_block) == MAX_MATH_CLASSES_PER_QUARTER and interest_course.name[:3] == "MAT"):
+                            self.add_course_to_block(interest_course, cur_block, after, cur_time)
+                            placed_interest = True
+                            break
         return placed_interest
 
     def class_is_valid(self, course, time, block):
