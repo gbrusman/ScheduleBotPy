@@ -394,7 +394,7 @@ class MultiPageApp(tk.Tk):
         required_128B["LMATBS2"] = False
         required_128B["LMATAB1"] = False
         required_128B["LMATAB2"] = False
-        required_128B["LAMA"] = True
+        required_128B["LAMA"] = False
         required_128B["LMOR"] = False
         required_128B["LMCOMATH"] = True
         required_128B["LMCOBIO"] = True

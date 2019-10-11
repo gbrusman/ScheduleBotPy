@@ -338,7 +338,7 @@ class Schedule:
         enrichments_needed = {"LMATAB1": 4, "LMATAB2": 4, "LMATBS1": 4, "LMATBS2": 4, "LAMA": 2, "LMCOBIO": 2, "LMCOMATH": 2, "LMOR": 4}
         num_needed = enrichments_needed[self.student.major]
 
-        needed_128s = {"LMATAB1": 0, "LMATAB2": 0, "LMATBS1": 0, "LMATBS2": 0, "LAMA": 2, "LMCOBIO": 3, "LMCOMATH": 3, "LMOR": 1}
+        needed_128s = {"LMATAB1": 0, "LMATAB2": 0, "LMATBS1": 0, "LMATBS2": 0, "LAMA": 2, "LMCOBIO": 3, "LMCOMATH": 3, "LMOR": 1}  # FIXME: Problem is that 128AB are required but sometimes it'll pick 128AC and so it shouldn't also have to pick 128B
         if self.student.num_128s < needed_128s[self.student.major]:
             return False
         if self.student.major == "LMOR":
