@@ -103,6 +103,7 @@ class Schedule:
         after.append(course.after)
         self.classes_offered.remove(course)
         self.student.update_enrichment_counts(course)
+        self.student.update_128_count(course)
 
 
     def add_course_from_after(self, course, block, after, time, index):
@@ -336,6 +337,10 @@ class Schedule:
         # FIXME: NEED TO ADD MAJOR-SPECIFIC ENRICHMENT REQUIREMENTS HERE
         enrichments_needed = {"LMATAB1": 4, "LMATAB2": 4, "LMATBS1": 4, "LMATBS2": 4, "LAMA": 2, "LMCOBIO": 2, "LMCOMATH": 2, "LMOR": 4}
         num_needed = enrichments_needed[self.student.major]
+
+        needed_128s = {"LMATAB1": 0, "LMATAB2": 0, "LMATBS1": 0, "LMATBS2": 0, "LAMA": 2, "LMCOBIO": 3, "LMCOMATH": 3, "LMOR": 1}
+        if self.student.num_128s < needed_128s[self.student.major]:
+            return False
         if self.student.major == "LMOR":
             if self.student.num_enrichments_a < LMOR_ENRICHMENTS_A_NEEDED or self.student.num_enrichments_b < LMOR_ENRICHMENTS_B_NEEDED:
                 return False
