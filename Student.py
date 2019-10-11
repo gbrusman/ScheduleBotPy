@@ -8,17 +8,15 @@ class Student:
 
     Attributes:
         cur_time (AcademicTime): The current time (Quarter, Year).
-        grad_time (AcademicTime): The time the student will graduate (Quarter, Year).
         major (string): The major the student is pursuing.
         interests (list): The students interests within mathematics. Each interest is a string.
         classes_taken (dict): The classes the student has already taken up until cur_time. Keys are course names, values are Course objects.
         start_time (AcademicTime): The AcademicTime that represents the student's first quarter at UC Davis.
         num_enrichments (int): The number of enrichment courses the student has taken up until cur_time.
     """
-    def __init__(self, cur_time=AcademicTime(), grad_time=AcademicTime(), major="", interests=[], classes_taken={}, num_enrichments=0, num_enrichments_a=0, num_enrichments_b=0):
+    def __init__(self, cur_time=AcademicTime(), major="", interests=[], classes_taken={}, num_enrichments=0, num_enrichments_a=0, num_enrichments_b=0):
         """The constructor for the Student class."""
         self.cur_time = cur_time
-        self.grad_time = grad_time
         self.major = major
         self.interests = interests
         self.classes_taken = classes_taken

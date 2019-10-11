@@ -78,12 +78,11 @@ class Schedule:
 
     def place_classes(self):
         """Function to oversee class placement / creation of the actual schedule."""
-       # grad_time = self.student.grad_time
         cur_time = self.student.cur_time
         cur_time = cur_time.progress_time()  # want to start scheduling on NEXT quarter
         self.student.cur_time = cur_time
         after = []
-        #finish_time = grad_time.progress_time()  # due to semantics we want to stop taking classes the quarter AFTER they graduate
+
 
         while not self.new_is_success():
             cur_block = ScheduleBlock(cur_time)
