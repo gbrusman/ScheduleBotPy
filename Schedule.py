@@ -165,9 +165,9 @@ class Schedule:
             "MAT67": self.mat67_redundant,
             "MAT22AL": self.mat22al_redundant,
             "ECS32A": self.ecs32a_redundant,
-            "MAT128A": self.mat128a_redundant,
-            "MAT128B": self.mat128b_redundant,
-            "MAT128C": self.mat128c_redundant,
+           # "MAT128A": self.mat128a_redundant,
+           # "MAT128B": self.mat128b_redundant,
+           # "MAT128C": self.mat128c_redundant,
             "PHY7A": self.phy7a_redundant,
             "ECS124": self.ecs124_redundant,
             "ECS129": self.ecs129_redundant,
@@ -186,7 +186,8 @@ class Schedule:
 
     def is_pointless(self, course):  # checks to see if we're adding a class that provides absolutely no benefit
         """Function to test whether or not a class is pointless to take. Returns boolean."""
-        if course.required[self.student.major]:
+        MAT128s = ["MAT128A", "MAT128B", "MAT128C"]
+        if course.required[self.student.major] or (course.name in MAT128s and self.student.num_128s < self.student.num128s_needed[self.student.major]):
             return False
 
         enrichments_needed = {"LMATAB1": 4, "LMATAB2": 4, "LMATBS1": 4, "LMATBS2": 4, "LAMA": 2, "LMCOBIO": 2, "LMCOMATH": 2, "LMOR": 4}
@@ -201,7 +202,7 @@ class Schedule:
                 return True
         elif self.student.major == "LAMA":
             if (self.student.num_enrichments >= enrichments_needed[self.student.major] and course.enrichment) or (self.student.has_taken_approved_ud_nonmath_req and course.approved_ud_nonmath):
-                return True
+                return True # FIXME: causes errors with 128C after 128A. This issue might be the same for the other majors.
         elif self.student.major == "LMCOBIO":
             if (self.student.num_enrichments >= enrichments_needed[self.student.major] and course.enrichment) or (self.student.has_taken_biology_req and course.biology_requirement):
                 return True
@@ -338,8 +339,8 @@ class Schedule:
         enrichments_needed = {"LMATAB1": 4, "LMATAB2": 4, "LMATBS1": 4, "LMATBS2": 4, "LAMA": 2, "LMCOBIO": 2, "LMCOMATH": 2, "LMOR": 4}
         num_needed = enrichments_needed[self.student.major]
 
-        needed_128s = {"LMATAB1": 0, "LMATAB2": 0, "LMATBS1": 0, "LMATBS2": 0, "LAMA": 2, "LMCOBIO": 3, "LMCOMATH": 3, "LMOR": 1}  # FIXME: Problem is that 128AB are required but sometimes it'll pick 128AC and so it shouldn't also have to pick 128B
-        if self.student.num_128s < needed_128s[self.student.major]:
+      # FIXME: Problem is that 128AB are required but sometimes it'll pick 128AC and so it shouldn't also have to pick 128B
+        if self.student.num_128s < self.student.num128s_needed[self.student.major]:
             return False
         if self.student.major == "LMOR":
             if self.student.num_enrichments_a < LMOR_ENRICHMENTS_A_NEEDED or self.student.num_enrichments_b < LMOR_ENRICHMENTS_B_NEEDED:

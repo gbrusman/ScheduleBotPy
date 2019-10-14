@@ -29,6 +29,10 @@ class Student:
         self.has_taken_computation_req = False
         self.num_128s = num_128s
 
+        self.num128s_needed = {"LMATAB1": 0, "LMATAB2": 0, "LMATBS1": 0, "LMATBS2": 0, "LAMA": 2, "LMCOBIO": 3, "LMCOMATH": 3,
+                       "LMOR": 1}
+
+
     def update_128_count(self, course):
         if course.name == "MAT128A" or course.name == "MAT128B" or course.name == "MAT128C":
             self.num_128s += 1
