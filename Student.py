@@ -27,15 +27,19 @@ class Student:
         self.has_taken_approved_ud_nonmath_req = False
         self.has_taken_biology_req = False
         self.has_taken_computation_req = False
-        self.num_128s = num_128s
+        self.num_128s = 0
 
         self.num128s_needed = {"LMATAB1": 0, "LMATAB2": 0, "LMATBS1": 0, "LMATBS2": 0, "LAMA": 2, "LMCOBIO": 3, "LMCOMATH": 3,
                        "LMOR": 1}
 
-
     def update_128_count(self, course):
         if course.name == "MAT128A" or course.name == "MAT128B" or course.name == "MAT128C":
             self.num_128s += 1
+
+    def initialize_128_count(self):
+        for course_name in self.classes_taken:
+            if course_name == "MAT128A" or course_name == "MAT128B" or course_name == "MAT128C":
+                self.num_128s += 1
 
     def check_major_specific_requirements(self):
         for course in self.classes_taken:

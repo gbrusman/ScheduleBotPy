@@ -45,6 +45,7 @@ class Schedule:
         self.fix_21series()  # e.g. if student selected they took 21B, adds 21A to their classes_taken to prevent conflicts
         self.fix_MAT67()  # if student has taken MAT 67 then mark 108 and 22a as not required
         self.student.initialize_enrichment_counts()
+        self.student.initialize_128_count()
         self.place_classes()
         # if self.is_success():
         #     print("SUCCESS! :D")
