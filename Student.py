@@ -496,10 +496,10 @@ class Student:
         return self.has_taken("MAT21A")
 
     def NON_MATH_NATURAL_SCIENCE2_prereq(self):
-        return self.has_taken("MAT21B")
+        return self.has_taken("MAT21B") and self.has_taken("Non-math Natural Science 1")
 
     def NON_MATH_NATURAL_SCIENCE3_prereq(self):
-        return self.has_taken("MAT21C")
+        return self.has_taken("MAT21C") and self.has_taken("Non-math Natural Science 2")
 
 
 
