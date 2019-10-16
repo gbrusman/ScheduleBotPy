@@ -103,8 +103,8 @@ class Schedule:
         print("Adding ", course.name, " at ", time.quarter,  " ", time.year)
         after.append(course.after)
         self.classes_offered.remove(course)
-        self.student.update_enrichment_counts(course)
         self.student.update_128_count(course)
+        self.student.update_enrichment_counts(course)
 
 
     def add_course_from_after(self, course, block, after, time, index):

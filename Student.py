@@ -14,7 +14,7 @@ class Student:
         start_time (AcademicTime): The AcademicTime that represents the student's first quarter at UC Davis.
         num_enrichments (int): The number of enrichment courses the student has taken up until cur_time.
     """
-    def __init__(self, cur_time=AcademicTime(), major="", interests=[], classes_taken={}, num_enrichments=0, num_enrichments_a=0, num_enrichments_b=0, num_128s = 0):
+    def __init__(self, cur_time=AcademicTime(), major="", interests=[], classes_taken={}, num_enrichments=0, num_enrichments_a=0, num_enrichments_b=0):
         """The constructor for the Student class."""
         self.cur_time = cur_time
         self.major = major
@@ -40,6 +40,8 @@ class Student:
         for course_name in self.classes_taken:
             if course_name == "MAT128A" or course_name == "MAT128B" or course_name == "MAT128C":
                 self.num_128s += 1
+                if self.num_128s > self.num128s_needed[self.major]:
+                    self.num_enrichments += 1
 
     def check_major_specific_requirements(self):
         for course in self.classes_taken:
@@ -69,6 +71,7 @@ class Student:
 
     def update_enrichment_counts(self, course):
         # only really need enrichment a/b checks for LMOR but it won't hurt the other cases
+        mat128s = ["MAT128A", "MAT128B", "MAT128C"]
         if course.enrichment_a:
             self.num_enrichments_a += 1
             if self.major == "LMOR":
@@ -77,8 +80,12 @@ class Student:
             self.num_enrichments_b += 1
             if self.major == "LMOR":
                 self.num_enrichments += 1
-        if course.enrichment and not course.required[self.major]:
-            self.num_enrichments += 1
+        if course.enrichment and not course.required[self.major]:  # FIXME: need logic here for dealing with 128 series courses
+            if course.name in mat128s:
+                if self.num_128s > self.num128s_needed[self.major]:
+                    self.num_enrichments += 1
+            else:
+                self.num_enrichments += 1
 
     def is_taking(self, course_name, block):
         """Function to test whether a student is currently taking a Course (in cur_time). Returns boolean."""
