@@ -1217,6 +1217,51 @@ class MultiPageApp(tk.Tk):
         COMPUTATION_REQUIREMENT = Course(name="Computation Requirement",
                                       required=required_COMPUTATION_REQUIREMENT, quarters_offered=quarters_offered_COMPUTATION_REQUIREMENT, computation_requirement=True)
 
+        # NON_MATH_NATURAL_SCIENCE1
+        required_NON_MATH_NATURAL_SCIENCE1 = {}
+        required_NON_MATH_NATURAL_SCIENCE1["LMATBS1"] = False
+        required_NON_MATH_NATURAL_SCIENCE1["LMATBS2"] = False
+        required_NON_MATH_NATURAL_SCIENCE1["LMATAB1"] = True
+        required_NON_MATH_NATURAL_SCIENCE1["LMATAB2"] = True
+        required_NON_MATH_NATURAL_SCIENCE1["LAMA"] = False
+        required_NON_MATH_NATURAL_SCIENCE1["LMOR"] = False
+        required_NON_MATH_NATURAL_SCIENCE1["LMCOMATH"] = False
+        required_NON_MATH_NATURAL_SCIENCE1["LMCOBIO"] = False
+        quarters_offered_NON_MATH_NATURAL_SCIENCE1 = {"Fall", "Winter", "Spring"}
+        NON_MATH_NATURAL_SCIENCE1 = Course(name="Non-math Natural Science 1",
+                                         required=required_NON_MATH_NATURAL_SCIENCE1,
+                                         quarters_offered=quarters_offered_NON_MATH_NATURAL_SCIENCE1)
+
+        # NON_MATH_NATURAL_SCIENCE2
+        required_NON_MATH_NATURAL_SCIENCE2 = {}
+        required_NON_MATH_NATURAL_SCIENCE2["LMATBS1"] = False
+        required_NON_MATH_NATURAL_SCIENCE2["LMATBS2"] = False
+        required_NON_MATH_NATURAL_SCIENCE2["LMATAB1"] = True
+        required_NON_MATH_NATURAL_SCIENCE2["LMATAB2"] = True
+        required_NON_MATH_NATURAL_SCIENCE2["LAMA"] = False
+        required_NON_MATH_NATURAL_SCIENCE2["LMOR"] = False
+        required_NON_MATH_NATURAL_SCIENCE2["LMCOMATH"] = False
+        required_NON_MATH_NATURAL_SCIENCE2["LMCOBIO"] = False
+        quarters_offered_NON_MATH_NATURAL_SCIENCE2 = {"Fall", "Winter", "Spring"}
+        NON_MATH_NATURAL_SCIENCE2 = Course(name="Non-math Natural Science 2",
+                                           required=required_NON_MATH_NATURAL_SCIENCE2,
+                                           quarters_offered=quarters_offered_NON_MATH_NATURAL_SCIENCE2)
+        
+        # NON_MATH_NATURAL_SCIENCE3
+        required_NON_MATH_NATURAL_SCIENCE3 = {}
+        required_NON_MATH_NATURAL_SCIENCE3["LMATBS1"] = False
+        required_NON_MATH_NATURAL_SCIENCE3["LMATBS2"] = False
+        required_NON_MATH_NATURAL_SCIENCE3["LMATAB1"] = True
+        required_NON_MATH_NATURAL_SCIENCE3["LMATAB2"] = True
+        required_NON_MATH_NATURAL_SCIENCE3["LAMA"] = False
+        required_NON_MATH_NATURAL_SCIENCE3["LMOR"] = False
+        required_NON_MATH_NATURAL_SCIENCE3["LMCOMATH"] = False
+        required_NON_MATH_NATURAL_SCIENCE3["LMCOBIO"] = False
+        quarters_offered_NON_MATH_NATURAL_SCIENCE3 = {"Fall", "Winter", "Spring"}
+        NON_MATH_NATURAL_SCIENCE3 = Course(name="Non-math Natural Science 3",
+                                           required=required_NON_MATH_NATURAL_SCIENCE3,
+                                           quarters_offered=quarters_offered_NON_MATH_NATURAL_SCIENCE3)
+
         classes_offered.append(MAT21A)
         classes_offered.append(MAT21B)
         classes_offered.append(MAT21C)
@@ -1302,6 +1347,9 @@ class MultiPageApp(tk.Tk):
         classes_offered.append(ATM120)
         classes_offered.append(ATM121A)
         classes_offered.append(ATM121B)
+        classes_offered.append(NON_MATH_NATURAL_SCIENCE1)
+        classes_offered.append(NON_MATH_NATURAL_SCIENCE2)
+        classes_offered.append(NON_MATH_NATURAL_SCIENCE3)
         return classes_offered
 
 

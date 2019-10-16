@@ -206,6 +206,9 @@ class Student:
             "Approved Upper Division Non-Math": self.APPROVED_UD_NONMATH_prereq,
             "Biology Requirement": self.BIOLOGY_REQUIREMENT_prereq,
             "Computation Requirement": self.COMPUTATION_REQUIREMENT_prereq,
+            "Non-math Natural Science 1": self.NON_MATH_NATURAL_SCIENCE1_prereq,
+            "Non-math Natural Science 2": self.NON_MATH_NATURAL_SCIENCE2_prereq,
+            "Non-math Natural Science 3": self.NON_MATH_NATURAL_SCIENCE3_prereq,
         }
         func = switcher.get(course.name)
         if func is None:
@@ -489,7 +492,14 @@ class Student:
     def COMPUTATION_REQUIREMENT_prereq(self):
         return self.has_taken("MAT128A") #randomly came up with this as above
 
+    def NON_MATH_NATURAL_SCIENCE1_prereq(self):
+        return self.has_taken("MAT21A")
 
+    def NON_MATH_NATURAL_SCIENCE2_prereq(self):
+        return self.has_taken("MAT21B")
+
+    def NON_MATH_NATURAL_SCIENCE3_prereq(self):
+        return self.has_taken("MAT21C")
 
 
 
