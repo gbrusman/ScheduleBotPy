@@ -52,6 +52,9 @@ class ScheduleDisplayPage(tk.Frame):
                                 text="")
         failed_label.grid(row=0, column=0, pady=10, padx=10, sticky="new", in_=self)
 
+        mat128s = ["MAT128A", "MAT128B", "MAT128C"]
+        num_128s_printed = 0
+
         while table_start_time.quarter != "Fall":
             table_start_time = table_start_time.reverse_time()
 
@@ -61,7 +64,7 @@ class ScheduleDisplayPage(tk.Frame):
         year_index = 0
         year_frame = Frame(self)
         quarter_index = 0
-        finish_time = schedule_data.finish_time  # FIXME: change finish_time to be the last quarter in the schedule
+        finish_time = schedule_data.finish_time
 
         while cur_time != finish_time and cur_time != finish_time.progress_time() and cur_time != finish_time.progress_time().progress_time():
             if cur_time.quarter == "Spring":
@@ -104,15 +107,25 @@ class ScheduleDisplayPage(tk.Frame):
                     course0 = tk.Entry(block_box, width=20, readonlybackground="White")  # http://www.tcl.tk/man/tcl/TkCmd/entry.htm#M9
                     course0.insert(0, schedule.get(cur_time).courses[0].name)  # https://stackoverflow.com/questions/14847243/how-can-i-insert-a-string-in-a-entry-widget-that-is-in-the-readonly-state
                     course0.configure(state='readonly')
+                    if(schedule.get(cur_time).courses[0].name in mat128s):
+                        num_128s_printed += 1
                     if not schedule.get(cur_time).courses[0].required[student.major]:
-                        course0.configure(readonlybackground="#43f2c0")
+                        if (schedule.get(cur_time).courses[0].name not in mat128s):
+                            course0.configure(readonlybackground="#43f2c0")
+                        elif (schedule.get(cur_time).courses[0].name in mat128s and num_128s_printed >student.num128s_needed[student.major]):
+                            course0.configure(readonlybackground="#43f2c0")
                     course0.grid(row=1, pady=5, sticky="w", in_=block_box)
                 if len(schedule.get(cur_time).courses) > 1:
                     course1 = tk.Entry(block_box, width=20, readonlybackground="White")
                     course1.insert(1, schedule.get(cur_time).courses[1].name)
                     course1.configure(state='readonly')
+                    if (schedule.get(cur_time).courses[1].name in mat128s):
+                        num_128s_printed += 1
                     if not schedule.get(cur_time).courses[1].required[student.major]:
-                        course1.configure(readonlybackground="#43f2c0")
+                        if(schedule.get(cur_time).courses[1].name not in mat128s):
+                            course1.configure(readonlybackground="#43f2c0")
+                        elif (schedule.get(cur_time).courses[1].name in mat128s and num_128s_printed > student.num128s_needed[student.major]):
+                            course1.configure(readonlybackground="#43f2c0")
                     course1.grid(row=2, pady=5, sticky="w", in_=block_box)
                 else: #FIXME: will need to duplicate this to make 2 blank courses if we are supporting up to 3 classes per quarter
                     blank_course = Label(block_box, width=20, text="")
@@ -121,8 +134,13 @@ class ScheduleDisplayPage(tk.Frame):
                     course2 = tk.Entry(block_box, width=20, readonlybackground="White")
                     course2.insert(2, schedule.get(cur_time).courses[2].name)
                     course2.configure(state='readonly')
+                    if (schedule.get(cur_time).courses[2].name in mat128s):
+                        num_128s_printed += 1
                     if not schedule.get(cur_time).courses[2].required[student.major]:
-                        course2.configure(readonlybackground="#43f2c0")
+                        if (schedule.get(cur_time).courses[2].name not in mat128s):
+                            course2.configure(readonlybackground="#43f2c0")
+                        elif (schedule.get(cur_time).courses[2].name in mat128s and num_128s_printed > student.num128s_needed[student.major]):
+                            course2.configure(readonlybackground="#43f2c0")
                     course2.grid(row=3, pady=5, sticky="w", in_=block_box)
                 else: #FIXME: will need to duplicate this to make 2 blank courses if we are supporting up to 3 classes per quarter
                     blank_course = Label(block_box, width=20, text="")
