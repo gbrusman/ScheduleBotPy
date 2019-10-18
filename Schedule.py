@@ -47,10 +47,6 @@ class Schedule:
         self.student.initialize_enrichment_counts()
         self.student.initialize_128_count()
         self.place_classes()
-        # if self.is_success():
-        #     print("SUCCESS! :D")
-        # else:
-        #     print("FAILURE! ;(")
 
     def fix_MAT67(self):
         """function that marks 108 and 22A as not required if the student has already taken MAT67"""
@@ -120,8 +116,8 @@ class Schedule:
         """Function to fill in classes from after list generated in the previous quarter."""
         next_after = []
         i = 0
-        while i < len(after):  # need to recompute this range because len(after) changes in loop
-            after_course = self.classes_by_name.get(after[i], None)  # not sure if really what I want (see Schedule.java:120)
+        while i < len(after):
+            after_course = self.classes_by_name.get(after[i], None)
             if after_course is not None:
                 if after_course.is_offered(cur_time) and after_course.required[self.student.major]:
                     self.add_course_from_after(after_course, cur_block, after, cur_time, i)
@@ -205,7 +201,7 @@ class Schedule:
             if (self.student.num_enrichments >= enrichments_needed[self.student.major] and course.enrichment) or (self.student.has_taken_biology_req and course.computation_requirement):
                 return True
         else:
-            if (self.student.num_enrichments >= enrichments_needed[self.student.major] and course.enrichment) and (not course.approved_ud_nonmath):  # And they've taken the approved_ud_nonmath?
+            if (self.student.num_enrichments >= enrichments_needed[self.student.major] and course.enrichment) and (not course.approved_ud_nonmath):
                 return True
 
 

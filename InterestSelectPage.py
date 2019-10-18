@@ -32,7 +32,6 @@ class InterestSelectPage(tk.Frame):
             row += 1
         for i in range(len(interests)):
             cbox_frame.grid_rowconfigure(i, weight=1)
-        #cbox_frame.grid_columnconfigure(1, weight=1)
 
         button_frame = Frame(self)
         button_frame.grid(row=7, sticky="ew")
