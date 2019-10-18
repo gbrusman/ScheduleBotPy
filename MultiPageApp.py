@@ -1359,6 +1359,4 @@ class MultiPageApp(tk.Tk):
 if __name__ == "__main__":
     app = MultiPageApp()
     app.title("ScheduleBot 0.0.1-alpha")
-    #app.iconbitmap("Aggies.ico")
-    #app.minsize(height=450, width=475)
     app.mainloop()

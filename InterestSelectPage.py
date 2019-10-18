@@ -47,8 +47,6 @@ class InterestSelectPage(tk.Frame):
         num_cols, num_rows = self.grid_size()
         for i in range(num_rows):
             self.grid_rowconfigure(i, minsize=5, weight=1)
-        #for i in range(num_cols):
-            #self.grid_columnconfigure(i, weight=1)
         self.grid_columnconfigure(0, weight=1)
         self.grid_rowconfigure(0, minsize=20)
 

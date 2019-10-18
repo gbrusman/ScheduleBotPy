@@ -122,4 +122,3 @@ class MajorSelectPage(tk.Frame):
                 6: "LMCOBIO",
                 7: "LMCOMATH"}
         self.controller.student.major = major_map[selected_major_index]
-        #self.controller.student.major = self.major.get()
