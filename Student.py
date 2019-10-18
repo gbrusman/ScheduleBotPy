@@ -103,6 +103,7 @@ class Student:
         name = course.name
         # https://jaxenter.com/implement-switch-case-statement-python-138315.html
         switcher = {
+            "ECN1B": self.ecn1b_rec,
             "ECS32A": self.ecs32a_rec,
             "MAT108": self.mat108_rec,
             "MAT22A": self.mat22a_rec,
@@ -216,6 +217,9 @@ class Student:
         if course.name == "ENG06" or course.name == "PHY9B":
             return func(block)  # ENG06/PHY9B special case b/c concurrency, needs block parameter
         return func()
+
+    def ecn1b_rec(self):
+        return self.has_taken("ECN1A");
 
     def ecs32a_rec(self):
         return self.start_time != self.cur_time
