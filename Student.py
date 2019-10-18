@@ -80,7 +80,7 @@ class Student:
             self.num_enrichments_b += 1
             if self.major == "LMOR":
                 self.num_enrichments += 1
-        if course.enrichment and not course.required[self.major]:  # FIXME: need logic here for dealing with 128 series courses
+        if course.enrichment and not course.required[self.major]:
             if course.name in mat128s:
                 if self.num_128s > self.num128s_needed[self.major]:
                     self.num_enrichments += 1
@@ -243,8 +243,6 @@ class Student:
         return self.num_enrichments >= 1 # will help push it back to senior year
 
     def mat180_rec(self):
-        #return self.cur_time.year == self.grad_time.year  # and self.cur_time.quarter == self.grad_time.quarter
-        #return self.can_graduate("MAT180")
         return self.num_enrichments >= 2
 
     def mat21a_prereq(self):
