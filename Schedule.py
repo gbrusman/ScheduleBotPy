@@ -166,9 +166,6 @@ class Schedule:
             "MAT67": self.mat67_redundant,
             "MAT22AL": self.mat22al_redundant,
             "ECS32A": self.ecs32a_redundant,
-           # "MAT128A": self.mat128a_redundant,
-           # "MAT128B": self.mat128b_redundant,
-           # "MAT128C": self.mat128c_redundant,
             "PHY7A": self.phy7a_redundant,
             "ECS124": self.ecs124_redundant,
             "ECS129": self.ecs129_redundant,
@@ -193,9 +190,6 @@ class Schedule:
 
         enrichments_needed = {"LMATAB1": 4, "LMATAB2": 4, "LMATBS1": 4, "LMATBS2": 4, "LAMA": 2, "LMCOBIO": 2, "LMCOMATH": 2, "LMOR": 4}
 
-        #FIXME: after this is all implemented, maybe can delete bottom part but idk (edit: don't delete the bottom part)
-
-        #FIXME: Approved_UD_Nonmath is technically an enrichment course, but is also not enrichment A or B which means it might break LMOR. ;(
         if self.student.major == "LMOR":
             if self.student.num_enrichments_b < 2 and course.enrichment_b:
                 return False
@@ -203,7 +197,7 @@ class Schedule:
                 return True
         elif self.student.major == "LAMA":
             if (self.student.num_enrichments >= enrichments_needed[self.student.major] and course.enrichment) or (self.student.has_taken_approved_ud_nonmath_req and course.approved_ud_nonmath):
-                return True # FIXME: causes errors with 128C after 128A. This issue might be the same for the other majors.
+                return True
         elif self.student.major == "LMCOBIO":
             if (self.student.num_enrichments >= enrichments_needed[self.student.major] and course.enrichment) or (self.student.has_taken_biology_req and course.biology_requirement):
                 return True
@@ -215,9 +209,7 @@ class Schedule:
                 return True
 
 
-        #FIXME: need to make better definition of what constitutes "pointless", i.e. STA100 is not enrichment A or B but is upper division but it's also pointless for LAMA
-        #FIXME: below part will say that any upper div class in these departments is useful, when that is not true
-        if not course.enrichment: # FIXME: Might block from picking any courses outside of the math department.
+        if not course.enrichment:
             return True
 
         departments = ["MAT", "ECS", "STA", "ARE", "CHE", "PHY", "ARE", "ECN", "BIS"]
@@ -253,7 +245,6 @@ class Schedule:
 
     def class_is_valid(self, course, time, block):
         """Function to test whether or not the course can be taken."""
-        # FIXME: include enrichment A/B checker (i.e. don't let it put 3 enrichment A's)
         return course.is_offered(time) and self.student.has_prereqs(course, block) and \
                (not self.student.has_taken(course.name)) and self.student.meets_reccommendations(course) and \
                (not self.is_redundant(course, block)) and (not block.contains(course))
@@ -336,11 +327,9 @@ class Schedule:
         for course_name in self.classes_by_name:
             if self.classes_by_name[course_name].required[self.student.major] and course_name not in self.student.classes_taken.keys():
                 return False
-        # FIXME: NEED TO ADD MAJOR-SPECIFIC ENRICHMENT REQUIREMENTS HERE
         enrichments_needed = {"LMATAB1": 4, "LMATAB2": 4, "LMATBS1": 4, "LMATBS2": 4, "LAMA": 2, "LMCOBIO": 2, "LMCOMATH": 2, "LMOR": 4}
         num_needed = enrichments_needed[self.student.major]
 
-      # FIXME: Problem is that 128AB are required but sometimes it'll pick 128AC and so it shouldn't also have to pick 128B
         if self.student.num_128s < self.student.num128s_needed[self.student.major]:
             return False
         if self.student.major == "LMOR":
