@@ -1,11 +1,8 @@
 import tkinter as tk
-from tkinter.ttk import *
 import tkinter.font as tkfont
-from Course import Course
-from Student import Student
-from Schedule import Schedule
+from tkinter.ttk import *
+
 from AcademicTime import AcademicTime
-from ScheduleBlock import ScheduleBlock
 
 
 class MajorSelectPage(tk.Frame):

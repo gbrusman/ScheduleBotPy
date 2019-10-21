@@ -1,12 +1,9 @@
+import copy
 import tkinter as tk
 from tkinter.ttk import *
-import tkinter.font as tkfont
-from Course import Course
-from Student import Student
-from Schedule import Schedule
+
 from AcademicTime import AcademicTime
-from ScheduleBlock import ScheduleBlock
-import copy
+from Schedule import Schedule
 
 
 class ScheduleDisplayPage(tk.Frame):

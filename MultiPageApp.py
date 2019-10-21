@@ -1,17 +1,14 @@
 #!/usr/bin/env python
 import tkinter as tk
-from tkinter.ttk import *
-import tkinter.font as tkfont
+
+from AppliedSeriesChoicePage import AppliedSeriesChoicePage
 from Course import Course
-from Student import Student
-from Schedule import Schedule
-from AcademicTime import AcademicTime
-from ScheduleBlock import ScheduleBlock
-from MajorSelectPage import MajorSelectPage
 from CourseSelectPage import CourseSelectPage
 from InterestSelectPage import InterestSelectPage
+from MajorSelectPage import MajorSelectPage
 from ScheduleDisplayPage import ScheduleDisplayPage
-from AppliedSeriesChoicePage import AppliedSeriesChoicePage
+from Student import Student
+
 
 #  https://stackoverflow.com/questions/7546050/switch-between-two-frames-in-tkinter
 

@@ -1,6 +1,5 @@
 from AcademicTime import AcademicTime
-from ScheduleBlock import ScheduleBlock
-from Course import Course
+
 
 class Student:
     """

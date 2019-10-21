@@ -1,5 +1,4 @@
 from AcademicTime import AcademicTime
-from Course import Course
 from ScheduleBlock import ScheduleBlock
 from Student import Student
 
