@@ -106,7 +106,7 @@ class ScheduleDisplayPage(tk.Frame):
                     course0.configure(state='readonly')
                     if(schedule.get(cur_time).courses[0].name in mat128s):
                         num_128s_printed += 1
-                    if not schedule.get(cur_time).courses[0].required[student.major]:
+                    if not schedule.get(cur_time).courses[0].required[student.major] or schedule.get(cur_time).courses[0].name == "MAT167":
                         if (schedule.get(cur_time).courses[0].name not in mat128s):
                             course0.configure(readonlybackground="#43f2c0")
                         elif (schedule.get(cur_time).courses[0].name in mat128s and num_128s_printed >student.num128s_needed[student.major]):
@@ -118,7 +118,7 @@ class ScheduleDisplayPage(tk.Frame):
                     course1.configure(state='readonly')
                     if (schedule.get(cur_time).courses[1].name in mat128s):
                         num_128s_printed += 1
-                    if not schedule.get(cur_time).courses[1].required[student.major]:
+                    if not schedule.get(cur_time).courses[1].required[student.major] or schedule.get(cur_time).courses[1].name == "MAT167":
                         if(schedule.get(cur_time).courses[1].name not in mat128s):
                             course1.configure(readonlybackground="#43f2c0")
                         elif (schedule.get(cur_time).courses[1].name in mat128s and num_128s_printed > student.num128s_needed[student.major]):
@@ -133,7 +133,7 @@ class ScheduleDisplayPage(tk.Frame):
                     course2.configure(state='readonly')
                     if (schedule.get(cur_time).courses[2].name in mat128s):
                         num_128s_printed += 1
-                    if not schedule.get(cur_time).courses[2].required[student.major]:
+                    if not schedule.get(cur_time).courses[2].required[student.major] or schedule.get(cur_time).courses[2].name == "MAT167":
                         if (schedule.get(cur_time).courses[2].name not in mat128s):
                             course2.configure(readonlybackground="#43f2c0")
                         elif (schedule.get(cur_time).courses[2].name in mat128s and num_128s_printed > student.num128s_needed[student.major]):
