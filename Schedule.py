@@ -95,7 +95,7 @@ class Schedule:
     def add_course_to_block(self, course, block, after, time):
         """Function to add a Course object to a ScheduleBlock object"""
         block.courses.append(course)
-        print("Adding ", course.name, " at ", time.quarter,  " ", time.year)
+        print "Adding " + course.name + " at " + time.quarter + " " + str(time.year)
         after.append(course.after)
         self.classes_offered.remove(course)
         self.student.update_128_count(course)
@@ -105,7 +105,7 @@ class Schedule:
     def add_course_from_after(self, course, block, after, time, index):
         """Function to add a Course object to a ScheduleBlock object from the after list of a previously added class."""
         block.courses.append(course)
-        print("Adding ", course.name, " at ", time.quarter, " ", time.year)
+        print "Adding " + course.name + " at " + time.quarter + " " + str(time.year)
         self.classes_offered.remove(course)
         after.pop(index)
         self.student.update_enrichment_counts(course)
