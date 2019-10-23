@@ -1,6 +1,6 @@
-import tkinter as tk
-from tkinter.ttk import *
-import tkinter.font as tkfont
+import Tkinter as tk
+from Tkinter.ttk import *
+import Tkinter.font as tkfont
 from Course import Course
 from Student import Student
 from Schedule import Schedule
@@ -12,10 +12,10 @@ class CourseSelectPage(tk.Frame):
         tk.Frame.__init__(self, parent)
         self.controller = controller
 
-        prompt_frame = Frame(self)
+        prompt_frame = tk.Frame(self)
         prompt_frame.grid_columnconfigure(0, weight=1)
         prompt_frame.grid(sticky="nsew", row=0, columnspan=10)
-        prompt = Label(prompt_frame, text="Please select which classes you have taken, or are currently taking.")
+        prompt = tk.Label(prompt_frame, text="Please select which classes you have taken, or are currently taking.")
         prompt.grid(column=0, row=0, columnspan=2, in_=prompt_frame)
 
         #self.grid_columnconfigure(0, weight=1)
@@ -25,11 +25,11 @@ class CourseSelectPage(tk.Frame):
         col = 0
         row = 1
         count = 0
-        cbox_frame = Frame(self)
+        cbox_frame = tk.Frame(self)
         cbox_frame.grid(row=3, sticky="nsew")
         self.cbox_list = []
         for course in self.controller.classes_offered:
-            checkbox = Checkbutton(cbox_frame, text=course.name)
+            checkbox = tk.Checkbutton(cbox_frame, text=course.name)
             checkbox.invoke()  # turns checkbox from default to on
             checkbox.invoke()  # turns checkbox from on to off
             checkbox.grid(row=row, column=col, sticky="nsew", padx=5, in_=cbox_frame)
@@ -44,11 +44,11 @@ class CourseSelectPage(tk.Frame):
         for i in range(10):
             cbox_frame.grid_rowconfigure(i, weight=1)
 
-        button_frame = Frame(self)
+        button_frame = tk.Frame(self)
         button_frame.grid(row=7, sticky="ew")
-        back_button = Button(button_frame, text="Back", command=lambda: self.go_back())
+        back_button = tk.Button(button_frame, text="Back", command=lambda: self.go_back())
         back_button.grid(row=25, column=0, padx=5, pady=5, sticky="sw", in_=button_frame)
-        next_button = Button(button_frame, text="Next", command=lambda: self.goto_interest_select())
+        next_button = tk.Button(button_frame, text="Next", command=lambda: self.goto_interest_select())
         next_button.grid(row=25, column=1, padx=5, pady=5, sticky="se", in_=button_frame)
         for i in range(2):
             button_frame.grid_columnconfigure(i, weight=1)

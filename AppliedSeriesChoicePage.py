@@ -1,5 +1,5 @@
-import tkinter as tk
-from tkinter.ttk import *
+import Tkinter as tk
+from Tkinter.ttk import *
 
 
 class AppliedSeriesChoicePage(tk.Frame):
@@ -7,10 +7,10 @@ class AppliedSeriesChoicePage(tk.Frame):
         tk.Frame.__init__(self, parent)
         self.controller = controller
 
-        prompt_frame = Frame(self)
+        prompt_frame = tk.Frame(self)
         prompt_frame.grid_columnconfigure(0, weight=1)
         prompt_frame.grid(sticky="nsew", row=0, columnspan=10)
-        prompt = Label(prompt_frame, text="Please select which series you are most interested in taking")
+        prompt = tk.Label(prompt_frame, text="Please select which series you are most interested in taking")
         prompt.grid(column=0, row=0, columnspan=2, in_=prompt_frame)
         self.err_msg = tk.Label(prompt_frame, text="", fg="red")  # needed to use tk label here for fg option
         self.err_msg.grid(column=0, row=1, columnspan=2, in_=prompt_frame)
@@ -21,23 +21,23 @@ class AppliedSeriesChoicePage(tk.Frame):
 
         self.button_var = tk.IntVar()
         self.button_var.set(0)
-        radio_button_frame = Frame(self)
+        radio_button_frame = tk.Frame(self)
         radio_button_frame.grid(row=1, sticky="nsew")
         radio_button_frame.grid_columnconfigure(0, weight=1)
         for row in range(5):
             radio_button_frame.grid_rowconfigure(row, weight=1)
 
-        phy_button = Radiobutton(radio_button_frame, text="PHY 9A,B", variable=self.button_var, value=1).grid(in_=radio_button_frame, row=0, sticky="nsew", pady=5)
-        bis_button = Radiobutton(radio_button_frame, text="BIS 2A,B", variable=self.button_var, value=2).grid(in_=radio_button_frame, row=1, sticky="nsew", pady=5)
-        che_button = Radiobutton(radio_button_frame, text="CHE 2A,B", variable=self.button_var, value=3).grid(in_=radio_button_frame, row=2, sticky="nsew", pady=5)
-        ecn_button = Radiobutton(radio_button_frame, text="ECN 1A,B", variable=self.button_var, value=4).grid(in_=radio_button_frame, row=3, sticky="nsew", pady=5)
-        sta_button = Radiobutton(radio_button_frame, text="STA 32,100", variable=self.button_var, value=5).grid(in_=radio_button_frame, row=4, sticky="nsew", pady=5)
+        phy_button = tk.Radiobutton(radio_button_frame, text="PHY 9A,B", variable=self.button_var, value=1).grid(in_=radio_button_frame, row=0, sticky="nsew", pady=5)
+        bis_button = tk.Radiobutton(radio_button_frame, text="BIS 2A,B", variable=self.button_var, value=2).grid(in_=radio_button_frame, row=1, sticky="nsew", pady=5)
+        che_button = tk.Radiobutton(radio_button_frame, text="CHE 2A,B", variable=self.button_var, value=3).grid(in_=radio_button_frame, row=2, sticky="nsew", pady=5)
+        ecn_button = tk.Radiobutton(radio_button_frame, text="ECN 1A,B", variable=self.button_var, value=4).grid(in_=radio_button_frame, row=3, sticky="nsew", pady=5)
+        sta_button = tk.Radiobutton(radio_button_frame, text="STA 32,100", variable=self.button_var, value=5).grid(in_=radio_button_frame, row=4, sticky="nsew", pady=5)
 
-        button_frame = Frame(self)
+        button_frame = tk.Frame(self)
         button_frame.grid(row=7, sticky="ew", columnspan=2)
-        back_button = Button(button_frame, text="Back", command=lambda: controller.show_frame("MajorSelectPage"))
+        back_button = tk.Button(button_frame, text="Back", command=lambda: controller.show_frame("MajorSelectPage"))
         back_button.grid(row=0, column=0, padx=5, pady=10, sticky="sw", in_=button_frame)
-        next_button = Button(button_frame, text="Next", command=lambda: self.goto_course_select())  # also need to change courseselect to go back to here if student is LAMA
+        next_button = tk.Button(button_frame, text="Next", command=lambda: self.goto_course_select())  # also need to change courseselect to go back to here if student is LAMA
         next_button.grid(row=0, column=1, padx=5, pady=10, sticky="se", in_=button_frame)
         button_frame.grid_columnconfigure(0, weight=1)
         button_frame.grid_columnconfigure(1, weight=1)

@@ -1,5 +1,5 @@
 #!/usr/bin/env python
-import tkinter as tk
+import Tkinter as tk
 
 from AppliedSeriesChoicePage import AppliedSeriesChoicePage
 from Course import Course
