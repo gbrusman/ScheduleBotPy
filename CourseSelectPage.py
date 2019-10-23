@@ -1,6 +1,6 @@
 import Tkinter as tk
-from Tkinter.ttk import *
-import Tkinter.font as tkfont
+import ttk as TTK
+import tkFont
 from Course import Course
 from Student import Student
 from Schedule import Schedule
@@ -29,7 +29,7 @@ class CourseSelectPage(tk.Frame):
         cbox_frame.grid(row=3, sticky="nsew")
         self.cbox_list = []
         for course in self.controller.classes_offered:
-            checkbox = tk.Checkbutton(cbox_frame, text=course.name)
+            checkbox = TTK.Checkbutton(cbox_frame, text=course.name)
             checkbox.invoke()  # turns checkbox from default to on
             checkbox.invoke()  # turns checkbox from on to off
             checkbox.grid(row=row, column=col, sticky="nsew", padx=5, in_=cbox_frame)

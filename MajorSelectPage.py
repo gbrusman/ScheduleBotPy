@@ -1,6 +1,6 @@
 import Tkinter as tk
-import Tkinter.font as tkfont
-from Tkinter.ttk import *
+import tkFont
+import ttk as TTK
 
 from AcademicTime import AcademicTime
 
@@ -33,7 +33,7 @@ class MajorSelectPage(tk.Frame):
                          "Applied Mathematics", "Mathematical Analytics and Operations Research",
                          "Mathematical and Scientific Computation - Bio Emphasis",
                          "Mathematical and Scientific Computation - Math Emphasis"]
-        self.major_select_box = tk.Combobox(major_frame, values=self.major_choices, textvariable=self.major, state="readonly", width=45)  # need to talk to IT people about what libraries are okay to import
+        self.major_select_box = TTK.Combobox(major_frame, values=self.major_choices, textvariable=self.major, state="readonly", width=45)  # need to talk to IT people about what libraries are okay to import
         self.major_select_box.bind('<Configure>', self.on_combo_configure)
         self.major_select_box.grid(row=0, column=1, in_=major_frame, sticky=tk.E + tk.W, padx=5)
         self.major_select_box.bind("<<ComboboxSelected>>", self.get_major_value)
@@ -42,7 +42,7 @@ class MajorSelectPage(tk.Frame):
         cur_quarter_label = tk.Label(major_frame, text="Current Quarter: ")
         cur_quarter_label.grid(column=0, row=1, in_=major_frame, pady=10, sticky="e", padx=5)
         cur_quarter_choices = ["Fall", "Winter", "Spring"]
-        self.cur_quarter_select_box = tk.Combobox(major_frame, values=cur_quarter_choices, textvariable=self.cur_quarter, state="readonly", width=25)
+        self.cur_quarter_select_box = TTK.Combobox(major_frame, values=cur_quarter_choices, textvariable=self.cur_quarter, state="readonly", width=25)
         self.cur_quarter_select_box.grid(row=1, column=1, in_=major_frame, sticky=tk.W, padx=5)
 
 
@@ -67,11 +67,11 @@ class MajorSelectPage(tk.Frame):
         """Function to expand ComboBox dropdown menu so all text fits on screen for the major select box."""
         # https://stackoverflow.com/questions/39915275/change-width-of-dropdown-listbox-of-a-ttk-combobox
         combo = event.widget
-        style = tk.ttk.Style()
+        style = TTK.Style()
 
         long = max(combo.cget('values'), key=len)
 
-        font = tkfont.nametofont(str(combo.cget('font')))
+        font = tkFont.nametofont(str(combo.cget('font')))
         width = max(0, font.measure(long.strip() + '0') - combo.winfo_width())
 
         style.configure('TCombobox', postoffset=(0, 0, width, 0))

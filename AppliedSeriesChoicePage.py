@@ -1,5 +1,5 @@
 import Tkinter as tk
-from Tkinter.ttk import *
+from ttk import *
 
 
 class AppliedSeriesChoicePage(tk.Frame):

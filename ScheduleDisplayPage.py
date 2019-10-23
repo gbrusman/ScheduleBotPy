@@ -1,6 +1,6 @@
 import copy
 import Tkinter as tk
-from Tkinter.ttk import *
+from ttk import *
 
 from AcademicTime import AcademicTime
 from Schedule import Schedule
@@ -37,7 +37,8 @@ class ScheduleDisplayPage(tk.Frame):
 
         # Need to make new student object because it gets mutated when creating schedule, need to handle case where user hits back button.
         student = copy.deepcopy(self.controller.student)
-        classes_offered = self.controller.classes_offered.copy()  # Need to make copy of classes_offered for same reason as above
+        #classes_offered = self.controller.classes_offered.copy()  # Need to make copy of classes_offered for same reason as above
+        classes_offered = copy.deepcopy(self.controller.classes_offered) # Need to make copy of classes_offered for same reason as above
         schedule_data = Schedule(student, classes_offered)
         if not schedule_data.new_is_success():
             failed = True

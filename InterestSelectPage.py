@@ -1,5 +1,5 @@
 import Tkinter as tk
-from Tkinter.ttk import *
+import ttk as TTK
 
 
 class InterestSelectPage(tk.Frame):
@@ -19,7 +19,7 @@ class InterestSelectPage(tk.Frame):
         interests = ["Teaching", "Geometry", "Physics", "Biology", "Computers", "Finance", "Abstract", "Data Analysis"]
         row = 0
         for interest in interests:
-            checkbox = tk.Checkbutton(cbox_frame, text=interest)
+            checkbox = TTK.Checkbutton(cbox_frame, text=interest)
             checkbox.invoke()  # turns checkbox from default to on
             checkbox.invoke()  # turns checkbox from on to off
             checkbox.grid(row=row, sticky="nsew", padx=5, in_=cbox_frame)
@@ -52,7 +52,8 @@ class InterestSelectPage(tk.Frame):
 
 
     def get_info_from_cboxes(self):
-        self.controller.student.interests.clear()
+        #self.controller.student.interests.clear()
+        del self.controller.student.interests[:]
         for cbox in self.cbox_list:
             if cbox.instate(['selected']):  # https://stackoverflow.com/questions/4236910/getting-tkinter-check-box-state
                 self.controller.student.interests.append(cbox.cget("text"))  # https://stackoverflow.com/questions/33545085/how-to-get-the-text-from-a-checkbutton-in-python-tkinter
