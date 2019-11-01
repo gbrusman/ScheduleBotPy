@@ -1,14 +1,14 @@
 import copy
 import Tkinter as tk
-from ttk import *
+import ttk as TTK
 
 from AcademicTime import AcademicTime
 from Schedule import Schedule
 
 
-class ScheduleDisplayPage(tk.Frame):
+class ScheduleDisplayPage(TTK.Frame):
     def __init__(self, parent, controller):
-        tk.Frame.__init__(self, parent)
+        TTK.Frame.__init__(self, parent)
         self.controller = controller
 
 
@@ -18,13 +18,13 @@ class ScheduleDisplayPage(tk.Frame):
             widget.destroy()
 
         #Now need to put frame back (or add in for the first time)
-        self.schedule_frame = tk.Frame(self)
+        self.schedule_frame = TTK.Frame(self)
         self.schedule_frame.grid(row=1, sticky="ew")
-        button_frame = tk.Frame(self)
+        button_frame = TTK.Frame(self)
         button_frame.grid(row=14, sticky="ew")
-        back_button = tk.Button(button_frame, text="Back", command=lambda: self.controller.show_frame("InterestSelectPage"))
+        back_button = TTK.Button(button_frame, text="Back", command=lambda: self.controller.show_frame("InterestSelectPage"))
         back_button.grid(row=25, column=0, padx=5, pady=10, sticky="sw", in_=button_frame)
-        color_frame = tk.Frame(self)
+        color_frame = TTK.Frame(self)
         color_frame.grid(row=13, sticky="ew", in_=self)
         color_frame.columnconfigure(0, weight=1)
         color_canvas = tk.Canvas(self, width=100, height=25)
@@ -32,23 +32,15 @@ class ScheduleDisplayPage(tk.Frame):
         color_canvas.create_text(150, 10, text="= Enrichment Course", anchor="e")
         color_canvas.grid(sticky="nsew", in_=color_frame)
 
-        failed = False
-
 
         # Need to make new student object because it gets mutated when creating schedule, need to handle case where user hits back button.
         student = copy.deepcopy(self.controller.student)
-        #classes_offered = self.controller.classes_offered.copy()  # Need to make copy of classes_offered for same reason as above
         classes_offered = copy.deepcopy(self.controller.classes_offered) # Need to make copy of classes_offered for same reason as above
         schedule_data = Schedule(student, classes_offered)
-        if not schedule_data.new_is_success():
-            failed = True
+
         schedule = schedule_data.schedule
         start_time = AcademicTime(student.start_time.year, student.start_time.quarter)
         table_start_time = AcademicTime(start_time.year, start_time.quarter)
-
-        failed_label = tk.Label(self, fg="red",
-                                text="")
-        failed_label.grid(row=0, column=0, pady=10, padx=10, sticky="new", in_=self)
 
         mat128s = ["MAT128A", "MAT128B", "MAT128C"]
         num_128s_printed = 0
@@ -60,18 +52,27 @@ class ScheduleDisplayPage(tk.Frame):
         start = True
         first_year = True
         year_index = 0
-        year_frame = tk.Frame(self)
+        year_frame = TTK.Frame(self)
         quarter_index = 0
         finish_time = schedule_data.finish_time
 
         while cur_time != finish_time and cur_time != finish_time.progress_time() and cur_time != finish_time.progress_time().progress_time():
             if cur_time.quarter == "Spring":
                 if first_year:
-                    year_frame.grid(row=year_index, in_=self.schedule_frame)
+                    year_frame.grid(row=year_index, column=0, in_=self.schedule_frame)
                     first_year = False
-                year_frame = tk.Frame(self.schedule_frame)
+                year_frame = TTK.Frame(self.schedule_frame)
                 year_index += 1
-                year_frame.grid(row=year_index, in_=self.schedule_frame, pady=10)
+                year_frame.grid(row=year_index, column=0, in_=self.schedule_frame, pady=10)
+
+                col_size, row_size = year_frame.grid_size()  # do the same thing with schedule_frame
+                for i in range(row_size):
+                    self.grid_rowconfigure(i, weight=1)
+                for i in range(col_size):
+                    self.grid_columnconfigure(i, weight=1)
+
+
+
                 quarter_index = 0
             cur_time = cur_time.progress_time()
 
@@ -79,24 +80,24 @@ class ScheduleDisplayPage(tk.Frame):
                 start = False
             if start:
                 while table_start_time != cur_time:  # adding in invisible columns, could also try adding in real blank columns and setting min columnwidth
-                    block_box = tk.Frame(year_frame)
-                    block_box.grid(row=0, column=quarter_index, in_=year_frame, sticky="ew", padx=10)  # sticky might be wrong, also might need row/column
+                    block_box = TTK.Frame(year_frame)
+                    block_box.grid(row=0, column=quarter_index, in_=year_frame, sticky="ew")  # sticky might be wrong, also might need row/column
                     title = tk.Label(block_box, text="", width=20)  # display blank columns to make display uniform. Width = 20 because that is width of regular block_box
                     title.grid(row=0, column=0, in_=block_box)
                     quarter_index += 1
                     table_start_time = table_start_time.progress_time()
                 start = False
 
-            block_box = tk.Frame(year_frame)
+            block_box = TTK.Frame(year_frame)
             title = tk.Label(block_box, text=cur_time.quarter + " " + str(cur_time.year))
             title.grid(row=0, column=0, in_=block_box)
 
             if cur_time == finish_time:  # insert blank columns after end to keep the layout consistent
                 while cur_time.quarter != "Fall":
-                    block_box = tk.Frame(year_frame)
+                    block_box = TTK.Frame(year_frame)
                     title = tk.Label(block_box, text="", width=20)
                     title.grid(row=0, column=0, in_=block_box)
-                    block_box.grid(row=0, column=quarter_index, in_=year_frame, sticky="ew", padx=10)
+                    block_box.grid(row=0, column=quarter_index, in_=year_frame, sticky="ew")
                     cur_time = cur_time.progress_time()
                     quarter_index += 1
 
@@ -112,7 +113,7 @@ class ScheduleDisplayPage(tk.Frame):
                             course0.configure(readonlybackground="#43f2c0")
                         elif (schedule.get(cur_time).courses[0].name in mat128s and num_128s_printed >student.num128s_needed[student.major]):
                             course0.configure(readonlybackground="#43f2c0")
-                    course0.grid(row=1, pady=5, sticky="w", in_=block_box)
+                    course0.grid(row=1, pady=5, sticky="ew", in_=block_box)
                 if len(schedule.get(cur_time).courses) > 1:
                     course1 = tk.Entry(block_box, width=20, readonlybackground="White")
                     course1.insert(1, schedule.get(cur_time).courses[1].name)
@@ -124,10 +125,10 @@ class ScheduleDisplayPage(tk.Frame):
                             course1.configure(readonlybackground="#43f2c0")
                         elif (schedule.get(cur_time).courses[1].name in mat128s and num_128s_printed > student.num128s_needed[student.major]):
                             course1.configure(readonlybackground="#43f2c0")
-                    course1.grid(row=2, pady=5, sticky="w", in_=block_box)
+                    course1.grid(row=2, pady=5, sticky="ew", in_=block_box)
                 else:
                     blank_course = tk.Label(block_box, width=20, text="")
-                    blank_course.grid(row=2, pady=5, sticky="w", in_=block_box)
+                    blank_course.grid(row=2, pady=5, sticky="ew", in_=block_box)
                 if len(schedule.get(cur_time).courses) > 2:
                     course2 = tk.Entry(block_box, width=20, readonlybackground="White")
                     course2.insert(2, schedule.get(cur_time).courses[2].name)
@@ -139,18 +140,19 @@ class ScheduleDisplayPage(tk.Frame):
                             course2.configure(readonlybackground="#43f2c0")
                         elif (schedule.get(cur_time).courses[2].name in mat128s and num_128s_printed > student.num128s_needed[student.major]):
                             course2.configure(readonlybackground="#43f2c0")
-                    course2.grid(row=3, pady=5, sticky="w", in_=block_box)
+                    course2.grid(row=3, pady=5, sticky="ew", in_=block_box)
                 else:
                     blank_course = tk.Label(block_box, width=20, text="")
-                    blank_course.grid(row=3, pady=5, sticky="w", in_=block_box)
+                    blank_course.grid(row=3, pady=5, sticky="ew", in_=block_box)
                 if len(block_box.children) > 1:
-                    block_box.grid(row=0, column=quarter_index, padx=10, sticky="ew", in_=year_frame)
+                    # if(len(schedule.get(cur_time).courses) <= 2): #FIXME: Trying to fix spacing here because years with quarters with 3 classes are off.
+                    #     block_box.grid(row=0, column=quarter_index, padx=10, sticky="ew", in_=year_frame)
+                    # else:
+                    #     block_box.grid(row=0, column=quarter_index, padx=20, sticky="ew", in_=year_frame)
+                    block_box.grid(row=0, column=quarter_index, sticky="ew", padx=10, in_=year_frame)
                     quarter_index += 1
 
-        #FIXME: figure out what of this code is no longer needed, because we will never get a 'failed' case, since the scheduler simply runs until it doesn't fail
-        if failed:
-            failed_label.configure(text="WARNING: This schedule does not contain all of the classes you will need to graduate. Consider talking to an advisor in person for additional advice.")
-            self.grid_rowconfigure(0, minsize=35)
+
         col_size, row_size = self.grid_size()  # do the same thing with schedule_frame
         for i in range(row_size):
             self.grid_rowconfigure(i, weight=1)
