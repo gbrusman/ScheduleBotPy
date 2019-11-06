@@ -33,6 +33,8 @@ class MajorSelectPage(tk.Frame):
                          "Applied Mathematics", "Mathematical Analytics and Operations Research",
                          "Mathematical and Scientific Computation - Bio Emphasis",
                          "Mathematical and Scientific Computation - Math Emphasis"]
+
+        #FIXME: For styling the white backgrounds: https://wiki.tcl-lang.org/page/Changing+Widget+Colors
         self.major_select_box = Combobox(major_frame, values=self.major_choices, textvariable=self.major, state="readonly", width=45)  # need to talk to IT people about what libraries are okay to import
         self.major_select_box.bind('<Configure>', self.on_combo_configure)
         self.major_select_box.grid(row=0, column=1, in_=major_frame, sticky=tk.E + tk.W, padx=5)
