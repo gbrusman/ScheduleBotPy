@@ -3,13 +3,12 @@
  )
 
 
-$scripts = "AcademicTime.py AppliedSeriesChoicePage.py Course.py CourseSelectPage.py InterestSelectPage.py MajorSelectPage.py MultiPageApp.py ScheduleBlock.py ScheduleDispla
-yPage.py Schedule.py Student.py"
+$scripts = "AcademicTime.py", "AppliedSeriesChoicePage.py", "Course.py", "CourseSelectPage.py", "InterestSelectPage.py", "MajorSelectPage.py", "MultiPageApp.py", "ScheduleBlock.py", "ScheduleDisplayPage.py", "Schedule.py", "Student.py"
 
-$options = "-n ScheduleBotWINDOWS"
+$options = "-n", "ScheduleBotWINDOWS"
 
 if($f) {
-    $options += "--onefile --windowed"
+    $options += "--onefile", "--windowed"
 }
 
 pyinstaller $options $scripts
