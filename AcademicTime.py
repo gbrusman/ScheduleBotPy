@@ -8,8 +8,8 @@ class AcademicTime:
         newtime = AcademicTime(self.year, self.quarter)
 
         if self.quarter == "Fall":
-            newtime.quarter = "Winter";
-            newtime.year += 1;
+            newtime.quarter = "Winter"
+            newtime.year += 1
         elif self.quarter == "Winter":
             newtime.quarter = "Spring"
         elif self.quarter == "Spring":

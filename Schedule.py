@@ -54,6 +54,7 @@ class Schedule:
                 if self.classes_offered[i].name == "MAT108" or self.classes_offered[i].name == "MAT22A":
                     self.classes_offered[i].required[self.student.major] = False
 
+
     def fix_21series(self):
         """Function to add implicit 21 series prereqs to student's classes_taken list"""
         if "MAT21D" in self.student.classes_taken:
@@ -136,6 +137,7 @@ class Schedule:
             i = 0
             while i < len(self.classes_offered):
                 cur_course = self.classes_offered[i]
+                self.fix_ENG06(i)
                 if len(cur_block.courses) == MAX_TOT_CLASSES_PER_QUARTER:
                     break
                 if self.class_is_valid(cur_course, cur_time, cur_block):
@@ -154,6 +156,10 @@ class Schedule:
                         i -= 1  # to balance index
                 i += 1
             required_or_electives += 1
+
+    def fix_ENG06(self, i):
+        if(self.student.major == "LMOR" and self.classes_offered[i].name == "ENG06" and self.student.has_taken("MAT22AL") and self.student.has_taken("ECS32A")):
+            self.classes_offered[i].required["LMOR"] = False
 
     def is_redundant(self, course, block):
         """Function to test whether or not a class is redundant to take. Returns boolean."""
