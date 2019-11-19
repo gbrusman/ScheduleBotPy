@@ -13,7 +13,7 @@ class Student:
         start_time (AcademicTime): The AcademicTime that represents the student's first quarter at UC Davis.
         num_enrichments (int): The number of enrichment courses the student has taken up until cur_time.
     """
-    def __init__(self, cur_time=AcademicTime(), major="", interests=[], classes_taken={}, num_enrichments=0, num_enrichments_a=0, num_enrichments_b=0):
+    def __init__(self, cur_time=AcademicTime(), major="", interests=[], classes_taken={}, num_enrichments=0, num_enrichments_a=0, num_enrichments_b=0, summer_quarters=[]):
         """The constructor for the Student class."""
         self.cur_time = cur_time
         self.major = major
@@ -27,6 +27,7 @@ class Student:
         self.has_taken_biology_req = False
         self.has_taken_computation_req = False
         self.num_128s = 0
+        self.summer_quarters = summer_quarters
 
         self.num128s_needed = {"LMATAB1": 0, "LMATAB2": 0, "LMATBS1": 0, "LMATBS2": 0, "LAMA": 2, "LMCOBIO": 3, "LMCOMATH": 3,
                        "LMOR": 1}
