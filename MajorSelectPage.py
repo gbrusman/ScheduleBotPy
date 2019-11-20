@@ -6,7 +6,6 @@ from AcademicTime import AcademicTime
 
 
 class MajorSelectPage(tk.Frame):
-
     def __init__(self, parent, controller):
         tk.Frame.__init__(self, parent)
         self.controller = controller
@@ -26,6 +25,7 @@ class MajorSelectPage(tk.Frame):
 
         major_frame = Frame(info_frame)
         major_frame.grid(column=0, row=5, pady=10)
+        self.major_frame = major_frame
         major_label = Label(major_frame, text="Major: ")
         major_label.grid(column=0, row=0, in_=major_frame, pady=20, sticky="e", padx=5)
         self.major_choices = ["AB Mathematics: Plan 1 - General Mathematics", "AB Mathematics: Plan 2 - Secondary Teaching",
@@ -34,7 +34,7 @@ class MajorSelectPage(tk.Frame):
                          "Mathematical and Scientific Computation - Bio Emphasis",
                          "Mathematical and Scientific Computation - Math Emphasis"]
 
-        #FIXME: For styling the white backgrounds: https://wiki.tcl-lang.org/page/Changing+Widget+Colors
+        # For styling the white backgrounds: https://wiki.tcl-lang.org/page/Changing+Widget+Colors
         style = Style()
         style.map('TCombobox', fieldbackground=[('readonly', 'white')])
 
@@ -56,6 +56,12 @@ class MajorSelectPage(tk.Frame):
         self.cur_year_entry = Entry(major_frame, width=15)
         self.cur_year_entry.grid(row=2, column=1, in_=major_frame, sticky=tk.W, padx=5)
 
+        summer_session_label = Label(major_frame, text="Are you planning on taking any summer sessions?")
+        summer_session_label.grid(column=0, row=4, in_=major_frame, pady=0, sticky="e", padx=5)
+        summer_session_checkbox = tk.Checkbutton(major_frame, anchor='w', command=self.create_summer_options)
+        summer_session_checkbox.flash()
+        summer_session_checkbox.grid(column=1, row=4, in_=major_frame, pady=0, sticky="w", padx=0)
+
         next_button = Button(self, text="Next", command=lambda: self.goto_course_select())
         next_button.grid(row=2, padx=5, pady=10, sticky=tk.S + tk.E)
 
@@ -67,6 +73,15 @@ class MajorSelectPage(tk.Frame):
 
         major_frame.grid_rowconfigure(3, minsize=20)  # separates current year stuff from grad year stuff
 
+
+    def create_summer_options(self):
+        summer_combo_label = Label(self.major_frame, text="Please select which summer sessions you will be taking:")
+        summer_combo_label.grid(column=0, row=5, in_=self.major_frame, pady=0, sticky="e", padx=5)
+
+        session_choices = ["Summer Session 1", "Summer Session 2"]
+        summer_select_box = Combobox(self.major_frame, values=session_choices, state="readonly", width=25)
+        summer_select_box.bind('<Configure>', self.on_combo_configure)
+        summer_select_box.grid(row=5, column=1, in_=self.major_frame, sticky=tk.W, padx=5)
 
     def on_combo_configure(self, event):
         """Function to expand ComboBox dropdown menu so all text fits on screen for the major select box."""
