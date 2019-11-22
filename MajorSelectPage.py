@@ -64,6 +64,7 @@ class MajorSelectPage(tk.Frame):
         summer_session_checkbox.flash()
         summer_session_checkbox.grid(column=1, row=4, in_=major_frame, pady=0, sticky="w", padx=0)
         self.add_new_entry_button = Button(self.major_frame, text="Add New Summer Session", command=self.create_summer_options)
+        self.remove_entry_button = Button(self.major_frame, text="Remove Summer Session", command=self.remove_summer_session_entry)
         self.summer_session_array = []
 
         next_button = Button(self, text="Next", command=lambda: self.goto_course_select())
@@ -76,6 +77,20 @@ class MajorSelectPage(tk.Frame):
             self.grid_rowconfigure(row, minsize=20, weight=1)
 
         major_frame.grid_rowconfigure(3, minsize=20)  # separates current year stuff from grad year stuff
+
+    def remove_summer_session_entry(self):
+        if self.cur_summer_row_index > 5:
+            self.summer_session_array[self.cur_summer_row_index - 6][0].grid_forget()
+            self.summer_session_array[self.cur_summer_row_index - 6][1].grid_forget()
+            self.summer_session_array.pop(self.cur_summer_row_index - 6)
+            self.add_new_entry_button.grid_forget()
+            self.remove_entry_button.grid_forget()
+
+            self.add_new_entry_button.grid(row=self.cur_summer_row_index - 1, column=1, sticky=tk.W, padx=2)
+            self.remove_entry_button.grid(row=self.cur_summer_row_index - 1, column=1, sticky=tk.E, padx=2)
+            self.cur_summer_row_index -= 1
+        else:
+            self.summer_combo_label.grid_forget()
 
 
     def create_summer_options(self):
@@ -96,15 +111,20 @@ class MajorSelectPage(tk.Frame):
             self.summer_session_array.append((summer_select_box, summer_year_entry))
 
             self.add_new_entry_button.grid_forget()
-            self.add_new_entry_button.grid(row=self.cur_summer_row_index+1, column=1, sticky=tk.W + tk.E)
+            self.add_new_entry_button.grid(row=self.cur_summer_row_index+1, column=1, sticky=tk.W, padx=2)
+            self.remove_entry_button.grid_forget()
+            self.remove_entry_button.grid(row=self.cur_summer_row_index+1, column=1, sticky=tk.E, padx=2)
+
 
             self.cur_summer_row_index += 1
         else:
             self.summer_combo_label.grid_forget()
             self.add_new_entry_button.grid_forget()
+            self.remove_entry_button.grid_forget()
             for tuple in self.summer_session_array:
                 tuple[0].grid_forget()
                 tuple[1].grid_forget()
+            self.summer_session_array.clear()
             self.cur_summer_row_index = 5
 
 
