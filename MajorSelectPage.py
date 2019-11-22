@@ -12,6 +12,7 @@ class MajorSelectPage(tk.Frame):
         self.major = tk.StringVar()
         self.cur_quarter = tk.StringVar()
         self.cur_year = 0
+        self.cur_summer_row_index = 5
         prompt_frame = Frame(self)
         prompt_frame.grid_columnconfigure(0, weight=1)
         prompt_frame.grid(sticky="nsew", row=0, columnspan=2)
@@ -58,9 +59,12 @@ class MajorSelectPage(tk.Frame):
 
         summer_session_label = Label(major_frame, text="Are you planning on taking any summer sessions?")
         summer_session_label.grid(column=0, row=4, in_=major_frame, pady=0, sticky="e", padx=5)
-        summer_session_checkbox = tk.Checkbutton(major_frame, anchor='w', command=self.create_summer_options)
+        self.summer_session_checkbox_value = tk.IntVar()
+        summer_session_checkbox = tk.Checkbutton(major_frame, anchor='w', command=self.create_summer_options, variable=self.summer_session_checkbox_value)
         summer_session_checkbox.flash()
         summer_session_checkbox.grid(column=1, row=4, in_=major_frame, pady=0, sticky="w", padx=0)
+        self.add_new_entry_button = Button(self.major_frame, text="Add New Summer Session", command=self.create_summer_options)
+        self.summer_session_array = []
 
         next_button = Button(self, text="Next", command=lambda: self.goto_course_select())
         next_button.grid(row=2, padx=5, pady=10, sticky=tk.S + tk.E)
@@ -75,13 +79,34 @@ class MajorSelectPage(tk.Frame):
 
 
     def create_summer_options(self):
-        summer_combo_label = Label(self.major_frame, text="Please select which summer sessions you will be taking:")
-        summer_combo_label.grid(column=0, row=5, in_=self.major_frame, pady=0, sticky="e", padx=5)
 
-        session_choices = ["Summer Session 1", "Summer Session 2"]
-        summer_select_box = Combobox(self.major_frame, values=session_choices, state="readonly", width=25)
-        summer_select_box.bind('<Configure>', self.on_combo_configure)
-        summer_select_box.grid(row=5, column=1, in_=self.major_frame, sticky=tk.W, padx=5)
+        if self.summer_session_checkbox_value.get():
+            if(self.cur_summer_row_index == 5):
+                self.summer_combo_label = Label(self.major_frame, text="Please select which summer sessions you will be taking:")
+                self.summer_combo_label.grid(column=0, row=self.cur_summer_row_index, in_=self.major_frame, pady=0, sticky="e", padx=5)
+
+            session_choices = ["Summer Session 1", "Summer Session 2"]
+            summer_select_box = Combobox(self.major_frame, values=session_choices, state="readonly", width=25)
+            summer_select_box.bind('<Configure>', self.on_combo_configure)
+            summer_select_box.grid(row=self.cur_summer_row_index, column=1, in_=self.major_frame, sticky=tk.W, padx=5, pady=2)
+
+            summer_year_entry = Entry(self.major_frame, width=15)
+            summer_year_entry.grid(row=self.cur_summer_row_index, column=1, in_=self.major_frame, sticky=tk.E, padx=5, pady=2)
+
+            self.summer_session_array.append((summer_select_box, summer_year_entry))
+
+            self.add_new_entry_button.grid_forget()
+            self.add_new_entry_button.grid(row=self.cur_summer_row_index+1, column=1, sticky=tk.W + tk.E)
+
+            self.cur_summer_row_index += 1
+        else:
+            self.summer_combo_label.grid_forget()
+            self.add_new_entry_button.grid_forget()
+            for tuple in self.summer_session_array:
+                tuple[0].grid_forget()
+                tuple[1].grid_forget()
+            self.cur_summer_row_index = 5
+
 
     def on_combo_configure(self, event):
         """Function to expand ComboBox dropdown menu so all text fits on screen for the major select box."""
@@ -124,6 +149,7 @@ class MajorSelectPage(tk.Frame):
         if not self.cur_year_entry.get().isdigit():   # checks if year entries are integers
             self.err_msg["text"] = "Please ensure your year values are integers"
             return False
+
 
         return True
 
