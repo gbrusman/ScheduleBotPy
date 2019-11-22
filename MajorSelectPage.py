@@ -170,7 +170,27 @@ class MajorSelectPage(tk.Frame):
             self.err_msg["text"] = "Please ensure your year values are integers"
             return False
 
+        # Validate summer session entries
+        for tuple in self.summer_session_array:
+            if (tuple[0].get() and tuple[1].get() == "") or (not tuple[0].get() and tuple[1].get().isdigit()):
+                self.err_msg["text"] = "Please finish filling out your summer session information."
+                return False
+            if tuple[0].get() and not tuple[1].get().isdigit():
+                self.err_msg["text"] = "Please ensure your summer session year values are integers."
+                return False
+            if self.cur_quarter.get() == "Fall":
+                if tuple[0].get() and tuple[1].get().isdigit() and int(tuple[1].get()) <= int(self.cur_year_entry.get()):
+                    self.err_msg["text"] = "Your summer session is before your start date."
+                    return False
+            else:
+                if tuple[0].get() and tuple[1].get().isdigit() and int(tuple[1].get()) < int(self.cur_year_entry.get()):
+                    self.err_msg["text"] = "Your summer session is before your start date."
+                    return False
 
+
+
+
+        self.err_msg["text"] = ""
         return True
 
     def get_major_value(self, *args):
