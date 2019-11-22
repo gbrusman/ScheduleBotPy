@@ -150,6 +150,11 @@ class MajorSelectPage(tk.Frame):
             self.controller.student.cur_time = AcademicTime(cur_year, self.cur_quarter.get())
             self.controller.student.start_time = AcademicTime(cur_year, self.cur_quarter.get())
 
+            #Set Student summer sessions
+            for tuple in self.summer_session_array:
+                if tuple[0].get() and tuple[1].get() != "":
+                    self.controller.student.summer_quarters.append(AcademicTime(tuple[1].get(), tuple[0].get()))
+
             if self.controller.student.major == "LAMA":
                 self.controller.show_frame("AppliedSeriesChoicePage")
             else:
