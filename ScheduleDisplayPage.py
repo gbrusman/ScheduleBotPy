@@ -53,7 +53,7 @@ class ScheduleDisplayPage(tk.Frame):
         num_128s_printed = 0
 
         while table_start_time.quarter != "Fall":
-            table_start_time = table_start_time.reverse_time()
+            table_start_time = table_start_time.reverse_time(student.summer_quarters)
 
         cur_time = AcademicTime(start_time.year, start_time.quarter)
         start = True
@@ -63,7 +63,7 @@ class ScheduleDisplayPage(tk.Frame):
         quarter_index = 0
         finish_time = schedule_data.finish_time
 
-        while cur_time != finish_time and cur_time != finish_time.progress_time() and cur_time != finish_time.progress_time().progress_time():
+        while cur_time != finish_time and cur_time != finish_time.progress_time(student.summer_quarters) and cur_time != finish_time.progress_time(student.summer_quarters).progress_time(student.summer_quarters):
             if cur_time.quarter == "Spring":
                 if first_year:
                     year_frame.grid(row=year_index, in_=self.schedule_frame)
@@ -72,7 +72,7 @@ class ScheduleDisplayPage(tk.Frame):
                 year_index += 1
                 year_frame.grid(row=year_index, in_=self.schedule_frame, pady=10)
                 quarter_index = 0
-            cur_time = cur_time.progress_time()
+            cur_time = cur_time.progress_time(student.summer_quarters)
 
             if start_time.quarter == "Spring":
                 start = False
@@ -83,10 +83,11 @@ class ScheduleDisplayPage(tk.Frame):
                     title = Label(block_box, text="", width=20)  # display blank columns to make display uniform. Width = 20 because that is width of regular block_box
                     title.grid(row=0, column=0, in_=block_box)
                     quarter_index += 1
-                    table_start_time = table_start_time.progress_time()
+                    table_start_time = table_start_time.progress_time(student.summer_quarters)
                 start = False
 
             block_box = Frame(year_frame)
+            #FIXME: don't display summer quarters if they're blank
             title = Label(block_box, text=cur_time.quarter + " " + str(cur_time.year))
             title.grid(row=0, column=0, in_=block_box)
 
@@ -96,7 +97,7 @@ class ScheduleDisplayPage(tk.Frame):
                     title = Label(block_box, text="", width=20)
                     title.grid(row=0, column=0, in_=block_box)
                     block_box.grid(row=0, column=quarter_index, in_=year_frame, sticky="ew", padx=10)
-                    cur_time = cur_time.progress_time()
+                    cur_time = cur_time.progress_time(student.summer_quarters)
                     quarter_index += 1
 
             if cur_time in schedule:  #FIXME: turn this into for loop

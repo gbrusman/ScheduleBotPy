@@ -12,15 +12,15 @@ class AcademicTime:
             newtime.year += 1
         elif self.quarter == "Winter":
             newtime.quarter = "Spring"
-        elif self.quarter == "Spring" and AcademicTime(self.year, "Summer1") not in summer_quarters and AcademicTime(self.year, "Summer2") not in summer_quarters:
+        elif self.quarter == "Spring" and AcademicTime(self.year, "Summer Session 1") not in summer_quarters and AcademicTime(self.year, "Summer Session 2") not in summer_quarters:
             newtime.quarter = "Fall"
-        elif self.quarter == "Spring" and AcademicTime(self.year, "Summer1") in summer_quarters:
-            newtime.quarter = "Summer1"
-        elif self.quarter == "Summer1" and AcademicTime(self.year, "Summer2") in summer_quarters:
-            newtime.quarter = "Summer2"
-        elif self.quarter == "Summer1" and AcademicTime(self.year, "Summer2") not in summer_quarters:
+        elif self.quarter == "Spring" and AcademicTime(self.year, "Summer Session 1") in summer_quarters:
+            newtime.quarter = "Summer Session 1"
+        elif self.quarter == "Summer Session 1" and AcademicTime(self.year, "Summer Session 2") in summer_quarters:
+            newtime.quarter = "Summer Session 2"
+        elif self.quarter == "Summer Session 1" and AcademicTime(self.year, "Summer Session 2") not in summer_quarters:
             newtime.quarter = "Fall"
-        elif self.quarter == "Summer2":
+        elif self.quarter == "Summer Session 2":
             newtime.quarter = "Fall"
 
 
@@ -29,17 +29,17 @@ class AcademicTime:
     def reverse_time(self, summer_quarters=[]):
         newtime = AcademicTime(self.year, self.quarter)
 
-        if self.quarter == "Fall" and AcademicTime(self.year, "Summer2") not in summer_quarters:
+        if self.quarter == "Fall" and AcademicTime(self.year, "Summer Session 2") not in summer_quarters:
             newtime.quarter = "Spring"
-        elif self.quarter == "Fall" and AcademicTime(self.year, "Summer2") in summer_quarters:
-            newtime.quarter = "Summer2"
-        elif self.quarter == "Fall" and AcademicTime(self.year, "Summer2") not in summer_quarters and AcademicTime(self.year, "Summer1") in summer_quarters:
-            newtime.quarter = "Summer1"
-        elif self.quarter == "Summer2" and AcademicTime(self.year, "Summer1") in summer_quarters:
-            newtime.quarter = "Summer1"
-        elif self.quarter == "Summer2" and AcademicTime(self.year, "Summer1") not in summer_quarters:
+        elif self.quarter == "Fall" and AcademicTime(self.year, "Summer Session 2") in summer_quarters:
+            newtime.quarter = "Summer Session 2"
+        elif self.quarter == "Fall" and AcademicTime(self.year, "Summer Session 2") not in summer_quarters and AcademicTime(self.year, "Summer Session 1") in summer_quarters:
+            newtime.quarter = "Summer Session 1"
+        elif self.quarter == "Summer Session 2" and AcademicTime(self.year, "Summer Session 1") in summer_quarters:
+            newtime.quarter = "Summer Session 1"
+        elif self.quarter == "Summer Session 2" and AcademicTime(self.year, "Summer Session 1") not in summer_quarters:
             newtime.quarter = "Fall"
-        elif self.quarter == "Summer1":
+        elif self.quarter == "Summer Session 1":
             newtime.quarter = "Fall"
         elif self.quarter == "Winter":
             newtime.quarter = "Fall"

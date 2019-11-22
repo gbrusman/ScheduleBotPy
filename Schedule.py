@@ -76,7 +76,7 @@ class Schedule:
     def place_classes(self):
         """Function to oversee class placement / creation of the actual schedule."""
         cur_time = self.student.cur_time
-        cur_time = cur_time.progress_time()  # want to start scheduling on NEXT quarter
+        cur_time = cur_time.progress_time(self.student.summer_quarters)  # want to start scheduling on NEXT quarter
         self.student.cur_time = cur_time
         after = []
 
@@ -88,7 +88,7 @@ class Schedule:
             for course in cur_block.courses:
                 self.student.classes_taken[course.name] = course
             self.schedule[cur_time] = cur_block
-            cur_time = cur_time.progress_time()
+            cur_time = cur_time.progress_time(self.student.summer_quarters)
             self.student.cur_time = cur_time
         self.finish_time.quarter = cur_time.quarter
         self.finish_time.year = cur_time.year
