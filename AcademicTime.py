@@ -16,6 +16,8 @@ class AcademicTime:
             newtime.quarter = "Fall"
         elif self.quarter == "Spring" and AcademicTime(self.year, "Summer Session 1") in summer_quarters:
             newtime.quarter = "Summer Session 1"
+        elif self.quarter == "Spring" and AcademicTime(self.year, "Summer Session 1") not in summer_quarters and AcademicTime(self.year, "Summer Session 2") in summer_quarters:
+            newtime.quarter = "Summer Session 2"
         elif self.quarter == "Summer Session 1" and AcademicTime(self.year, "Summer Session 2") in summer_quarters:
             newtime.quarter = "Summer Session 2"
         elif self.quarter == "Summer Session 1" and AcademicTime(self.year, "Summer Session 2") not in summer_quarters:
