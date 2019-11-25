@@ -4,6 +4,8 @@ from Student import Student
 
 MAX_TOT_CLASSES_PER_QUARTER = 3
 MAX_MATH_CLASSES_PER_QUARTER = 2
+SUMMER_MAX_TOT_CLASSES_PER_QUARTER = 2
+SUMMER_MAX_MATH_CLASSES_PER_QUARTER = 1
 LMOR_ENRICHMENTS_A_NEEDED = 2
 LMOR_ENRICHMENTS_B_NEEDED = 2
 
@@ -132,16 +134,21 @@ class Schedule:
         """Function to fill the ScheduleBlock at the current time with classes"""
         required_or_electives = 0
         placed_interest = False
+        max_tot_classes_per_quarter = MAX_TOT_CLASSES_PER_QUARTER
+        max_math_class_per_quarter = MAX_MATH_CLASSES_PER_QUARTER
 
         while required_or_electives < 2:
             i = 0
             while i < len(self.classes_offered):
                 cur_course = self.classes_offered[i]
                 self.fix_ENG06(i)
-                if len(cur_block.courses) == MAX_TOT_CLASSES_PER_QUARTER:
+                if cur_time.quarter == "Summer Session 1" or cur_time.quarter == "Summer Session 2":
+                    max_tot_classes_per_quarter = SUMMER_MAX_TOT_CLASSES_PER_QUARTER
+                    max_math_class_per_quarter = SUMMER_MAX_MATH_CLASSES_PER_QUARTER
+                if len(cur_block.courses) == max_tot_classes_per_quarter:
                     break
                 if self.class_is_valid(cur_course, cur_time, cur_block):
-                    if self.num_math_classes(cur_block) == MAX_MATH_CLASSES_PER_QUARTER and cur_course.name[:3] == "MAT":  # don't want to take >2 math courses in one quarter
+                    if self.num_math_classes(cur_block) == max_math_class_per_quarter and cur_course.name[:3] == "MAT":  # don't want to take >2 math courses in one quarter
                         i += 1
                         continue
                     if required_or_electives == 0:
