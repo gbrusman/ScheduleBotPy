@@ -92,12 +92,11 @@ class MajorSelectPage(tk.Frame):
         else:
             self.summer_combo_label.grid_forget()
 
-
     def create_summer_options(self):
 
         if self.summer_session_checkbox_value.get():
             if(self.cur_summer_row_index == 5):
-                self.summer_combo_label = Label(self.major_frame, text="Please select which summer sessions you will be taking:")
+                self.summer_combo_label = Label(self.major_frame, text="Please select which summer sessions you will be taking (Quarter/Year):")
                 self.summer_combo_label.grid(column=0, row=self.cur_summer_row_index, in_=self.major_frame, pady=0, sticky="e", padx=5)
 
             session_choices = ["Summer Session 1", "Summer Session 2"]
@@ -177,7 +176,7 @@ class MajorSelectPage(tk.Frame):
 
         # Validate summer session entries
         for tuple in self.summer_session_array:
-            if (tuple[0].get() and tuple[1].get() == "") or (not tuple[0].get() and tuple[1].get().isdigit()):
+            if (tuple[0].get() and tuple[1].get() == "" or tuple[1].get() == "Enter Year") or (not tuple[0].get() and tuple[1].get().isdigit()):
                 self.err_msg["text"] = "Please finish filling out your summer session information."
                 return False
             if tuple[0].get() and not tuple[1].get().isdigit():
