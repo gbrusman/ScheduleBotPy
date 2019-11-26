@@ -62,9 +62,17 @@ class ScheduleDisplayPage(tk.Frame):
         year_frame = Frame(self)
         quarter_index = 0
         finish_time = schedule_data.finish_time
+        split_year_quarter = "Spring"
 
         while cur_time != finish_time and cur_time != finish_time.progress_time(student.summer_quarters) and cur_time != finish_time.progress_time(student.summer_quarters).progress_time(student.summer_quarters):
-            if cur_time.quarter == "Spring":
+            if AcademicTime(cur_time.year, "Summer Session 2") in student.summer_quarters:
+                split_year_quarter = "Summer Session 2"
+            elif AcademicTime(cur_time.year, "Summer Session 1") in student.summer_quarters:
+                split_year_quarter = "Summer Session 1"
+            else:
+                split_year_quarter = "Spring"
+
+            if cur_time.quarter == split_year_quarter:
                 if first_year:
                     year_frame.grid(row=year_index, in_=self.schedule_frame)
                     first_year = False
