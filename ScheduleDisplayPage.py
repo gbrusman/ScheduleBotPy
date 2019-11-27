@@ -73,6 +73,20 @@ class ScheduleDisplayPage(tk.Frame):
                 split_year_quarter = "Spring"
 
             if cur_time.quarter == split_year_quarter:
+
+                # Fix offset from summer courses
+                while quarter_index < 4:
+
+                    #FIXME: For some reason this removes the label for "Spring"
+                    block_box = Frame(year_frame)
+                    blank_quarter = Label(block_box, width=20, text="")
+                    blank_quarter.grid(row=0, pady=5, sticky="w", in_=block_box)
+
+                    quarter_index += 1
+                    block_box.grid(row=0, column=quarter_index, padx=10, sticky="ew", in_=year_frame)
+
+
+
                 if first_year:
                     year_frame.grid(row=year_index, in_=self.schedule_frame)
                     first_year = False
