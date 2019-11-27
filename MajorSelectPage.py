@@ -150,6 +150,7 @@ class MajorSelectPage(tk.Frame):
             self.controller.student.start_time = AcademicTime(cur_year, self.cur_quarter.get())
 
             #Set Student summer sessions
+            self.controller.student.summer_quarters.clear()
             for tuple in self.summer_session_array:
                 if tuple[0].get() and tuple[1].get() != "":
                     self.controller.student.summer_quarters.append(AcademicTime(int(tuple[1].get()), tuple[0].get()))
