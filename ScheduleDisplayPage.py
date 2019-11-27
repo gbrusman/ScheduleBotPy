@@ -72,18 +72,17 @@ class ScheduleDisplayPage(tk.Frame):
             else:
                 split_year_quarter = "Spring"
 
+
+            #FIXME: this won't get called if a student graduates in a quarter that isn't Spring
             if cur_time.quarter == split_year_quarter:
-
                 # Fix offset from summer courses
-                while quarter_index < 4:
-
-                    #FIXME: For some reason this removes the label for "Spring"
+                while quarter_index < 5:
                     block_box = Frame(year_frame)
                     blank_quarter = Label(block_box, width=20, text="")
                     blank_quarter.grid(row=0, pady=5, sticky="w", in_=block_box)
 
-                    quarter_index += 1
                     block_box.grid(row=0, column=quarter_index, padx=10, sticky="ew", in_=year_frame)
+                    quarter_index += 1
 
 
 
@@ -109,7 +108,7 @@ class ScheduleDisplayPage(tk.Frame):
                 start = False
 
             block_box = Frame(year_frame)
-            #FIXME: don't display summer quarters if they're blank
+            #FIXME: don't display summer quarters if they're blank?
             title = Label(block_box, text=cur_time.quarter + " " + str(cur_time.year))
             title.grid(row=0, column=0, in_=block_box)
 
@@ -122,7 +121,7 @@ class ScheduleDisplayPage(tk.Frame):
                     cur_time = cur_time.progress_time(student.summer_quarters)
                     quarter_index += 1
 
-            if cur_time in schedule:  #FIXME: turn this into for loop
+            if cur_time in schedule:
                 if len(schedule.get(cur_time).courses) > 0:
                     course0 = tk.Entry(block_box, width=20, readonlybackground="White")  # http://www.tcl.tk/man/tcl/TkCmd/entry.htm#M9
                     course0.insert(0, schedule.get(cur_time).courses[0].name)  # https://stackoverflow.com/questions/14847243/how-can-i-insert-a-string-in-a-entry-widget-that-is-in-the-readonly-state
@@ -168,6 +167,14 @@ class ScheduleDisplayPage(tk.Frame):
                 if len(block_box.children) > 1:
                     block_box.grid(row=0, column=quarter_index, padx=10, sticky="ew", in_=year_frame)
                     quarter_index += 1
+
+        while quarter_index < 5:
+            block_box = Frame(year_frame)
+            blank_quarter = Label(block_box, width=20, text="")
+            blank_quarter.grid(row=0, pady=5, sticky="w", in_=block_box)
+
+            block_box.grid(row=0, column=quarter_index, padx=10, sticky="ew", in_=year_frame)
+            quarter_index += 1
 
         if failed:
             failed_label.configure(text="WARNING: This schedule does not contain all of the classes you will need to graduate. Consider talking to an advisor in person for additional advice.")
