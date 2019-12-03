@@ -62,6 +62,7 @@ class ScheduleDisplayPage(tk.Frame):
         year_frame = Frame(self)
         quarter_index = 0
         finish_time = schedule_data.finish_time
+        gridded = False
         split_year_quarter = "Spring"
 
         while cur_time != finish_time and cur_time != finish_time.progress_time(student.summer_quarters) and cur_time != finish_time.progress_time(student.summer_quarters).progress_time(student.summer_quarters):
@@ -92,6 +93,7 @@ class ScheduleDisplayPage(tk.Frame):
                 year_frame = Frame(self.schedule_frame)
                 year_index += 1
                 year_frame.grid(row=year_index, in_=self.schedule_frame, pady=10)
+                gridded = True
                 quarter_index = 0
             cur_time = cur_time.progress_time(student.summer_quarters)
 
@@ -175,6 +177,8 @@ class ScheduleDisplayPage(tk.Frame):
 
             block_box.grid(row=0, column=quarter_index, padx=10, sticky="ew", in_=year_frame)
             quarter_index += 1
+        if not gridded:
+            year_frame.grid(row=year_index, in_=self.schedule_frame, pady=10)
 
         if failed:
             failed_label.configure(text="WARNING: This schedule does not contain all of the classes you will need to graduate. Consider talking to an advisor in person for additional advice.")
