@@ -121,7 +121,7 @@ class Schedule:
         while i < len(after):
             after_course = self.classes_by_name.get(after[i], None)
             if after_course is not None:
-                if after_course.is_offered(cur_time) and after_course.required[self.student.major]:
+                if after_course.is_offered(cur_time) and after_course.required[self.student.major] and self.class_is_valid(after_course, cur_time, cur_block):
                     self.add_course_from_after(after_course, cur_block, after, cur_time, i)
                     next_after.append(after_course.after)
                     i -= 1

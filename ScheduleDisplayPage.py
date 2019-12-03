@@ -177,12 +177,11 @@ class ScheduleDisplayPage(tk.Frame):
 
             block_box.grid(row=0, column=quarter_index, padx=10, sticky="ew", in_=year_frame)
             quarter_index += 1
+
+        # Edge case for if there is only one quarter of classes. Won't hit the other grid statements.
         if not gridded:
             year_frame.grid(row=year_index, in_=self.schedule_frame, pady=10)
 
-        if failed:
-            failed_label.configure(text="WARNING: This schedule does not contain all of the classes you will need to graduate. Consider talking to an advisor in person for additional advice.")
-            self.grid_rowconfigure(0, minsize=35)
         col_size, row_size = self.grid_size()  # do the same thing with schedule_frame
         for i in range(row_size):
             self.grid_rowconfigure(i, weight=1)

@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 import tkinter as tk
-
+from operator import attrgetter
 from AppliedSeriesChoicePage import AppliedSeriesChoicePage
 from Course import Course
 from CourseSelectPage import CourseSelectPage
@@ -1304,14 +1304,10 @@ class MultiPageApp(tk.Tk):
         classes_offered.append(MAT185A)
         classes_offered.append(MAT185B)
         classes_offered.append(MAT189)
-        classes_offered.append(ECS32A)
-        classes_offered.append(ECS124)
-        classes_offered.append(ECS129)
-        classes_offered.append(ECS170)
-        classes_offered.append(ENG06)
-        classes_offered.append(PHY7A)
-        classes_offered.append(PHY9A)
-        classes_offered.append(PHY9B)
+        classes_offered.append(BIS2A)
+        classes_offered.append(BIS2B)
+        classes_offered.append(CHE2A)
+        classes_offered.append(CHE2B)
         classes_offered.append(ECN1A)
         classes_offered.append(ECN1B)
         classes_offered.append(ECN100A)
@@ -1320,6 +1316,14 @@ class MultiPageApp(tk.Tk):
         classes_offered.append(ECN121B)
         classes_offered.append(ECN122)
         classes_offered.append(ECN134)
+        classes_offered.append(ECS32A)
+        classes_offered.append(ECS124)
+        classes_offered.append(ECS129)
+        classes_offered.append(ECS170)
+        classes_offered.append(ENG06)
+        classes_offered.append(PHY7A)
+        classes_offered.append(PHY9A)
+        classes_offered.append(PHY9B)
         classes_offered.append(STA32)
         classes_offered.append(STA100)
         classes_offered.append(STA131A)
@@ -1329,24 +1333,21 @@ class MultiPageApp(tk.Tk):
         classes_offered.append(STA141A)
         classes_offered.append(STA141B)
         classes_offered.append(STA141C)
-        classes_offered.append(BIS2A)
-        classes_offered.append(BIS2B)
-        classes_offered.append(CHE2A)
-        classes_offered.append(CHE2B)
         classes_offered.append(ARE100A)
         classes_offered.append(ARE100B)
         classes_offered.append(ARE155)
         classes_offered.append(ARE156)
         classes_offered.append(ARE157)
-        classes_offered.append(APPROVED_UD_NON_MATH)
-        classes_offered.append(BIOLOGY_REQUIREMENT)
-        classes_offered.append(COMPUTATION_REQUIREMENT)
         classes_offered.append(ATM120)
         classes_offered.append(ATM121A)
         classes_offered.append(ATM121B)
+        classes_offered.append(BIOLOGY_REQUIREMENT)
+        classes_offered.append(COMPUTATION_REQUIREMENT)
         classes_offered.append(NON_MATH_NATURAL_SCIENCE1)
         classes_offered.append(NON_MATH_NATURAL_SCIENCE2)
         classes_offered.append(NON_MATH_NATURAL_SCIENCE3)
+        classes_offered.append(APPROVED_UD_NON_MATH)
+        #classes_offered = sorted(classes_offered, key=attrgetter('name'))
         return classes_offered
 
 
@@ -1355,5 +1356,5 @@ class MultiPageApp(tk.Tk):
 
 if __name__ == "__main__":
     app = MultiPageApp()
-    app.title("ScheduleBot 0.0.1-alpha")
+    app.title("ScheduleBot 0.0.9-alpha")
     app.mainloop()
