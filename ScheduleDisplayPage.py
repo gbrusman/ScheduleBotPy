@@ -64,8 +64,14 @@ class ScheduleDisplayPage(tk.Frame):
         finish_time = schedule_data.finish_time
         gridded = False
         split_year_quarter = "Spring"
+        after_finish1 = finish_time.progress_time(student.summer_quarters)
+        after_finish2 = after_finish1.progress_time(student.summer_quarters)
+        after_finish3 = after_finish2.progress_time(student.summer_quarters)
+        after_finish4 = after_finish3.progress_time(student.summer_quarters)
+        finishing_quarters = [after_finish1, after_finish2, after_finish3, after_finish4]
 
-        while cur_time != finish_time and cur_time != finish_time.progress_time(student.summer_quarters) and cur_time != finish_time.progress_time(student.summer_quarters).progress_time(student.summer_quarters):
+        #while cur_time != finish_time and cur_time != finish_time.progress_time(student.summer_quarters) and cur_time != finish_time.progress_time(student.summer_quarters).progress_time(student.summer_quarters):
+        while cur_time not in finishing_quarters:
             if AcademicTime(cur_time.year, "Summer Session 2") in student.summer_quarters:
                 split_year_quarter = "Summer Session 2"
             elif AcademicTime(cur_time.year, "Summer Session 1") in student.summer_quarters:
