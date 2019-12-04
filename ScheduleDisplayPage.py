@@ -81,7 +81,6 @@ class ScheduleDisplayPage(tk.Frame):
 
             if cur_time.quarter == split_year_quarter:
                 # Fix offset from summer courses
-                # FIXME: the below code sometimes breaks the offset for Fall Quarter
                 if student.summer_quarters:
                     while quarter_index < 5:
                         block_box = Frame(year_frame)
@@ -90,14 +89,6 @@ class ScheduleDisplayPage(tk.Frame):
 
                         block_box.grid(row=0, column=quarter_index, padx=10, sticky="ew", in_=year_frame)
                         quarter_index += 1
-                # while quarter_index < 5:
-                #     block_box = Frame(year_frame)
-                #     blank_quarter = Label(block_box, width=20, text="")
-                #     blank_quarter.grid(row=0, pady=5, sticky="w", in_=block_box)
-                #
-                #     block_box.grid(row=0, column=quarter_index, padx=10, sticky="ew", in_=year_frame)
-                #     quarter_index += 1
-
 
 
                 if first_year:
@@ -108,15 +99,6 @@ class ScheduleDisplayPage(tk.Frame):
                 year_frame.grid(row=year_index, in_=self.schedule_frame, pady=10)
                 gridded = True
                 quarter_index = 0
-
-                # if student.summer_quarters: # FIXME: this might sometimes ruin the 'while quarter_index < 5' check.
-                #     block_box = Frame(year_frame)
-                #     blank_quarter = Label(block_box, width=20, text="")
-                #     blank_quarter.grid(row=0, pady=5, sticky="w", in_=block_box)
-                #
-                #     block_box.grid(row=0, column=quarter_index, padx=10, sticky="ew", in_=year_frame)
-                #     quarter_index += 1
-
 
             cur_time = cur_time.progress_time(student.summer_quarters)
 
@@ -133,7 +115,6 @@ class ScheduleDisplayPage(tk.Frame):
                 start = False
 
             block_box = Frame(year_frame)
-            #FIXME: don't display summer quarters if they're blank?
             title = Label(block_box, text=cur_time.quarter + " " + str(cur_time.year))
             title.grid(row=0, column=0, in_=block_box)
 
