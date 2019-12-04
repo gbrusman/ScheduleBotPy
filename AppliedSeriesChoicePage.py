@@ -52,6 +52,7 @@ class AppliedSeriesChoicePage(tk.Frame):
     def goto_course_select(self):
         if self.button_var.get() != 0:
             self.get_info_from_rbuttons()
+            self.err_msg.configure(text="")
             self.controller.show_frame("CourseSelectPage")
         else:
             self.err_msg.configure(text="Please select one of the options below.")
