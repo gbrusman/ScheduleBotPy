@@ -169,7 +169,7 @@ class MajorSelectPage(tk.Frame):
             self.err_msg["text"] = "Please select a value for Current Quarter"
             return False
         if self.cur_year_entry.get() == "":
-            self.err_msg["text"] = "Please ensure you have entered values for Current Year and Graduation Year"
+            self.err_msg["text"] = "Please ensure you have entered a value for the Current Year."
             return False
         if not self.cur_year_entry.get().isdigit():   # checks if year entries are integers
             self.err_msg["text"] = "Please ensure your year values are integers"
