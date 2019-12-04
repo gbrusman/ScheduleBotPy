@@ -70,7 +70,6 @@ class ScheduleDisplayPage(tk.Frame):
         after_finish4 = after_finish3.progress_time(student.summer_quarters)
         finishing_quarters = [after_finish1, after_finish2, after_finish3, after_finish4]
 
-        #while cur_time != finish_time and cur_time != finish_time.progress_time(student.summer_quarters) and cur_time != finish_time.progress_time(student.summer_quarters).progress_time(student.summer_quarters):
         while cur_time not in finishing_quarters:
             if AcademicTime(cur_time.year, "Summer Session 2") in student.summer_quarters:
                 split_year_quarter = "Summer Session 2"
@@ -80,16 +79,24 @@ class ScheduleDisplayPage(tk.Frame):
                 split_year_quarter = "Spring"
 
 
-            #FIXME: this won't get called if a student graduates in a quarter that isn't Spring
             if cur_time.quarter == split_year_quarter:
                 # Fix offset from summer courses
-                while quarter_index < 5:
-                    block_box = Frame(year_frame)
-                    blank_quarter = Label(block_box, width=20, text="")
-                    blank_quarter.grid(row=0, pady=5, sticky="w", in_=block_box)
+                # FIXME: the below code sometimes breaks the offset for Fall Quarter
+                if student.summer_quarters:
+                    while quarter_index < 5:
+                        block_box = Frame(year_frame)
+                        blank_quarter = Label(block_box, width=20, text="")
+                        blank_quarter.grid(row=0, pady=5, sticky="w", in_=block_box)
 
-                    block_box.grid(row=0, column=quarter_index, padx=10, sticky="ew", in_=year_frame)
-                    quarter_index += 1
+                        block_box.grid(row=0, column=quarter_index, padx=10, sticky="ew", in_=year_frame)
+                        quarter_index += 1
+                # while quarter_index < 5:
+                #     block_box = Frame(year_frame)
+                #     blank_quarter = Label(block_box, width=20, text="")
+                #     blank_quarter.grid(row=0, pady=5, sticky="w", in_=block_box)
+                #
+                #     block_box.grid(row=0, column=quarter_index, padx=10, sticky="ew", in_=year_frame)
+                #     quarter_index += 1
 
 
 
@@ -101,6 +108,16 @@ class ScheduleDisplayPage(tk.Frame):
                 year_frame.grid(row=year_index, in_=self.schedule_frame, pady=10)
                 gridded = True
                 quarter_index = 0
+
+                # if student.summer_quarters: # FIXME: this might sometimes ruin the 'while quarter_index < 5' check.
+                #     block_box = Frame(year_frame)
+                #     blank_quarter = Label(block_box, width=20, text="")
+                #     blank_quarter.grid(row=0, pady=5, sticky="w", in_=block_box)
+                #
+                #     block_box.grid(row=0, column=quarter_index, padx=10, sticky="ew", in_=year_frame)
+                #     quarter_index += 1
+
+
             cur_time = cur_time.progress_time(student.summer_quarters)
 
             if start_time.quarter == "Spring":
@@ -154,7 +171,7 @@ class ScheduleDisplayPage(tk.Frame):
                         elif (schedule.get(cur_time).courses[1].name in mat128s and num_128s_printed > student.num128s_needed[student.major]):
                             course1.configure(readonlybackground="#43f2c0")
                     course1.grid(row=2, pady=5, sticky="w", in_=block_box)
-                else: #FIXME: will need to duplicate this to make 2 blank courses if we are supporting up to 3 classes per quarter
+                else:
                     blank_course = Label(block_box, width=20, text="")
                     blank_course.grid(row=2, pady=5, sticky="w", in_=block_box)
                 if len(schedule.get(cur_time).courses) > 2:
@@ -169,20 +186,29 @@ class ScheduleDisplayPage(tk.Frame):
                         elif (schedule.get(cur_time).courses[2].name in mat128s and num_128s_printed > student.num128s_needed[student.major]):
                             course2.configure(readonlybackground="#43f2c0")
                     course2.grid(row=3, pady=5, sticky="w", in_=block_box)
-                else: #FIXME: will need to duplicate this to make 2 blank courses if we are supporting up to 3 classes per quarter
+                else:
                     blank_course = Label(block_box, width=20, text="")
                     blank_course.grid(row=3, pady=5, sticky="w", in_=block_box)
                 if len(block_box.children) > 1:
                     block_box.grid(row=0, column=quarter_index, padx=10, sticky="ew", in_=year_frame)
                     quarter_index += 1
 
-        while quarter_index < 5:
-            block_box = Frame(year_frame)
-            blank_quarter = Label(block_box, width=20, text="")
-            blank_quarter.grid(row=0, pady=5, sticky="w", in_=block_box)
+        if student.summer_quarters:
+            while quarter_index < 5:
+                block_box = Frame(year_frame)
+                blank_quarter = Label(block_box, width=20, text="")
+                blank_quarter.grid(row=0, pady=5, sticky="w", in_=block_box)
 
-            block_box.grid(row=0, column=quarter_index, padx=10, sticky="ew", in_=year_frame)
-            quarter_index += 1
+                block_box.grid(row=0, column=quarter_index, padx=10, sticky="ew", in_=year_frame)
+                quarter_index += 1
+        else:
+            while quarter_index < 3:
+                block_box = Frame(year_frame)
+                blank_quarter = Label(block_box, width=20, text="")
+                blank_quarter.grid(row=0, pady=5, sticky="w", in_=block_box)
+
+                block_box.grid(row=0, column=quarter_index, padx=10, sticky="ew", in_=year_frame)
+                quarter_index += 1
 
         # Edge case for if there is only one quarter of classes. Won't hit the other grid statements.
         if not gridded:
