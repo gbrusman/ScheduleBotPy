@@ -1183,7 +1183,7 @@ class MultiPageApp(tk.Tk):
         required_APPROVED_UD_NON_MATH["LMCOMATH"] = False
         required_APPROVED_UD_NON_MATH["LMCOBIO"] = False
         quarters_offered_APPROVED_UD_NON_MATH = {"Fall", "Winter", "Spring"}
-        APPROVED_UD_NON_MATH = Course(name="Approved Upper Division Non-Math", required=required_APPROVED_UD_NON_MATH, quarters_offered=quarters_offered_APPROVED_UD_NON_MATH, approved_ud_nonmath=True)
+        APPROVED_UD_NON_MATH = Course(name="Upper Div Non-Math", required=required_APPROVED_UD_NON_MATH, quarters_offered=quarters_offered_APPROVED_UD_NON_MATH, approved_ud_nonmath=True)
 
         # BIOLOGY_REQUIREMENT
         required_BIOLOGY_REQUIREMENT = {}
@@ -1225,7 +1225,7 @@ class MultiPageApp(tk.Tk):
         required_NON_MATH_NATURAL_SCIENCE1["LMCOMATH"] = False
         required_NON_MATH_NATURAL_SCIENCE1["LMCOBIO"] = False
         quarters_offered_NON_MATH_NATURAL_SCIENCE1 = {"Fall", "Winter", "Spring", "Summer Session 1", "Summer Session 2"}
-        NON_MATH_NATURAL_SCIENCE1 = Course(name="Non-math Natural Science 1",
+        NON_MATH_NATURAL_SCIENCE1 = Course(name="Natural Science 1",
                                          required=required_NON_MATH_NATURAL_SCIENCE1,
                                          quarters_offered=quarters_offered_NON_MATH_NATURAL_SCIENCE1)
 
@@ -1240,7 +1240,7 @@ class MultiPageApp(tk.Tk):
         required_NON_MATH_NATURAL_SCIENCE2["LMCOMATH"] = False
         required_NON_MATH_NATURAL_SCIENCE2["LMCOBIO"] = False
         quarters_offered_NON_MATH_NATURAL_SCIENCE2 = {"Fall", "Winter", "Spring", "Summer Session 1", "Summer Session 2"}
-        NON_MATH_NATURAL_SCIENCE2 = Course(name="Non-math Natural Science 2",
+        NON_MATH_NATURAL_SCIENCE2 = Course(name="Natural Science 2",
                                            required=required_NON_MATH_NATURAL_SCIENCE2,
                                            quarters_offered=quarters_offered_NON_MATH_NATURAL_SCIENCE2)
         
@@ -1255,7 +1255,7 @@ class MultiPageApp(tk.Tk):
         required_NON_MATH_NATURAL_SCIENCE3["LMCOMATH"] = False
         required_NON_MATH_NATURAL_SCIENCE3["LMCOBIO"] = False
         quarters_offered_NON_MATH_NATURAL_SCIENCE3 = {"Fall", "Winter", "Spring", "Summer Session 1", "Summer Session 2"}
-        NON_MATH_NATURAL_SCIENCE3 = Course(name="Non-math Natural Science 3",
+        NON_MATH_NATURAL_SCIENCE3 = Course(name="Natural Science 3",
                                            required=required_NON_MATH_NATURAL_SCIENCE3,
                                            quarters_offered=quarters_offered_NON_MATH_NATURAL_SCIENCE3)
 

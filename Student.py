@@ -204,12 +204,12 @@ class Student:
             "ECS124": self.ecs124_prereq,
             "ECS129": self.ecs129_prereq,
             "ECS170": self.ecs170_prereq,
-            "Approved Upper Division Non-Math": self.APPROVED_UD_NONMATH_prereq,
+            "Upper Div Non-Math": self.APPROVED_UD_NONMATH_prereq,
             "Biology Requirement": self.BIOLOGY_REQUIREMENT_prereq,
             "Computation Requirement": self.COMPUTATION_REQUIREMENT_prereq,
-            "Non-math Natural Science 1": self.NON_MATH_NATURAL_SCIENCE1_prereq,
-            "Non-math Natural Science 2": self.NON_MATH_NATURAL_SCIENCE2_prereq,
-            "Non-math Natural Science 3": self.NON_MATH_NATURAL_SCIENCE3_prereq,
+            "Natural Science 1": self.NON_MATH_NATURAL_SCIENCE1_prereq,
+            "Natural Science 2": self.NON_MATH_NATURAL_SCIENCE2_prereq,
+            "Natural Science 3": self.NON_MATH_NATURAL_SCIENCE3_prereq,
         }
         func = switcher.get(course.name)
         if func is None:
@@ -498,10 +498,10 @@ class Student:
         return self.has_taken("MAT21A")
 
     def NON_MATH_NATURAL_SCIENCE2_prereq(self):
-        return self.has_taken("MAT21B") and self.has_taken("Non-math Natural Science 1")
+        return self.has_taken("MAT21B") and self.has_taken("Natural Science 1")
 
     def NON_MATH_NATURAL_SCIENCE3_prereq(self):
-        return self.has_taken("MAT21C") and self.has_taken("Non-math Natural Science 2")
+        return self.has_taken("MAT21C") and self.has_taken("Natural Science 2")
 
 
 
