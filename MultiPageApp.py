@@ -1196,7 +1196,7 @@ class MultiPageApp(tk.Tk):
         required_BIOLOGY_REQUIREMENT["LMCOMATH"] = False
         required_BIOLOGY_REQUIREMENT["LMCOBIO"] = True
         quarters_offered_BIOLOGY_REQUIREMENT = {"Fall", "Winter", "Spring"}
-        BIOLOGY_REQUIREMENT = Course(name="Biology Requirement",
+        BIOLOGY_REQUIREMENT = Course(name="Biology Req.",
                                       required=required_BIOLOGY_REQUIREMENT, quarters_offered=quarters_offered_BIOLOGY_REQUIREMENT, biology_requirement=True)
 
 
@@ -1211,7 +1211,7 @@ class MultiPageApp(tk.Tk):
         required_COMPUTATION_REQUIREMENT["LMCOMATH"] = True
         required_COMPUTATION_REQUIREMENT["LMCOBIO"] = False
         quarters_offered_COMPUTATION_REQUIREMENT = {"Fall", "Winter", "Spring"}
-        COMPUTATION_REQUIREMENT = Course(name="Computation Requirement",
+        COMPUTATION_REQUIREMENT = Course(name="Computation Req.",
                                       required=required_COMPUTATION_REQUIREMENT, quarters_offered=quarters_offered_COMPUTATION_REQUIREMENT, computation_requirement=True)
 
         # NON_MATH_NATURAL_SCIENCE1
