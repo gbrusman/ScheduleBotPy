@@ -1348,6 +1348,8 @@ class MultiPageApp(tk.Tk):
         classes_offered.append(NON_MATH_NATURAL_SCIENCE3)
         classes_offered.append(APPROVED_UD_NON_MATH)
         #classes_offered = sorted(classes_offered, key=attrgetter('name'))
+
+
         return classes_offered
 
 
