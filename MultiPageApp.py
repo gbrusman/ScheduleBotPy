@@ -23,11 +23,11 @@ class MultiPageApp(tk.Tk):
 
         self.app_data = {}
         self.student = Student()
-        self.classes_offered = self.init_classes_offered()
-        self.classes_by_name = {}
+        #self.classes_offered = self.init_classes_offered()
+        #self.classes_by_name = {}
 
-        for course in self.classes_offered:
-            self.classes_by_name[course.name] = course
+        #for course in self.classes_offered:
+        #    self.classes_by_name[course.name] = course
 
         self.frames = {}
         self.page_names = [MajorSelectPage, CourseSelectPage, InterestSelectPage, ScheduleDisplayPage, AppliedSeriesChoicePage]
