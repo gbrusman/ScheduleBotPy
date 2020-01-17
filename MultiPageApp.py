@@ -106,8 +106,9 @@ class MultiPageApp(tk.Tk):
         interests = []
         num_interests = 0
         for record in cur:
-            interests.append(record[0])
+            interests.append(self.convert_interest_format(record[0]))
             num_interests += 1
+
 
         # Fill in data about interests from 'interests' table.
         cur.execute("SELECT * FROM interests;")
@@ -121,6 +122,10 @@ class MultiPageApp(tk.Tk):
         for course in self.classes_by_name:
             self.classes_offered.append(self.classes_by_name[course])
 
+
+    def convert_interest_format(self, interest):
+        interest = interest.replace("_", " ").title()
+        return interest
 
     def show_frame(self, page_name):
         frame = self.frames[page_name]
