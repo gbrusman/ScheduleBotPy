@@ -4,7 +4,7 @@ from tkinter.ttk import *
 
 from AcademicTime import AcademicTime
 from Schedule import Schedule
-
+import random
 
 class ScheduleDisplayPage(tk.Frame):
     def __init__(self, parent, controller):
@@ -38,7 +38,8 @@ class ScheduleDisplayPage(tk.Frame):
         # Need to make new student object because it gets mutated when creating schedule, need to handle case where user hits back button.
         student = copy.deepcopy(self.controller.student)
         classes_offered = self.controller.classes_offered.copy()  # Need to make copy of classes_offered for same reason as above
-        schedule_data = Schedule(student, classes_offered)
+        rand_classes_offered = random.sample(classes_offered, len(classes_offered))
+        schedule_data = Schedule(student, rand_classes_offered)
         if not schedule_data.new_is_success():
             failed = True
         schedule = schedule_data.schedule

@@ -6,6 +6,8 @@ MAX_TOT_CLASSES_PER_QUARTER = 3
 MAX_MATH_CLASSES_PER_QUARTER = 2
 SUMMER_MAX_TOT_CLASSES_PER_QUARTER = 2
 SUMMER_MAX_MATH_CLASSES_PER_QUARTER = 1
+
+# FIXME: Pull these from database.
 LMOR_ENRICHMENTS_A_NEEDED = 2
 LMOR_ENRICHMENTS_B_NEEDED = 2
 
@@ -155,7 +157,7 @@ class Schedule:
                         if cur_course.required[self.student.major]:
                             self.add_course_to_block(cur_course, cur_block, after, cur_time)
                             i -= 1  # to balance index
-                    else:  # FIXME: Causing issue with being able to pick 3 MAT classes in a quarter
+                    else:
                         placed_interest = self.try_to_place_interesting_class(cur_course, cur_block, cur_time, after)
                         if not placed_interest:
                             if not (self.num_math_classes(cur_block) == MAX_MATH_CLASSES_PER_QUARTER and cur_course.name[:3] == "MAT"):
