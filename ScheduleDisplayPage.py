@@ -39,7 +39,13 @@ class ScheduleDisplayPage(tk.Frame):
         student = copy.deepcopy(self.controller.student)
         classes_offered = self.controller.classes_offered.copy()  # Need to make copy of classes_offered for same reason as above
         rand_classes_offered = random.sample(classes_offered, len(classes_offered))
-        schedule_data = Schedule(student, rand_classes_offered)
+        elective_classes_offered = []
+        for course in classes_offered:
+             if course.enrichment or course.enrichment_a or course.enrichment_b:
+                elective_classes_offered.append(course)
+
+        elective_classes_offered = random.sample(elective_classes_offered, len(elective_classes_offered))
+        schedule_data = Schedule(student, rand_classes_offered, elective_classes_offered)
         if not schedule_data.new_is_success():
             failed = True
         schedule = schedule_data.schedule

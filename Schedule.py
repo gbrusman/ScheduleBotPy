@@ -23,21 +23,23 @@ class Schedule:
         interest_table (dict): A map whose keys are strings (interests), and whose values are lists of classes that fall under the interest.
     """
 
-    def __init__(self, student=Student(), classes_offered=[]):
+    def __init__(self, student=Student(), classes_offered=[], elective_classes_offered = []):
         """The constructor for the Schedule class. Create schedule for student based on student attributes and what classes are offered."""
 
         self.student = student
         self.classes_offered = classes_offered
+        self.elective_classes_offered = elective_classes_offered
         self.classes_by_name = {}
         self.schedule = {}
         self.finish_time = AcademicTime()
         for course in classes_offered:
             self.classes_by_name[course.name] = course
 
+
         #  doing interests a bit different than Java version. Making a dict of interests that map to list of class names
         #  as opposed to hash table of duplicate interests that map to class names
         self.interest_table = {}
-        interests = ["Teaching", "Geometry", "Physics", "Biology", "Computers", "Finance", "Abstract", "Data Analysis"]
+        interests = ["Teaching", "Geometry", "Physics", "Biology", "Computers", "Finance", "Abstract", "Data Analysis"] # FIXME: Change to pull from database, or just pass in the interests we already pulled from the db.
         for interest in interests:
             cur_interest = []
             for course in classes_offered:
@@ -132,17 +134,25 @@ class Schedule:
         for i in range(len(next_after)):
             after.append(next_after[i])
 
+
     def try_to_fill_cur_time(self, cur_block, after, cur_time):
         """Function to fill the ScheduleBlock at the current time with classes"""
         required_or_electives = 0
         placed_interest = False
         max_tot_classes_per_quarter = MAX_TOT_CLASSES_PER_QUARTER
         max_math_class_per_quarter = MAX_MATH_CLASSES_PER_QUARTER
+        list_to_iterate = self.classes_offered
 
+        # FIXME: split while loop into two function calls where the function is the main body of the 2nd loop. Pass in required list for first pass and enrichment list (for that major) for second pass.
+        # FIXME: pass in required list in numerical order, but pass in enrichment list in random order.
+
+        # FIXME: better idea, instead of splitting into a bunch of functions, just have the list that's iterated over change depending on the value of required_or_electives.
+            # Use normal self.classes_offered for first iteration, use randomly-ordered list only with not-required courses for the 2nd iteration.
         while required_or_electives < 2:
             i = 0
-            while i < len(self.classes_offered):
-                cur_course = self.classes_offered[i]
+            while i < len(list_to_iterate):
+                #cur_course = self.classes_offered[i]
+                cur_course = list_to_iterate[i]
                 self.fix_ENG06(i)
                 if cur_time.quarter == "Summer Session 1" or cur_time.quarter == "Summer Session 2":
                     max_tot_classes_per_quarter = SUMMER_MAX_TOT_CLASSES_PER_QUARTER
@@ -165,6 +175,7 @@ class Schedule:
                         i -= 1  # to balance index
                 i += 1
             required_or_electives += 1
+            list_to_iterate = self.elective_classes_offered
 
     def fix_ENG06(self, i):
         if(self.student.major == "LMOR" and self.classes_offered[i].name == "ENG06" and self.student.has_taken("MAT22AL") and self.student.has_taken("ECS32A")):
