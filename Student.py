@@ -270,16 +270,16 @@ class Student:
         return self.has_taken("MAT22A") or self.has_taken("MAT67")
 
     def mat108_prereq(self):
-        return self.has_taken("MAT21B")
+        return self.has_taken("MAT21B") and self.has_taken("MAT22A")
 
     def mat111_prereq(self):
-        return self.has_taken("MAT67") or self.has_taken("MAT67") or self.has_taken("MAT108") or self.has_taken("MAT114") or self.has_taken("MAT115A") or self.has_taken("MAT141") or self.has_taken("MAT145")
+        return self.has_taken("MAT22A") and self.has_taken("MAT67") or self.has_taken("MAT67") or self.has_taken("MAT108") or self.has_taken("MAT114") or self.has_taken("MAT115A") or self.has_taken("MAT141") or self.has_taken("MAT145")
 
     def mat114_prereq(self):
         return self.has_taken("MAT21C") and (self.has_taken("MAT22A") or self.has_taken("MAT67"))
 
     def mat115a_prereq(self):
-        return self.has_taken("MAT21B")
+        return self.has_taken("MAT21B") and self.has_taken("MAT22A")
 
     def mat115b_prereq(self):
         return self.has_taken("MAT115A") and (self.has_taken("MAT22A") or self.has_taken("MAT67"))
