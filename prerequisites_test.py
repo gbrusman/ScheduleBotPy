@@ -12,10 +12,12 @@ def find_prereq_string(query_course):
                             password="MN~D=bp~+WR2/ppy")
     cur = conn.cursor()
 
-    query_course = "\'MAT22A\'"
     cur.execute("SELECT prerequisite_combination_id FROM courses WHERE name = " + query_course + ";")
 
     combination_id = cur.fetchone()[0]
+
+    if combination_id == None:
+        return "True"
 
     cur.execute("SELECT * FROM combination_courses WHERE combination_id = " + str(combination_id) + ";")
 
@@ -31,12 +33,23 @@ def find_prereq_string(query_course):
 
         if combination_id != None:
             cur.execute("SELECT logical_operator FROM prerequisite_logical_operators WHERE combination_id = " + str(combination_id) + ";")
-            logical_operator = cur.fetchone()[0]
-            solution += logical_operator.lower() + " "
+            operator_query = cur.fetchone()
+            #FIXME: this if-else might be broken in some cases b/c of break.
+            if operator_query != None:
+                logical_operator = cur.fetchone()[0]
+            else:
+                done = True
+                break
 
-            cur.execute("SELECT * FROM combination_courses WHERE combination_id = " + str(sub_combination_id) + ";")
+            if logical_operator != None:
+                solution += logical_operator.lower() + " "
+
+            if sub_combination_id != None:
+                cur.execute("SELECT * FROM combination_courses WHERE combination_id = " + str(sub_combination_id) + ";")
+            else:
+                done = True
             combination_tuple = cur.fetchone()
-            combination_id = combination_tuple[2]
+            combination_id = sub_combination_id
         else:
             done = True
 
@@ -113,16 +126,15 @@ def get_info_from_database(classes_offered, classes_by_name):
             classes_offered.append(classes_by_name[course])
 
 if __name__ == "__main__":
-    #def __init__(self, cur_time=AcademicTime(), major="", interests=[], classes_taken={}, num_enrichments=0, num_enrichments_a=0, num_enrichments_b=0, summer_quarters=[]):
     classes_offered = []
     classes_by_name = {}
     get_info_from_database(classes_offered, classes_by_name)
 
-    test_classes_taken = {"MAT21C": classes_by_name["MAT21C"], "MAT22AL": classes_by_name["MAT22AL"]}
+    test_classes_taken = {"MAT21B": classes_by_name["MAT21B"], "MAT22A": classes_by_name["MAT22A"]}
     test_student = Student(major="LMOR", classes_taken=test_classes_taken)
 
 
-    query_course = "\'MAT22A\'"
+    query_course = "\'MAT21D\'"
     prereqs = find_prereq_string(query_course)
     print(eval(prereqs))
 
