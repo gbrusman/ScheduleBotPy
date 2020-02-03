@@ -23,20 +23,22 @@ def find_prereq_string(query_course):
 
     combination_tuple = cur.fetchone()
     done = False
+    left_parens = 0
     while not done:
 
         course_id = combination_tuple[1]
         sub_combination_id = combination_tuple[2]
 
         cur.execute("SELECT name FROM courses WHERE display_index = " + str(course_id) + ";")
-        solution += "test_student.has_taken(\"" + cur.fetchone()[0] + "\")" + " "
+        solution += "(test_student.has_taken(\"" + cur.fetchone()[0] + "\")" + " "
+        left_parens += 1
 
         if combination_id != None:
             cur.execute("SELECT logical_operator FROM prerequisite_logical_operators WHERE combination_id = " + str(combination_id) + ";")
             operator_query = cur.fetchone()
             #FIXME: this if-else might be broken in some cases b/c of break.
             if operator_query != None:
-                logical_operator = cur.fetchone()[0]
+                logical_operator = operator_query[0]
             else:
                 done = True
                 break
@@ -53,6 +55,7 @@ def find_prereq_string(query_course):
         else:
             done = True
 
+    solution += ")" * left_parens
     print(solution)
     return solution
 
@@ -130,11 +133,11 @@ if __name__ == "__main__":
     classes_by_name = {}
     get_info_from_database(classes_offered, classes_by_name)
 
-    test_classes_taken = {"MAT21B": classes_by_name["MAT21B"], "MAT22A": classes_by_name["MAT22A"]}
+    test_classes_taken = { "MAT135A": classes_by_name["MAT135A"]}
     test_student = Student(major="LMOR", classes_taken=test_classes_taken)
 
 
-    query_course = "\'MAT21D\'"
+    query_course = "\'MAT133\'"
     prereqs = find_prereq_string(query_course)
     print(eval(prereqs))
 
