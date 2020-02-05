@@ -66,24 +66,24 @@ STA100,,f,f,f,f,f,f,64,101
 STA131A,,f,f,f,f,f,f,65,221
 STA131B,,t,f,f,f,f,f,66,224
 STA131C,,t,f,f,f,f,f,67,226
-STA137,,t,f,f,f,f,f,68,
-STA141A,,t,f,f,f,f,f,69,
-STA141B,,t,f,f,f,f,f,70,
-STA141C,,f,t,f,f,f,f,71,
-ARE100A,,f,t,f,f,f,f,72,
-ARE100B,,f,t,f,f,f,f,73,
-ARE155,,f,t,f,f,f,f,74,
-ARE156,,f,t,f,f,f,f,75,
-ARE157,,f,t,f,f,f,f,76,
-ECS124,,f,f,f,f,f,f,77,
-ECS129,,f,f,f,f,f,f,78,
-ECS170,,f,f,f,f,f,f,79,
-ATM120,,f,f,f,t,f,f,80,
-ATM121A,,f,f,f,t,f,f,81,
-ATM121B,,f,f,f,t,f,f,82,
-Upper Div Non-Math,,f,f,f,t,f,f,83,
-Biology Req.,,f,f,f,f,t,f,84,
-Computation Req.,,f,f,f,f,f,t,85,
-Natural Science 1,,f,f,f,f,f,f,86,
-Natural Science 2,,f,f,f,f,f,f,87,
-Natural Science 3,,f,f,f,f,f,f,88,
+STA137,,t,f,f,f,f,f,68,!
+STA141A,,t,f,f,f,f,f,69,!
+STA141B,,t,f,f,f,f,f,70,!
+STA141C,,f,t,f,f,f,f,71,!
+ARE100A,,f,t,f,f,f,f,72,227
+ARE100B,,f,t,f,f,f,f,73,231
+ARE155,,f,t,f,f,f,f,74,!
+ARE156,,f,t,f,f,f,f,75,!
+ARE157,,f,t,f,f,f,f,76,!
+ECS124,,f,f,f,f,f,f,77,232
+ECS129,,f,f,f,f,f,f,78,249
+ECS170,,f,f,f,f,f,f,79,!
+ATM120,,f,f,f,t,f,f,80,!
+ATM121A,,f,f,f,t,f,f,81,!
+ATM121B,,f,f,f,t,f,f,82,!
+Upper Div Non-Math,,f,f,f,t,f,f,83,251
+Biology Req.,,f,f,f,f,t,f,84,253
+Computation Req.,,f,f,f,f,f,t,85,254
+Natural Science 1,,f,f,f,f,f,f,86,100
+Natural Science 2,,f,f,f,f,f,f,87,255
+Natural Science 3,,f,f,f,f,f,f,88,257
