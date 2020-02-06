@@ -83,20 +83,26 @@ def find_prereq_string(query_course):
 
     unformatted_prereqs = cur.fetchone()[0]
     if unformatted_prereqs == None:
-        return solution
+        return "True"
 
     split_prereqs = unformatted_prereqs.split()
     #print(split_prereqs)
 
     for word in split_prereqs:
         if word not in ['or', 'and']: # If word is a classname and not a logical operator
-            if word[0] != '(':
-                new_word = "test_student.has_taken(\'" + word + "\')"
+            if word[0] == '(':
+                num_left_parens = 1
+                while word[num_left_parens] == '(':
+                    num_left_parens += 1
+                new_word = ("(" * num_left_parens) + "test_student.has_taken" + "(\'" + word[num_left_parens:] + "\')"
             else:
-                new_word = "(test_student.has_taken(\'" + word[1:] + "\')"
+                new_word = "test_student.has_taken(\'" + word + "\')"
             # Properly place end quote before right paren on words with right paren.
             if word[len(word) - 1] == ')':
-                new_word = new_word[0:len(new_word) - 3] + "\'))"
+                num_right_parens = 1
+                while word[len(word) - num_right_parens] == ')':
+                    num_right_parens += 1
+                new_word = new_word[0:len(new_word) - (1 + num_right_parens)] + "\'" + (")" * num_right_parens)
             solution += new_word + " "
 
         else:
@@ -113,7 +119,14 @@ if __name__ == "__main__":
     test_student = Student(major="LMOR", classes_taken=test_classes_taken)
 
 
-    query_course = "\'Natural_Science_3\'"
+    # for key in classes_by_name:
+    #     try:
+    #         query_course = "\'" + key + "\'"
+    #         prereqs = find_prereq_string(query_course)
+    #         eval(prereqs)
+    #     except:
+    #         print("Issue with course: " + key)
+
+    query_course = "\'MAT168\'"
     prereqs = find_prereq_string(query_course)
     print(eval(prereqs))
-
