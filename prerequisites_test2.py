@@ -107,7 +107,7 @@ def find_prereq_string(query_course):
 
         else:
             solution += word + " "
-    print(solution)
+    #print(solution)
     return solution
 
 if __name__ == "__main__":
@@ -118,15 +118,15 @@ if __name__ == "__main__":
     test_classes_taken = {"MAT21C": classes_by_name["MAT21C"], "MAT108": classes_by_name["MAT108"]}
     test_student = Student(major="LMOR", classes_taken=test_classes_taken)
 
+    for key in classes_by_name:
+        key = key.replace(" ", "_")
+        try:
+            query_course = "\'" + key + "\'"
+            prereqs = find_prereq_string(query_course)
+            eval(prereqs)
+        except:
+            print("Issue with course: " + key)
 
-    # for key in classes_by_name:
-    #     try:
-    #         query_course = "\'" + key + "\'"
-    #         prereqs = find_prereq_string(query_course)
-    #         eval(prereqs)
-    #     except:
-    #         print("Issue with course: " + key)
-
-    query_course = "\'MAT168\'"
-    prereqs = find_prereq_string(query_course)
-    print(eval(prereqs))
+    # query_course = "\'MAT168\'"
+    # prereqs = find_prereq_string(query_course)
+    # print(eval(prereqs))
