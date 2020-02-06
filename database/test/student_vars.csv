@@ -1,0 +1,9 @@
+major,num_enrichments_needed,num_enrichments_a_needed,num_enrichments_b_needed,num_128s_needed
+LMATAB1,4,0,0,0
+LMATAB2,4,0,0,0
+LMATBS1,4,0,0,0
+LMATBS2,4,0,0,0
+LAMA,2,0,0,2
+LMOR,4,2,2,1
+LMCOBIO,2,0,0,3
+LMCOMATH,2,0,0,3
