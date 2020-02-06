@@ -78,12 +78,9 @@ ARE157,f,f,f,f,f,f,f,f
 ECS124,f,f,f,f,f,f,f,f
 ECS129,f,f,f,f,f,f,f,f
 ECS170,f,f,f,f,f,f,f,f
-ATM120,f,f,f,f,f,f,f,f
-ATM121A,f,f,f,f,f,f,f,f
-ATM121B,f,f,f,f,f,f,f,f
-Upper Div Non-Math,f,f,f,f,f,f,t,f
-Biology Req.,f,f,f,f,f,f,f,t
-Computation Req.,f,t,f,f,f,f,f,f
-Natural Science 1,f,f,t,t,f,f,f,f
-Natural Science 2,f,f,t,t,f,f,f,f
-Natural Science 3,f,f,t,t,f,f,f,f
+Upper_Div_Non-Math,f,f,f,f,f,f,t,f
+Biology_Req.,f,f,f,f,f,f,f,t
+Computation_Req.,f,t,f,f,f,f,f,f
+Natural_Science_1,f,f,t,t,f,f,f,f
+Natural_Science_2,f,f,t,t,f,f,f,f
+Natural_Science_3,f,f,t,t,f,f,f,f

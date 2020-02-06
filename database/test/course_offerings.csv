@@ -78,12 +78,9 @@ ARE100B,t,t,t,t,t,ALWAYS
 ARE155,t,t,t,t,f,ALWAYS
 ARE156,t,t,t,f,f,ALWAYS
 ARE157,f,f,t,f,f,ALWAYS
-ATM120,t,f,f,f,f,ALWAYS
-ATM121A,f,t,f,f,f,ALWAYS
-ATM121B,f,f,t,f,f,ALWAYS
-Biology Req.,t,t,t,f,f,ALWAYS
-Computation Req.,t,t,t,f,f,ALWAYS
-Natural Science 1,t,t,t,t,t,ALWAYS
-Natural Science 2,t,t,t,t,t,ALWAYS
-Upper Div Non-Math,t,t,t,f,f,ALWAYS
-Natural Science 3,t,t,t,t,t,ALWAYS
+Biology_Req.,t,t,t,f,f,ALWAYS
+Computation_Req.,t,t,t,f,f,ALWAYS
+Natural_Science_1,t,t,t,t,t,ALWAYS
+Natural_Science_2,t,t,t,t,t,ALWAYS
+Upper_Div_Non-Math,t,t,t,f,f,ALWAYS
+Natural_Science_3,t,t,t,t,t,ALWAYS
