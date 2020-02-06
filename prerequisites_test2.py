@@ -91,11 +91,12 @@ def find_prereq_string(query_course):
     for word in split_prereqs:
         if word not in ['or', 'and']: # If word is a classname and not a logical operator
             if word[0] != '(':
-                new_word = "self.has_taken(" + word + ")"
+                new_word = "test_student.has_taken(\'" + word + "\')"
             else:
-                new_word = "(self.has_taken(" + word + ")"
+                new_word = "(test_student.has_taken(\'" + word[1:] + "\')"
+            # Properly place end quote before right paren on words with right paren.
             if word[len(word) - 1] == ')':
-                new_word += ')'
+                new_word = new_word[0:len(new_word) - 3] + "\'))"
             solution += new_word + " "
 
         else:
@@ -108,11 +109,11 @@ if __name__ == "__main__":
     classes_by_name = {}
     get_info_from_database(classes_offered, classes_by_name)
 
-    test_classes_taken = {"MAT135A": classes_by_name["MAT135A"], "MAT108": classes_by_name["MAT108"], "MAT22A": classes_by_name["MAT22A"], "MAT67": classes_by_name["MAT67"]}
+    test_classes_taken = {"MAT21C": classes_by_name["MAT21C"], "MAT108": classes_by_name["MAT108"]}
     test_student = Student(major="LMOR", classes_taken=test_classes_taken)
 
 
-    query_course = "\'MAT128A\'"
+    query_course = "\'Natural_Science_3\'"
     prereqs = find_prereq_string(query_course)
-    #print(eval(prereqs))
+    print(eval(prereqs))
 
