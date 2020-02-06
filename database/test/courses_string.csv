@@ -1,0 +1,86 @@
+name,after,enrichment_a,enrichment_b,enrichment,approved_ud_nonmath,biology_requirement,computation_requirement,display_index,prerequisites
+MAT21A,MAT21B,f,f,f,f,f,f,1,
+MAT21B,MAT21C,f,f,f,f,f,f,2,MAT21A
+MAT21C,MAT21D,f,f,f,f,f,f,3,MAT21B
+MAT21D,,f,f,f,f,f,f,4,MAT21C
+MAT22A,,f,f,f,f,f,f,5,MAT21C and (ENG06 or MAT22AL)
+MAT22AL,,f,f,f,f,f,f,6,MAT21C
+MAT22B,,f,f,f,f,f,f,7,MAT22A or MAT67
+MAT67,,f,f,f,f,f,f,8,MAT21C
+MAT108,MAT127A,f,f,f,f,f,f,9,MAT21B and MAT22A and MAT21C
+MAT111,,t,f,t,f,f,f,10,MAT22A and MAT127A or MAT67 or MAT108 or MAT114 or MAT115A or MAT141 or MAT145
+MAT114,,t,f,t,f,f,f,11,MAT21C and (MAT22A or MAT67)
+MAT115A,MAT115B,t,f,t,f,f,f,12,MAT21B and MAT22A
+MAT115B,,t,f,t,f,f,f,13,MAT115A and (MAT22A or MAT67)
+MAT116,,t,f,t,f,f,f,14,MAT21D and MAT22B and (MAT22A or MAT67)
+MAT118A,MAT118B,t,f,t,f,f,f,15,MAT21D and MAT22B and (MAT22A or MAT67)
+MAT118B,,t,f,t,f,f,f,16,MAT118A
+MAT119A,MAT119B,t,f,t,f,f,f,17,MAT21D and MAT22B and (MAT22A or MAT67)
+MAT119B,,t,f,t,f,f,f,18,MAT119A
+MAT124,,t,f,t,f,f,f,19,MAT22B and (MAT22A or MAT67)
+MAT127A,MAT127B,f,f,f,f,f,f,20,MAT21C and (MAT67 or (MAT22A and MAT108))
+MAT127B,MAT127C,f,f,f,f,f,f,21,MAT127A
+MAT127C,,f,f,f,f,f,f,22,MAT127B
+MAT128A,,f,f,f,f,f,f,23,MAT21C and (ECS32A or ENG06 or EME05 or ECS30)
+MAT128B,,t,f,f,f,f,f,24,(MAT22A or MAT67) and (ECS32A or ENG06 or EME05 or ECS30) and MAT128A
+MAT128C,,t,f,t,f,f,f,25,(MAT22A or MAT67) and MAT22B and (ECS32A or ENG06 or EME05 or ECS30) and MAT128A
+MAT129,,t,f,t,f,f,f,26,MAT21D and MAT22B and (MAT22A or MAT67) and MAT127A
+MAT133,,t,f,t,f,f,f,27,(MAT67 or (MAT22A and MAT108)) and MAT135A
+MAT135A,MAT135B,f,f,f,f,f,f,28,MAT21C and (MAT108 or MAT127A)
+MAT135B,,f,f,t,f,f,f,29,MAT135A and (MAT22A or MAT67)
+MAT141,,t,f,t,f,f,f,30,MAT21B and (MAT22A or MAT67)
+MAT145,,t,f,t,f,f,f,31,MAT21C
+MAT146,,t,f,t,f,f,f,32,MAT145 and MAT127A and (MAT22A or MAT67)
+MAT147,,t,f,t,f,f,f,33,MAT127A
+MAT148,,t,f,t,f,f,f,34,MAT67 or (MAT22A and MAT108)
+MAT150A,MAT150B,f,f,f,f,f,f,35,MAT67 or (MAT22A and MAT108)
+MAT150B,MAT150C,t,f,t,f,f,f,36,MAT150A
+MAT150C,,t,f,t,f,f,f,37,MAT150B
+MAT160,,f,f,t,f,f,f,38,MAT167
+MAT165,,t,f,t,f,f,f,39,MAT22A or MAT67 and (MAT127A or MAT108 or MAT114 or MAT115A or MAT145)
+MAT167,,t,f,t,f,f,f,40,MAT22A or MAT67
+MAT168,,f,f,t,f,f,f,41,MAT21C and ((MAT22A and MAT108) or MAT67)
+MAT180,,f,f,f,f,f,f,42,MAT127A and (MAT67 or (MAT22A and MAT108))
+MAT185A,MAT185B,t,f,t,f,f,f,43,MAT127B and (MAT67 or (MAT22A and MAT108))
+MAT185B,,t,f,t,f,f,f,44,MAT185A
+MAT189,,f,f,f,f,f,f,45,MAT127A and ((MAT22A and MAT108) or MAT67)
+ECS32A,,f,f,f,f,f,f,46,
+ENG06,,f,f,f,f,f,f,47,MAT21A
+BIS2A,,f,f,f,f,f,f,48,
+BIS2B,,f,f,f,f,f,f,49,
+CHE2A,,f,f,f,f,f,f,50,
+CHE2B,,f,f,f,f,f,f,51,
+PHY7A,,f,f,f,f,f,f,52,
+PHY9A,,f,f,f,f,f,f,53,MAT21B
+PHY9B,,f,f,f,f,f,f,54,PHY9A and MAT21C
+ECN1A,,f,f,f,f,f,f,55,
+ECN1B,,f,f,f,f,f,f,56,
+ECN100A,,f,t,f,f,f,f,57,ECN1A and ECN1B and MAT21B
+ECN100B,,f,t,f,f,f,f,58,ECN100A
+ECN121A,,f,t,f,f,f,f,59,(ECN100A or ARE100A) and (ECN100B or ARE100B)
+ECN121B,,f,t,f,f,f,f,60,(ECN100A or ARE100A) and (ECN100B or ARE100B)
+ECN122,,f,t,f,f,f,f,61,MAT21A and MAT21B
+ECN134,,f,t,f,f,f,f,62,(ECN100A or ARE100A) and ECN100B and (ECN102 or ECN140 or STA108 or ARE106)
+STA32,,f,f,f,f,f,f,63,MAT21B
+STA100,,f,f,f,f,f,f,64,MAT21B
+STA131A,,f,f,f,f,f,f,65,MAT21D and (MAT22A or MAT67)
+STA131B,,t,f,f,f,f,f,66,STA131A or MAT135A
+STA131C,,t,f,f,f,f,f,67,STA131B
+STA137,,t,f,f,f,f,f,68,STA108
+STA141A,,t,f,f,f,f,f,69,STA108 or STA106
+STA141B,,t,f,f,f,f,f,70,STA141A
+STA141C,,f,t,f,f,f,f,71,STA141B
+ARE100A,,f,t,f,f,f,f,72,ECN1A and ECN1B and MAT21A and MAT21B
+ARE100B,,f,t,f,f,f,f,73,ARE100A
+ARE155,,f,t,f,f,f,f,74,ARE100A and STA103 and STA13
+ARE156,,f,t,f,f,f,f,75,ARE100B and ARE100A and ARE155
+ARE157,,f,t,f,f,f,f,76,ARE155 and ARE100A
+ECS124,,f,f,f,f,f,f,77,(ECS32A or ECS36A or ENG06) and (STA13 or STA32 or STA100 or MAT135A or  STA131A) and (BIS2A or MCB10)
+ECS129,,f,f,f,f,f,f,78,(BIS2A or MCB10) and (ECS32A or ECS36A)
+ECS170,,f,f,f,f,f,f,79,ECS60 or ECS32B or ECS36C
+Upper_Div_Non-Math,,f,f,f,t,f,f,83,MAT108 and MAT128A
+Biology_Req.,,f,f,f,f,t,f,84,MAT124 and MAT128A
+Computation_Req.,,f,f,f,f,f,t,85,MAT128A
+Natural_Science_1,,f,f,f,f,f,f,86,MAT21A
+Natural_Science_2,,f,f,f,f,f,f,87,MAT21B and Natural_Science_1
+Natural_Science_3,,f,f,f,f,f,f,88,MAT21C and Natural_Science_2
