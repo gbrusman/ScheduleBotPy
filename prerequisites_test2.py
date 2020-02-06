@@ -86,7 +86,6 @@ def find_prereq_string(query_course):
         return "True"
 
     split_prereqs = unformatted_prereqs.split()
-    #print(split_prereqs)
 
     for word in split_prereqs:
         if word not in ['or', 'and']: # If word is a classname and not a logical operator
@@ -107,7 +106,6 @@ def find_prereq_string(query_course):
 
         else:
             solution += word + " "
-    #print(solution)
     return solution
 
 if __name__ == "__main__":
