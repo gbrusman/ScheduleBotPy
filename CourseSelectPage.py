@@ -53,7 +53,7 @@ class CourseSelectPage(tk.Frame):
         cur = conn.cursor()
         cur.execute("SELECT name FROM courses ORDER BY display_index ASC;")
         for record in cur:
-            checkbox = Checkbutton(self.cbox_frame, text=record[0])
+            checkbox = Checkbutton(self.cbox_frame, text=record[0].replace("_", " "))
             checkbox.invoke()  # turns checkbox from default to on
             checkbox.invoke()  # turns checkbox from on to off
             checkbox.grid(row=row, column=col, sticky="nsew", padx=5, in_=self.cbox_frame)
@@ -81,5 +81,5 @@ class CourseSelectPage(tk.Frame):
         self.controller.student.classes_taken.clear()
         for cbox in self.cbox_list:
             if cbox.instate(['selected']):  # https://stackoverflow.com/questions/4236910/getting-tkinter-check-box-state
-                self.controller.student.classes_taken[(cbox.cget("text"))] = self.controller.classes_by_name[(cbox.cget("text"))]  # https://stackoverflow.com/questions/33545085/how-to-get-the-text-from-a-checkbutton-in-python-tkinter
+                self.controller.student.classes_taken[(cbox.cget("text")).replace(" ", "_")] = self.controller.classes_by_name[(cbox.cget("text")).replace(" ", "_")]  # https://stackoverflow.com/questions/33545085/how-to-get-the-text-from-a-checkbutton-in-python-tkinter
 
