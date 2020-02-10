@@ -237,6 +237,7 @@ class Schedule:
         if course.name[:3] not in departments:
             return True
         i = 3
+        i = 3
         num_str = ""
         while i < len(course.name) and course.name[i].isdigit():
             num_str += course.name[i]

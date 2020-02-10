@@ -1,7 +1,7 @@
 from AcademicTime import AcademicTime
 import psycopg2
 
-conn = psycopg2.connect(host="localhost", database="Math Prerequisite Testing String", user="postgres",
+conn = psycopg2.connect(host="localhost", database="Math Courses", user="postgres",
                             password="MN~D=bp~+WR2/ppy")
 class Student:
     """
@@ -112,8 +112,8 @@ class Student:
             "MAT180": self.mat180_rec,
             "MAT150A": self.mat150a_rec,
             "MAT185A": self.mat185a_rec,
-            "MAT128B": self.mat128b_rec,
-            "MAT128C": self.mat128c_rec
+            #"MAT128B": self.mat128b_rec,
+            #"MAT128C": self.mat128c_rec
         }
         func = switcher.get(name)
         if func is None:
@@ -126,10 +126,7 @@ class Student:
 
     def find_prereq_string(self, query_course):
         solution = ""
-        #conn = psycopg2.connect(host="localhost", database="Math Prerequisite Testing String", user="postgres",
-        #                        password="MN~D=bp~+WR2/ppy")
         cur = conn.cursor()
-
         cur.execute("SELECT prerequisites FROM courses WHERE name = \'" + query_course + "\';")
 
         unformatted_prereqs = cur.fetchone()[0]
