@@ -1,6 +1,8 @@
 import psycopg2
 from Student import Student
 from Course import Course
+import csv
+import os
 
 def convert_interest_format(interest):
         interest = interest.replace("_", " ").title()
@@ -73,6 +75,73 @@ def get_info_from_database(classes_offered, classes_by_name):
 
 
 
+def get_info_from_csv(classes_offered, classes_by_name):
+    with open('database/test/courses_string.csv', newline='') as courses_csv:
+        reader = csv.DictReader(courses_csv)
+        # Fill in data from 'courses' CSV file and put it in the dict.
+        for row in reader:
+                new_course = Course(name=row['name'], after=row['after'], enrichment_a=row['enrichment_a'],
+                                    enrichment_b=row['enrichment_b'], enrichment=row['enrichment'],
+                                    approved_ud_nonmath=row['approved_ud_nonmath'], biology_requirement=row['biology_requirement'],
+                                    computation_requirement=row['computation_requirement'])
+                classes_by_name[row['name']] = new_course
+
+
+
+
+    with open('database/test/required.csv', newline='') as required_csv:
+        reader = csv.reader(required_csv)
+        # Get names of all of the majors currently offered
+        majors = next(reader)
+        majors.pop(0)
+
+
+
+        # Fill in data about major requirements from 'required' table.
+        for row in reader:
+            required_dict = {}
+            for i in range(1,9):  # FIXME: want to make the range not hard-coded, want it to be able to dynamically figure out range.
+                required_dict[majors[i - 1]] = row[i]
+            classes_by_name[row[0]].required = required_dict
+
+
+    # Get names of all of the quarters currently offered
+    with open('database/test/course_offerings.csv', newline='') as course_offerings_csv:
+        reader = csv.reader(course_offerings_csv)
+        quarters = next(reader)
+        quarters.pop(0)
+
+
+        # Fill in data about course offerings from 'course_offerings' table.
+        for row in reader:
+            quarters_offered = []
+            for i in range(1, 6):
+                if row[i] == 't':
+                    quarters_offered.append(quarters[i - 1])
+            classes_by_name[row[0]].quarters_offered = quarters_offered
+            classes_by_name[row[0]].offered_pattern = row[6]
+
+
+    # Get names of all of the interests currently supported
+    with open('database/test/interests.csv', newline='') as interests_csv:
+        reader = csv.reader(interests_csv)
+        interests = next(reader)
+        interests.pop(0)
+        for i in range(len(interests)):
+            interests[i] = convert_interest_format(interests[i])
+
+        # Fill in data about interests from 'interests' table.
+        for row in reader:
+            course_interests = []
+            for i in range(1, len(interests) + 1):
+                if row[i] == 't':
+                    course_interests.append(interests[i-1])
+            classes_by_name[row[0]].interests = course_interests
+
+    for course in classes_by_name:
+        classes_offered.append(classes_by_name[course])
+
+
 def find_prereq_string(query_course):
     solution = ""
     conn = psycopg2.connect(host="localhost", database="Math Prerequisite Testing String", user="postgres",
@@ -111,7 +180,8 @@ def find_prereq_string(query_course):
 if __name__ == "__main__":
     classes_offered = []
     classes_by_name = {}
-    get_info_from_database(classes_offered, classes_by_name)
+    #get_info_from_database(classes_offered, classes_by_name)
+    get_info_from_csv(classes_offered, classes_by_name)
 
     test_classes_taken = {"MAT21C": classes_by_name["MAT21C"], "MAT108": classes_by_name["MAT108"]}
     test_student = Student(major="LMOR", classes_taken=test_classes_taken)
