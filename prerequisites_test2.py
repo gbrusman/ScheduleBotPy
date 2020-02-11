@@ -177,6 +177,44 @@ def find_prereq_string(query_course):
             solution += word + " "
     return solution
 
+def find_prereq_string_from_csv(query_course):
+    solution = ""
+    with open('database/test/courses_string.csv', newline='') as courses_csv:
+        reader = csv.DictReader(courses_csv)
+        target_row = []
+        for row in reader:
+            if row['name'] == query_course:
+                target_row = row
+                break
+        if not target_row:
+            return "True"
+
+        split_prereqs = target_row['prerequisites'].split()
+        if not split_prereqs:
+            return "True"
+
+        for word in split_prereqs:
+            if word not in ['or', 'and']:  # If word is a classname and not a logical operator
+                if word[0] == '(':
+                    num_left_parens = 1
+                    while word[num_left_parens] == '(':
+                        num_left_parens += 1
+                    new_word = ("(" * num_left_parens) + "test_student.has_taken" + "(\'" + word[
+                                                                                            num_left_parens:] + "\')"
+                else:
+                    new_word = "test_student.has_taken(\'" + word + "\')"
+                # Properly place end quote before right paren on words with right paren.
+                if word[len(word) - 1] == ')':
+                    num_right_parens = 1
+                    while word[len(word) - num_right_parens] == ')':
+                        num_right_parens += 1
+                    new_word = new_word[0:len(new_word) - (1 + num_right_parens)] + "\'" + (")" * num_right_parens)
+                solution += new_word + " "
+
+            else:
+                solution += word + " "
+        return solution
+
 if __name__ == "__main__":
     classes_offered = []
     classes_by_name = {}
@@ -186,13 +224,23 @@ if __name__ == "__main__":
     test_classes_taken = {"MAT21C": classes_by_name["MAT21C"], "MAT108": classes_by_name["MAT108"]}
     test_student = Student(major="LMOR", classes_taken=test_classes_taken)
 
+    # for key in classes_by_name:
+    #     key = key.replace(" ", "_")
+    #     try:
+    #         query_course = "\'" + key + "\'"
+    #         prereqs = find_prereq_string(query_course)
+    #         eval(prereqs)
+    #     except:
+    #         print("Issue with course: " + key)
+
     for key in classes_by_name:
         key = key.replace(" ", "_")
         try:
-            query_course = "\'" + key + "\'"
-            prereqs = find_prereq_string(query_course)
+            query_course = key
+            prereqs = find_prereq_string_from_csv(query_course)
             eval(prereqs)
-        except:
+        except Exception as e:
+            print(e)
             print("Issue with course: " + key)
 
     # query_course = "\'MAT168\'"
