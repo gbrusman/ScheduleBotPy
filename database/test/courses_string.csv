@@ -40,7 +40,7 @@ MAT160,,f,f,t,f,f,f,38,MAT167
 MAT165,,t,f,t,f,f,f,39,MAT22A or MAT67 and (MAT127A or MAT108 or MAT114 or MAT115A or MAT145)
 MAT167,,t,f,t,f,f,f,40,MAT108 and (MAT22A or MAT67)
 MAT168,,f,f,t,f,f,f,41,MAT21C and ((MAT22A and MAT108) or MAT67)
-MAT180,,f,f,f,f,f,f,42,MAT127A and (MAT67 or (MAT22A and MAT108))
+MAT180,,f,f,f,f,f,f,42,MAT127A and MAT150A and (MAT67 or (MAT22A and MAT108))
 MAT185A,MAT185B,t,f,t,f,f,f,43,MAT127B and (MAT67 or (MAT22A and MAT108))
 MAT185B,,t,f,t,f,f,f,44,MAT185A
 MAT189,,f,f,f,f,f,f,45,MAT127A and ((MAT22A and MAT108) or MAT67)
