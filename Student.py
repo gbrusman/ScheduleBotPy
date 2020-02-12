@@ -1,8 +1,13 @@
 from AcademicTime import AcademicTime
 import psycopg2
+import csv
 
-conn = psycopg2.connect(host="localhost", database="Math Courses", user="postgres",
-                            password="MN~D=bp~+WR2/ppy")
+try:
+    conn = psycopg2.connect(host="localhost", database="Math Courses", user="postgres",
+                                password="MN~D=bp~+WR2/ppy")
+except:
+    print("Could not connect to database.")
+
 class Student:
     """
     This is a class to represent the student for which the schedule is being created.
@@ -96,7 +101,7 @@ class Student:
         return False
 
 
-    def meets_reccommendations(self, course):
+    def meets_reccommendations(self, course): #FIXME: Need to deprecate this and just include anything necessary into the prereqs DB.
         """Function to test whether a student meets the recommendations to take a course. Returns boolean.
 
         Extra Info:
@@ -157,9 +162,50 @@ class Student:
                 solution += word + " "
         return solution
 
+    def find_prereq_string_from_csv(self, query_course):
+        solution = ""
+        with open('database/test/courses_string.csv', newline='') as courses_csv:
+            reader = csv.DictReader(courses_csv)
+            target_row = []
+            for row in reader:
+                if row['name'] == query_course:
+                    target_row = row
+                    break
+            if not target_row:
+                return "True"
+
+            split_prereqs = target_row['prerequisites'].split()
+            if not split_prereqs:
+                return "True"
+
+            for word in split_prereqs:
+                if word not in ['or', 'and']:  # If word is a classname and not a logical operator
+                    if word[0] == '(':
+                        num_left_parens = 1
+                        while word[num_left_parens] == '(':
+                            num_left_parens += 1
+                        new_word = ("(" * num_left_parens) + "self.has_taken" + "(\'" + word[
+                                                                                                num_left_parens:] + "\')"
+                    else:
+                        new_word = "self.has_taken(\'" + word + "\')"
+                    # Properly place end quote before right paren on words with right paren.
+                    if word[len(word) - 1] == ')':
+                        num_right_parens = 1
+                        while word[len(word) - num_right_parens] == ')':
+                            num_right_parens += 1
+                        new_word = new_word[0:len(new_word) - (1 + num_right_parens)] + "\'" + (")" * num_right_parens)
+                    solution += new_word + " "
+
+                else:
+                    solution += word + " "
+            return solution
+
     def has_prereqs(self, course, block):
         """Function to test whether a student has the prereqs necessary to take a course. Returns boolean."""
-        prereq_string = self.find_prereq_string(course.name)
+        try:
+            prereq_string = self.find_prereq_string(course.name)
+        except:
+            prereq_string = self.find_prereq_string_from_csv(course.name)
         return eval(prereq_string)
 
 

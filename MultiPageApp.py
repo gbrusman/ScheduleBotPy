@@ -9,6 +9,7 @@ from MajorSelectPage import MajorSelectPage
 from ScheduleDisplayPage import ScheduleDisplayPage
 from Student import Student
 import psycopg2
+import csv
 
 
 
@@ -28,11 +29,10 @@ class MultiPageApp(tk.Tk):
         self.classes_offered = []
         self.classes_by_name = {}
 
-        self.get_info_from_database()
-
-
-
-
+        try:
+            self.get_info_from_database()
+        except:
+            self.get_info_from_csv()
 
 
         self.frames = {}
@@ -48,10 +48,6 @@ class MultiPageApp(tk.Tk):
             frame.grid(row=0, column=0, sticky="nsew")
 
         self.show_frame("MajorSelectPage")
-
-
-
-
 
     def get_info_from_database(self):
         conn = psycopg2.connect(host="localhost", database="Math Courses", user="postgres", password="MN~D=bp~+WR2/ppy")
@@ -118,10 +114,77 @@ class MultiPageApp(tk.Tk):
         for course in self.classes_by_name:
             self.classes_offered.append(self.classes_by_name[course])
 
+    def get_info_from_csv(self):
+        with open('database/test/courses_string.csv', newline='') as courses_csv:
+            reader = csv.DictReader(courses_csv)
+            # Fill in data from 'courses' CSV file and put it in the dict.
+            for row in reader:
+                enrichment_a = True if row['enrichment_a'] == 't' else False
+                enrichment_b = True if row['enrichment_b'] == 't' else False
+                enrichment = True if row['enrichment'] == 't' else False
+                approved_ud_nonmath = True if row['approved_ud_nonmath'] == 't' else False
+                biology_requirement = True if row['biology_requirement'] == 't' else False
+                computation_requirement = True if row['computation_requirement'] == 't' else False
+                new_course = Course(name=row['name'], after=row['after'], enrichment_a=enrichment_a,
+                                    enrichment_b=enrichment_b, enrichment=enrichment,
+                                    approved_ud_nonmath=approved_ud_nonmath,
+                                    biology_requirement=biology_requirement,
+                                    computation_requirement=computation_requirement)
+                self.classes_by_name[row['name']] = new_course
+
+        with open('database/test/required.csv', newline='') as required_csv:
+            reader = csv.reader(required_csv)
+            # Get names of all of the majors currently offered
+            majors = next(reader)
+            majors.pop(0)
+
+            # Fill in data about major requirements from 'required' table.
+            for row in reader:
+                required_dict = {}
+                for i in range(1,
+                               9):  # FIXME: want to make the range not hard-coded, want it to be able to dynamically figure out range.
+                    required_dict[majors[i - 1]] = True if row[i] == "t" else False
+                self.classes_by_name[row[0]].required = required_dict
+
+        # Get names of all of the quarters currently offered
+        with open('database/test/course_offerings.csv', newline='') as course_offerings_csv:
+            reader = csv.reader(course_offerings_csv)
+            quarters = next(reader)
+            quarters.pop(0)
+
+            # Fill in data about course offerings from 'course_offerings' table.
+            for row in reader:
+                quarters_offered = []
+                for i in range(1, 6):
+                    if row[i] == 't':
+                        quarters_offered.append(quarters[i - 1])
+                self.classes_by_name[row[0]].quarters_offered = quarters_offered
+                self.classes_by_name[row[0]].offered_pattern = row[6]
+
+        # Get names of all of the interests currently supported
+        with open('database/test/interests.csv', newline='') as interests_csv:
+            reader = csv.reader(interests_csv)
+            interests = next(reader)
+            interests.pop(0)
+            for i in range(len(interests)):
+                interests[i] = self.convert_interest_format(interests[i])
+
+            # Fill in data about interests from 'interests' table.
+            for row in reader:
+                course_interests = []
+                for i in range(1, len(interests) + 1):
+                    if row[i] == 't':
+                        course_interests.append(interests[i - 1])
+                self.classes_by_name[row[0]].interests = course_interests
+
+        for course in self.classes_by_name:
+            self.classes_offered.append(self.classes_by_name[course])
+
 
     def convert_interest_format(self, interest):
         interest = interest.replace("_", " ").title()
         return interest
+
 
     def show_frame(self, page_name):
         frame = self.frames[page_name]
