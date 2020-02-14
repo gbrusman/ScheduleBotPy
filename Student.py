@@ -207,6 +207,7 @@ class Student:
         # except:
         #     prereq_string = self.find_prereq_string_from_csv(course.name)
         prereq_string = self.find_prereq_string_from_csv(course.name)
+
         return eval(prereq_string)
 
 

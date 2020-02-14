@@ -50,11 +50,49 @@ class CourseSelectPage(tk.Frame):
         col = 0
         row = 1
         count = 0
-        try:
-            conn = psycopg2.connect(host="localhost", database="Math Courses", user="postgres", password="MN~D=bp~+WR2/ppy")
-            cur = conn.cursor()
-            cur.execute("SELECT name FROM courses ORDER BY display_index ASC;")
-            for record in cur:
+        # try:
+        #     conn = psycopg2.connect(host="localhost", database="Math Courses", user="postgres", password="MN~D=bp~+WR2/ppy")
+        #     cur = conn.cursor()
+        #     cur.execute("SELECT name FROM courses ORDER BY display_index ASC;")
+        #     for record in cur:
+        #         checkbox = Checkbutton(self.cbox_frame, text=record[0].replace("_", " "))
+        #         checkbox.invoke()  # turns checkbox from default to on
+        #         checkbox.invoke()  # turns checkbox from on to off
+        #         checkbox.grid(row=row, column=col, sticky="nsew", padx=5, in_=self.cbox_frame)
+        #         self.cbox_list.append(checkbox)
+        #         row += 1
+        #         count += 1
+        #         if count == 10:  # only 10 checkboxes per column
+        #             self.cbox_frame.grid_columnconfigure(col, weight=1)
+        #             col += 1
+        #             row = 1
+        #             count = 0
+        #     conn.close()
+        # except:
+        #     with open('database/test/courses_string.csv', newline='') as courses_csv:
+        #         reader = csv.reader(courses_csv)
+        #         for record in reader:
+        #             if record[0] == 'name':
+        #                 continue
+        #             checkbox = Checkbutton(self.cbox_frame, text=record[0].replace("_", " "))
+        #             checkbox.invoke()  # turns checkbox from default to on
+        #             checkbox.invoke()  # turns checkbox from on to off
+        #             checkbox.grid(row=row, column=col, sticky="nsew", padx=5, in_=self.cbox_frame)
+        #             self.cbox_list.append(checkbox)
+        #             row += 1
+        #             count += 1
+        #             if count == 10:  # only 10 checkboxes per column
+        #                 self.cbox_frame.grid_columnconfigure(col, weight=1)
+        #                 col += 1
+        #                 row = 1
+        #                 count = 0
+
+        with open('database/test/courses_string.csv', newline='') as courses_csv:
+
+            reader = csv.reader(courses_csv)
+            for record in reader:
+                if record[0] == 'name':
+                    continue
                 checkbox = Checkbutton(self.cbox_frame, text=record[0].replace("_", " "))
                 checkbox.invoke()  # turns checkbox from default to on
                 checkbox.invoke()  # turns checkbox from on to off
@@ -67,26 +105,6 @@ class CourseSelectPage(tk.Frame):
                     col += 1
                     row = 1
                     count = 0
-            conn.close()
-        except:
-            with open('database/test/courses_string.csv', newline='') as courses_csv:
-                reader = csv.reader(courses_csv)
-                for record in reader:
-                    if record[0] == 'name':
-                        continue
-                    checkbox = Checkbutton(self.cbox_frame, text=record[0].replace("_", " "))
-                    checkbox.invoke()  # turns checkbox from default to on
-                    checkbox.invoke()  # turns checkbox from on to off
-                    checkbox.grid(row=row, column=col, sticky="nsew", padx=5, in_=self.cbox_frame)
-                    self.cbox_list.append(checkbox)
-                    row += 1
-                    count += 1
-                    if count == 10:  # only 10 checkboxes per column
-                        self.cbox_frame.grid_columnconfigure(col, weight=1)
-                        col += 1
-                        row = 1
-                        count = 0
-
 
     def go_back(self):
         if self.controller.student.major == "LAMA":
