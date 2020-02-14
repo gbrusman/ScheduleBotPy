@@ -2,6 +2,8 @@
 
 scripts="AcademicTime.py AppliedSeriesChoicePage.py Course.py CourseSelectPage.py InterestSelectPage.py MajorSelectPage.py MultiPageApp.py ScheduleBlock.py ScheduleDisplayPage.py Schedule.py Student.py"
 
+spec="ScheduleBotLINUX.spec"
+
 name="ScheduleBotLINUX"
 
 options="-n ${name} " 
@@ -29,7 +31,7 @@ fi
 
 echo "$options"
 
-pyinstaller $options $scripts
+pyinstaller $options $spec
 
 if [ $O -eq 1 ] 
 then
