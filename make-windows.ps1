@@ -7,8 +7,10 @@ $scripts = "AcademicTime.py", "AppliedSeriesChoicePage.py", "Course.py", "Course
 
 $options = "-n", "ScheduleBotWINDOWS"
 
+$spec = "ScheduleBotWINDOWS.spec"
+
 if($f) {
     $options += "--onefile", "--windowed"
 }
 
-pyinstaller $options $scripts
+pyinstaller $options $spec

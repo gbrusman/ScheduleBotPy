@@ -10,8 +10,18 @@ from ScheduleDisplayPage import ScheduleDisplayPage
 from Student import Student
 #import psycopg2
 import csv
+import sys
+import os
 
+def resource_path(relative_path):
+    """ Get absolute path to resource, works for dev and for PyInstaller """
+    try:
+        # PyInstaller creates a temp folder and stores path in _MEIPASS
+        base_path = sys._MEIPASS
+    except Exception:
+        base_path = os.path.abspath(".")
 
+    return os.path.join(base_path, relative_path)
 
 #  https://stackoverflow.com/questions/7546050/switch-between-two-frames-in-tkinter
 
@@ -115,7 +125,7 @@ class MultiPageApp(tk.Tk):
     #         self.classes_offered.append(self.classes_by_name[course])
 
     def get_info_from_csv(self):
-        with open('database/test/courses_string.csv', newline='') as courses_csv:
+        with open(resource_path('database/courses.csv'), newline='') as courses_csv:
             reader = csv.DictReader(courses_csv)
             # Fill in data from 'courses' CSV file and put it in the dict.
             for row in reader:
@@ -132,7 +142,7 @@ class MultiPageApp(tk.Tk):
                                     computation_requirement=computation_requirement)
                 self.classes_by_name[row['name']] = new_course
 
-        with open('database/test/required.csv', newline='') as required_csv:
+        with open(resource_path('database/required.csv'), newline='') as required_csv:
             reader = csv.reader(required_csv)
             # Get names of all of the majors currently offered
             majors = next(reader)
@@ -147,7 +157,7 @@ class MultiPageApp(tk.Tk):
                 self.classes_by_name[row[0]].required = required_dict
 
         # Get names of all of the quarters currently offered
-        with open('database/test/course_offerings.csv', newline='') as course_offerings_csv:
+        with open(resource_path('database/course_offerings.csv'), newline='') as course_offerings_csv:
             reader = csv.reader(course_offerings_csv)
             quarters = next(reader)
             quarters.pop(0)
@@ -162,7 +172,7 @@ class MultiPageApp(tk.Tk):
                 self.classes_by_name[row[0]].offered_pattern = row[6]
 
         # Get names of all of the interests currently supported
-        with open('database/test/interests.csv', newline='') as interests_csv:
+        with open(resource_path('database/interests.csv'), newline='') as interests_csv:
             reader = csv.reader(interests_csv)
             interests = next(reader)
             interests.pop(0)

@@ -1,12 +1,23 @@
 from AcademicTime import AcademicTime
 #import psycopg2
 import csv
+import os
+import sys
 
 # try:
 #     conn = psycopg2.connect(host="localhost", database="Math Courses", user="postgres",
 #                                 password="MN~D=bp~+WR2/ppy")
 # except:
 #     print("Could not connect to database.")
+def resource_path(relative_path):
+    """ Get absolute path to resource, works for dev and for PyInstaller """
+    try:
+        # PyInstaller creates a temp folder and stores path in _MEIPASS
+        base_path = sys._MEIPASS
+    except Exception:
+        base_path = os.path.abspath(".")
+
+    return os.path.join(base_path, relative_path)
 
 class Student:
     """
@@ -164,7 +175,7 @@ class Student:
 
     def find_prereq_string_from_csv(self, query_course):
         solution = ""
-        with open('database/test/courses_string.csv', newline='') as courses_csv:
+        with open(resource_path('database/courses.csv'), newline='') as courses_csv:
             reader = csv.DictReader(courses_csv)
             target_row = []
             for row in reader:

@@ -8,6 +8,18 @@ from AcademicTime import AcademicTime
 from ScheduleBlock import ScheduleBlock
 #import psycopg2
 import csv
+import os
+import sys
+
+def resource_path(relative_path):
+    """ Get absolute path to resource, works for dev and for PyInstaller """
+    try:
+        # PyInstaller creates a temp folder and stores path in _MEIPASS
+        base_path = sys._MEIPASS
+    except Exception:
+        base_path = os.path.abspath(".")
+
+    return os.path.join(base_path, relative_path)
 
 class CourseSelectPage(tk.Frame):
     def __init__(self, parent, controller):
@@ -69,7 +81,7 @@ class CourseSelectPage(tk.Frame):
         #             count = 0
         #     conn.close()
         # except:
-        #     with open('database/test/courses_string.csv', newline='') as courses_csv:
+        #     with open('database/courses.csv', newline='') as courses_csv:
         #         reader = csv.reader(courses_csv)
         #         for record in reader:
         #             if record[0] == 'name':
@@ -87,7 +99,7 @@ class CourseSelectPage(tk.Frame):
         #                 row = 1
         #                 count = 0
 
-        with open('database/test/courses_string.csv', newline='') as courses_csv:
+        with open(resource_path('database/courses.csv'), newline='') as courses_csv:
 
             reader = csv.reader(courses_csv)
             for record in reader:
