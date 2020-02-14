@@ -4,7 +4,7 @@ from tkinter.ttk import *
 
 from AcademicTime import AcademicTime
 from Schedule import Schedule
-
+import random
 
 class ScheduleDisplayPage(tk.Frame):
     def __init__(self, parent, controller):
@@ -38,7 +38,14 @@ class ScheduleDisplayPage(tk.Frame):
         # Need to make new student object because it gets mutated when creating schedule, need to handle case where user hits back button.
         student = copy.deepcopy(self.controller.student)
         classes_offered = self.controller.classes_offered.copy()  # Need to make copy of classes_offered for same reason as above
-        schedule_data = Schedule(student, classes_offered)
+        rand_classes_offered = random.sample(classes_offered, len(classes_offered))
+        elective_classes_offered = []
+        for course in classes_offered:
+             if course.enrichment or course.enrichment_a or course.enrichment_b:
+                elective_classes_offered.append(course)
+
+        elective_classes_offered = random.sample(elective_classes_offered, len(elective_classes_offered))
+        schedule_data = Schedule(student, rand_classes_offered, elective_classes_offered)
         if not schedule_data.new_is_success():
             failed = True
         schedule = schedule_data.schedule
@@ -130,7 +137,7 @@ class ScheduleDisplayPage(tk.Frame):
             if cur_time in schedule:
                 if len(schedule.get(cur_time).courses) > 0:
                     course0 = tk.Entry(block_box, width=20, readonlybackground="White")  # http://www.tcl.tk/man/tcl/TkCmd/entry.htm#M9
-                    course0.insert(0, schedule.get(cur_time).courses[0].name)  # https://stackoverflow.com/questions/14847243/how-can-i-insert-a-string-in-a-entry-widget-that-is-in-the-readonly-state
+                    course0.insert(0, schedule.get(cur_time).courses[0].name.replace("_", " "))  # https://stackoverflow.com/questions/14847243/how-can-i-insert-a-string-in-a-entry-widget-that-is-in-the-readonly-state
                     course0.configure(state='readonly')
                     if(schedule.get(cur_time).courses[0].name in mat128s):
                         num_128s_printed += 1
@@ -142,7 +149,7 @@ class ScheduleDisplayPage(tk.Frame):
                     course0.grid(row=1, pady=5, sticky="w", in_=block_box)
                 if len(schedule.get(cur_time).courses) > 1:
                     course1 = tk.Entry(block_box, width=20, readonlybackground="White")
-                    course1.insert(1, schedule.get(cur_time).courses[1].name)
+                    course1.insert(1, schedule.get(cur_time).courses[1].name.replace("_", " "))
                     course1.configure(state='readonly')
                     if (schedule.get(cur_time).courses[1].name in mat128s):
                         num_128s_printed += 1
@@ -157,7 +164,7 @@ class ScheduleDisplayPage(tk.Frame):
                     blank_course.grid(row=2, pady=5, sticky="w", in_=block_box)
                 if len(schedule.get(cur_time).courses) > 2:
                     course2 = tk.Entry(block_box, width=20, readonlybackground="White")
-                    course2.insert(2, schedule.get(cur_time).courses[2].name)
+                    course2.insert(2, schedule.get(cur_time).courses[2].name.replace("_", " "))
                     course2.configure(state='readonly')
                     if (schedule.get(cur_time).courses[2].name in mat128s):
                         num_128s_printed += 1

@@ -1,5 +1,12 @@
 from AcademicTime import AcademicTime
+#import psycopg2
+import csv
 
+# try:
+#     conn = psycopg2.connect(host="localhost", database="Math Courses", user="postgres",
+#                                 password="MN~D=bp~+WR2/ppy")
+# except:
+#     print("Could not connect to database.")
 
 class Student:
     """
@@ -94,7 +101,7 @@ class Student:
         return False
 
 
-    def meets_reccommendations(self, course):
+    def meets_reccommendations(self, course): #FIXME: Need to deprecate this and just include anything necessary into the prereqs DB.
         """Function to test whether a student meets the recommendations to take a course. Returns boolean.
 
         Extra Info:
@@ -110,8 +117,8 @@ class Student:
             "MAT180": self.mat180_rec,
             "MAT150A": self.mat150a_rec,
             "MAT185A": self.mat185a_rec,
-            "MAT128B": self.mat128b_rec,
-            "MAT128C": self.mat128c_rec
+            #"MAT128B": self.mat128b_rec,
+            #"MAT128C": self.mat128c_rec
         }
         func = switcher.get(name)
         if func is None:
@@ -122,101 +129,183 @@ class Student:
         """Function to test whether a student has already taken a course in a previous quarter. Returns boolean."""
         return course_name in self.classes_taken.keys()
 
+    # def find_prereq_string(self, query_course):
+    #     solution = ""
+    #     cur = conn.cursor()
+    #     cur.execute("SELECT prerequisites FROM courses WHERE name = \'" + query_course + "\';")
+    #
+    #     unformatted_prereqs = cur.fetchone()[0]
+    #     if unformatted_prereqs == None:
+    #         return "True"
+    #
+    #     split_prereqs = unformatted_prereqs.split()
+    #
+    #     for word in split_prereqs:
+    #         if word not in ['or', 'and']:  # If word is a classname and not a logical operator
+    #             if word[0] == '(':
+    #                 num_left_parens = 1
+    #                 while word[num_left_parens] == '(':
+    #                     num_left_parens += 1
+    #                 new_word = ("(" * num_left_parens) + "self.has_taken" + "(\'" + word[
+    #                                                                                         num_left_parens:] + "\')"
+    #             else:
+    #                 new_word = "self.has_taken(\'" + word + "\')"
+    #             # Properly place end quote before right paren on words with right paren.
+    #             if word[len(word) - 1] == ')':
+    #                 num_right_parens = 1
+    #                 while word[len(word) - num_right_parens] == ')':
+    #                     num_right_parens += 1
+    #                 new_word = new_word[0:len(new_word) - (1 + num_right_parens)] + "\'" + (")" * num_right_parens)
+    #             solution += new_word + " "
+    #
+    #         else:
+    #             solution += word + " "
+    #     return solution
+
+    def find_prereq_string_from_csv(self, query_course):
+        solution = ""
+        with open('database/test/courses_string.csv', newline='') as courses_csv:
+            reader = csv.DictReader(courses_csv)
+            target_row = []
+            for row in reader:
+                if row['name'] == query_course:
+                    target_row = row
+                    break
+            if not target_row:
+                return "True"
+
+            split_prereqs = target_row['prerequisites'].split()
+            if not split_prereqs:
+                return "True"
+
+            for word in split_prereqs:
+                if word not in ['or', 'and']:  # If word is a classname and not a logical operator
+                    if word[0] == '(':
+                        num_left_parens = 1
+                        while word[num_left_parens] == '(':
+                            num_left_parens += 1
+                        new_word = ("(" * num_left_parens) + "self.has_taken" + "(\'" + word[
+                                                                                                num_left_parens:] + "\')"
+                    else:
+                        new_word = "self.has_taken(\'" + word + "\')"
+                    # Properly place end quote before right paren on words with right paren.
+                    if word[len(word) - 1] == ')':
+                        num_right_parens = 1
+                        while word[len(word) - num_right_parens] == ')':
+                            num_right_parens += 1
+                        new_word = new_word[0:len(new_word) - (1 + num_right_parens)] + "\'" + (")" * num_right_parens)
+                    solution += new_word + " "
+
+                else:
+                    solution += word + " "
+            return solution
+
     def has_prereqs(self, course, block):
         """Function to test whether a student has the prereqs necessary to take a course. Returns boolean."""
-        switcher = {
-            "MAT21A": self.mat21a_prereq,
-            "MAT21B": self.mat21b_prereq,
-            "MAT21C": self.mat21c_prereq,
-            "MAT21D": self.mat21d_prereq,
-            "MAT22A": self.mat22a_prereq,
-            "MAT22AL": self.mat22al_prereq,
-            "MAT22B": self.mat22b_prereq,
-            "MAT67": self.mat67_prereq,
-            "MAT108": self.mat108_prereq,
-            "MAT111": self.mat111_prereq,
-            "MAT114": self.mat114_prereq,
-            "MAT115A": self.mat115a_prereq,
-            "MAT115B": self.mat115b_prereq,
-            "MAT116": self.mat116_prereq,
-            "MAT118A": self.mat118a_prereq,
-            "MAT118B": self.mat118b_prereq,
-            "MAT119A": self.mat119a_prereq,
-            "MAT119B": self.mat119b_prereq,
-            "MAT124": self.mat124_prereq,
-            "MAT127A": self.mat127a_prereq,
-            "MAT127B": self.mat127b_prereq,
-            "MAT127C": self.mat127c_prereq,
-            "MAT128A": self.mat128a_prereq,
-            "MAT128B": self.mat128b_prereq,
-            "MAT128C": self.mat128c_prereq,
-            "MAT129": self.mat129_prereq,
-            "MAT133": self.mat133_prereq,
-            "MAT135A": self.mat135a_prereq,
-            "MAT135B": self.mat135b_prereq,
-            "MAT141": self.mat141_prereq,
-            "MAT145": self.mat145_prereq,
-            "MAT146": self.mat146_prereq,
-            "MAT147": self.mat147_prereq,
-            "MAT148": self.mat148_prereq,
-            "MAT150A": self.mat150a_prereq,
-            "MAT150B": self.mat150b_prereq,
-            "MAT150C": self.mat150c_prereq,
-            "MAT160": self.mat160_prereq,
-            "MAT165": self.mat165_prereq,
-            "MAT167": self.mat167_prereq,
-            "MAT168": self.mat168_prereq,
-            "MAT180": self.mat180_prereq,
-            "MAT185A": self.mat185a_prereq,
-            "MAT185B": self.mat185b_prereq,
-            "MAT189": self.mat189_prereq,
-            "ECS32A": self.ecs32a_prereq,
-            "ENG06": self.eng06_prereq,
-            "PHY7A": self.phy7a_prereq,
-            "PHY9A": self.phy9a_prereq,
-            "PHY9B": self.phy9b_prereq,
-            "ECN1A": self.ecn1a_prereq,
-            "ECN1B": self.ecn1b_prereq,
-            "ECN100A": self.ecn100a_prereq,
-            "ECN100B": self.ecn100b_prereq,
-            "ECN121A": self.ecn121a_prereq,
-            "ECN121B": self.ecn121b_prereq,
-            "ECN122": self.ecn122_prereq,
-            "ECN134": self.ecn134_prereq,
-            "ARE100A": self.are100a_prereq,
-            "ARE100B": self.are100b_prereq,
-            "ARE155": self.are155_prereq,
-            "ARE156": self.are156_prereq,
-            "ARE157": self.are157_prereq,
-            "STA32": self.sta32_prereq,
-            "STA100": self.sta100_prereq,
-            "STA131A": self.sta131a_prereq,
-            "STA131B": self.sta131b_prereq,
-            "STA131C": self.sta131c_prereq,
-            "STA137": self.sta137_prereq,
-            "STA141A": self.sta141a_prereq,
-            "STA141B": self.sta141b_prereq,
-            "STA141C": self.sta141c_prereq,
-            "BIS2A": self.bis2a_prereq,
-            "BIS2B": self.bis2b_prereq,
-            "CHE2A": self.che2a_prereq,
-            "CHE2B": self.che2b_prereq,
-            "ECS124": self.ecs124_prereq,
-            "ECS129": self.ecs129_prereq,
-            "ECS170": self.ecs170_prereq,
-            "Upper Div Non-Math": self.APPROVED_UD_NONMATH_prereq,
-            "Biology Req.": self.BIOLOGY_REQUIREMENT_prereq,
-            "Computation Req.": self.COMPUTATION_REQUIREMENT_prereq,
-            "Natural Science 1": self.NON_MATH_NATURAL_SCIENCE1_prereq,
-            "Natural Science 2": self.NON_MATH_NATURAL_SCIENCE2_prereq,
-            "Natural Science 3": self.NON_MATH_NATURAL_SCIENCE3_prereq,
-        }
-        func = switcher.get(course.name)
-        if func is None:
-            return False
-        if course.name == "ENG06" or course.name == "PHY9B":
-            return func(block)  # ENG06/PHY9B special case b/c concurrency, needs block parameter
-        return func()
+        # try:
+        #     prereq_string = self.find_prereq_string(course.name)
+        # except:
+        #     prereq_string = self.find_prereq_string_from_csv(course.name)
+        prereq_string = self.find_prereq_string_from_csv(course.name)
+        return eval(prereq_string)
+
+
+
+
+
+        # switcher = {
+        #     "MAT21A": self.mat21a_prereq,
+        #     "MAT21B": self.mat21b_prereq,
+        #     "MAT21C": self.mat21c_prereq,
+        #     "MAT21D": self.mat21d_prereq,
+        #     "MAT22A": self.mat22a_prereq,
+        #     "MAT22AL": self.mat22al_prereq,
+        #     "MAT22B": self.mat22b_prereq,
+        #     "MAT67": self.mat67_prereq,
+        #     "MAT108": self.mat108_prereq,
+        #     "MAT111": self.mat111_prereq,
+        #     "MAT114": self.mat114_prereq,
+        #     "MAT115A": self.mat115a_prereq,
+        #     "MAT115B": self.mat115b_prereq,
+        #     "MAT116": self.mat116_prereq,
+        #     "MAT118A": self.mat118a_prereq,
+        #     "MAT118B": self.mat118b_prereq,
+        #     "MAT119A": self.mat119a_prereq,
+        #     "MAT119B": self.mat119b_prereq,
+        #     "MAT124": self.mat124_prereq,
+        #     "MAT127A": self.mat127a_prereq,
+        #     "MAT127B": self.mat127b_prereq,
+        #     "MAT127C": self.mat127c_prereq,
+        #     "MAT128A": self.mat128a_prereq,
+        #     "MAT128B": self.mat128b_prereq,
+        #     "MAT128C": self.mat128c_prereq,
+        #     "MAT129": self.mat129_prereq,
+        #     "MAT133": self.mat133_prereq,
+        #     "MAT135A": self.mat135a_prereq,
+        #     "MAT135B": self.mat135b_prereq,
+        #     "MAT141": self.mat141_prereq,
+        #     "MAT145": self.mat145_prereq,
+        #     "MAT146": self.mat146_prereq,
+        #     "MAT147": self.mat147_prereq,
+        #     "MAT148": self.mat148_prereq,
+        #     "MAT150A": self.mat150a_prereq,
+        #     "MAT150B": self.mat150b_prereq,
+        #     "MAT150C": self.mat150c_prereq,
+        #     "MAT160": self.mat160_prereq,
+        #     "MAT165": self.mat165_prereq,
+        #     "MAT167": self.mat167_prereq,
+        #     "MAT168": self.mat168_prereq,
+        #     "MAT180": self.mat180_prereq,
+        #     "MAT185A": self.mat185a_prereq,
+        #     "MAT185B": self.mat185b_prereq,
+        #     "MAT189": self.mat189_prereq,
+        #     "ECS32A": self.ecs32a_prereq,
+        #     "ENG06": self.eng06_prereq,
+        #     "PHY7A": self.phy7a_prereq,
+        #     "PHY9A": self.phy9a_prereq,
+        #     "PHY9B": self.phy9b_prereq,
+        #     "ECN1A": self.ecn1a_prereq,
+        #     "ECN1B": self.ecn1b_prereq,
+        #     "ECN100A": self.ecn100a_prereq,
+        #     "ECN100B": self.ecn100b_prereq,
+        #     "ECN121A": self.ecn121a_prereq,
+        #     "ECN121B": self.ecn121b_prereq,
+        #     "ECN122": self.ecn122_prereq,
+        #     "ECN134": self.ecn134_prereq,
+        #     "ARE100A": self.are100a_prereq,
+        #     "ARE100B": self.are100b_prereq,
+        #     "ARE155": self.are155_prereq,
+        #     "ARE156": self.are156_prereq,
+        #     "ARE157": self.are157_prereq,
+        #     "STA32": self.sta32_prereq,
+        #     "STA100": self.sta100_prereq,
+        #     "STA131A": self.sta131a_prereq,
+        #     "STA131B": self.sta131b_prereq,
+        #     "STA131C": self.sta131c_prereq,
+        #     "STA137": self.sta137_prereq,
+        #     "STA141A": self.sta141a_prereq,
+        #     "STA141B": self.sta141b_prereq,
+        #     "STA141C": self.sta141c_prereq,
+        #     "BIS2A": self.bis2a_prereq,
+        #     "BIS2B": self.bis2b_prereq,
+        #     "CHE2A": self.che2a_prereq,
+        #     "CHE2B": self.che2b_prereq,
+        #     "ECS124": self.ecs124_prereq,
+        #     "ECS129": self.ecs129_prereq,
+        #     "ECS170": self.ecs170_prereq,
+        #     "Upper Div Non-Math": self.APPROVED_UD_NONMATH_prereq,
+        #     "Biology Req.": self.BIOLOGY_REQUIREMENT_prereq,
+        #     "Computation Req.": self.COMPUTATION_REQUIREMENT_prereq,
+        #     "Natural Science 1": self.NON_MATH_NATURAL_SCIENCE1_prereq,
+        #     "Natural Science 2": self.NON_MATH_NATURAL_SCIENCE2_prereq,
+        #     "Natural Science 3": self.NON_MATH_NATURAL_SCIENCE3_prereq,
+        # }
+        # func = switcher.get(course.name)
+        # if func is None:
+        #     return False
+        # if course.name == "ENG06" or course.name == "PHY9B":
+        #     return func(block)  # ENG06/PHY9B special case b/c concurrency, needs block parameter
+        # return func()
 
     def ecn1b_rec(self):
         return self.has_taken("ECN1A");
@@ -270,16 +359,16 @@ class Student:
         return self.has_taken("MAT22A") or self.has_taken("MAT67")
 
     def mat108_prereq(self):
-        return self.has_taken("MAT21B")
+        return self.has_taken("MAT21B") and self.has_taken("MAT22A")
 
     def mat111_prereq(self):
-        return self.has_taken("MAT67") or self.has_taken("MAT67") or self.has_taken("MAT108") or self.has_taken("MAT114") or self.has_taken("MAT115A") or self.has_taken("MAT141") or self.has_taken("MAT145")
+        return self.has_taken("MAT22A") and self.has_taken("MAT67") or self.has_taken("MAT67") or self.has_taken("MAT108") or self.has_taken("MAT114") or self.has_taken("MAT115A") or self.has_taken("MAT141") or self.has_taken("MAT145")
 
     def mat114_prereq(self):
         return self.has_taken("MAT21C") and (self.has_taken("MAT22A") or self.has_taken("MAT67"))
 
     def mat115a_prereq(self):
-        return self.has_taken("MAT21B")
+        return self.has_taken("MAT21B") and self.has_taken("MAT22A")
 
     def mat115b_prereq(self):
         return self.has_taken("MAT115A") and (self.has_taken("MAT22A") or self.has_taken("MAT67"))
