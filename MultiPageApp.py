@@ -8,7 +8,7 @@ from InterestSelectPage import InterestSelectPage
 from MajorSelectPage import MajorSelectPage
 from ScheduleDisplayPage import ScheduleDisplayPage
 from Student import Student
-import psycopg2
+#import psycopg2
 import csv
 
 
@@ -29,11 +29,11 @@ class MultiPageApp(tk.Tk):
         self.classes_offered = []
         self.classes_by_name = {}
 
-        try:
-            self.get_info_from_database()
-        except:
-            self.get_info_from_csv()
-
+        # try:
+        #     self.get_info_from_database()
+        # except:
+        #     self.get_info_from_csv()
+        self.get_info_from_csv()
 
         self.frames = {}
         self.page_names = [MajorSelectPage, CourseSelectPage, InterestSelectPage, ScheduleDisplayPage, AppliedSeriesChoicePage]
@@ -49,70 +49,70 @@ class MultiPageApp(tk.Tk):
 
         self.show_frame("MajorSelectPage")
 
-    def get_info_from_database(self):
-        conn = psycopg2.connect(host="localhost", database="Math Courses", user="postgres", password="MN~D=bp~+WR2/ppy")
-        cur = conn.cursor()
-        # Fill in data from 'courses' table and put it in the dict.
-        cur.execute("SELECT * FROM courses ORDER BY display_index ASC;")
-        for record in cur:
-            new_course = Course(name=record[0], after=record[1], enrichment_a=record[2], enrichment_b=record[3],
-                                enrichment=record[4], approved_ud_nonmath=record[5], biology_requirement=record[6],
-                                computation_requirement=record[7])
-            self.classes_by_name[record[0]] = new_course
-
-        # Get names of all of the majors currently offered
-        cur.execute(
-            "SELECT column_name FROM information_schema.columns WHERE table_name = 'required' AND column_name != 'name';")
-        majors = []
-        for record in cur:
-            majors.append(record[0])
-
-        # Fill in data about major requirements from 'required' table.
-        cur.execute("SELECT * FROM required;")
-        for record in cur:
-            required_dict = {}
-            for i in range(1, 9):
-                required_dict[majors[i - 1]] = record[i]
-            self.classes_by_name[record[0]].required = required_dict
-
-        # Get names of all of the majors currently offered
-        cur.execute(
-            "SELECT column_name FROM information_schema.columns WHERE table_name = 'course_offerings' AND column_name != 'name';")
-        quarters = []
-        for record in cur:
-            quarters.append(record[0])
-
-        # Fill in data about course offerings from 'course_offerings' table.
-        cur.execute("SELECT * FROM course_offerings;")
-        for record in cur:
-            quarters_offered = []
-            for i in range(1, 6):
-                if (record[i]):
-                    quarters_offered.append(quarters[i - 1])
-            self.classes_by_name[record[0]].quarters_offered = quarters_offered
-            self.classes_by_name[record[0]].offered_pattern = record[6]
-
-        # Get names of all of the interests currently supported
-        cur.execute(
-            "SELECT column_name FROM information_schema.columns WHERE table_name = 'interests' AND column_name != 'name';")
-        interests = []
-        num_interests = 0
-        for record in cur:
-            interests.append(self.convert_interest_format(record[0]))
-            num_interests += 1
-
-
-        # Fill in data about interests from 'interests' table.
-        cur.execute("SELECT * FROM interests;")
-        for record in cur:
-            course_interests = []
-            for i in range(1, num_interests + 1):
-                if record[i]:
-                    course_interests.append(interests[i - 1])
-            self.classes_by_name[record[0]].interests = course_interests
-
-        for course in self.classes_by_name:
-            self.classes_offered.append(self.classes_by_name[course])
+    # def get_info_from_database(self):
+    #     conn = psycopg2.connect(host="localhost", database="Math Courses", user="postgres", password="MN~D=bp~+WR2/ppy")
+    #     cur = conn.cursor()
+    #     # Fill in data from 'courses' table and put it in the dict.
+    #     cur.execute("SELECT * FROM courses ORDER BY display_index ASC;")
+    #     for record in cur:
+    #         new_course = Course(name=record[0], after=record[1], enrichment_a=record[2], enrichment_b=record[3],
+    #                             enrichment=record[4], approved_ud_nonmath=record[5], biology_requirement=record[6],
+    #                             computation_requirement=record[7])
+    #         self.classes_by_name[record[0]] = new_course
+    #
+    #     # Get names of all of the majors currently offered
+    #     cur.execute(
+    #         "SELECT column_name FROM information_schema.columns WHERE table_name = 'required' AND column_name != 'name';")
+    #     majors = []
+    #     for record in cur:
+    #         majors.append(record[0])
+    #
+    #     # Fill in data about major requirements from 'required' table.
+    #     cur.execute("SELECT * FROM required;")
+    #     for record in cur:
+    #         required_dict = {}
+    #         for i in range(1, 9):
+    #             required_dict[majors[i - 1]] = record[i]
+    #         self.classes_by_name[record[0]].required = required_dict
+    #
+    #     # Get names of all of the majors currently offered
+    #     cur.execute(
+    #         "SELECT column_name FROM information_schema.columns WHERE table_name = 'course_offerings' AND column_name != 'name';")
+    #     quarters = []
+    #     for record in cur:
+    #         quarters.append(record[0])
+    #
+    #     # Fill in data about course offerings from 'course_offerings' table.
+    #     cur.execute("SELECT * FROM course_offerings;")
+    #     for record in cur:
+    #         quarters_offered = []
+    #         for i in range(1, 6):
+    #             if (record[i]):
+    #                 quarters_offered.append(quarters[i - 1])
+    #         self.classes_by_name[record[0]].quarters_offered = quarters_offered
+    #         self.classes_by_name[record[0]].offered_pattern = record[6]
+    #
+    #     # Get names of all of the interests currently supported
+    #     cur.execute(
+    #         "SELECT column_name FROM information_schema.columns WHERE table_name = 'interests' AND column_name != 'name';")
+    #     interests = []
+    #     num_interests = 0
+    #     for record in cur:
+    #         interests.append(self.convert_interest_format(record[0]))
+    #         num_interests += 1
+    #
+    #
+    #     # Fill in data about interests from 'interests' table.
+    #     cur.execute("SELECT * FROM interests;")
+    #     for record in cur:
+    #         course_interests = []
+    #         for i in range(1, num_interests + 1):
+    #             if record[i]:
+    #                 course_interests.append(interests[i - 1])
+    #         self.classes_by_name[record[0]].interests = course_interests
+    #
+    #     for course in self.classes_by_name:
+    #         self.classes_offered.append(self.classes_by_name[course])
 
     def get_info_from_csv(self):
         with open('database/test/courses_string.csv', newline='') as courses_csv:

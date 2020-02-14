@@ -1,12 +1,12 @@
 from AcademicTime import AcademicTime
-import psycopg2
+#import psycopg2
 import csv
 
-try:
-    conn = psycopg2.connect(host="localhost", database="Math Courses", user="postgres",
-                                password="MN~D=bp~+WR2/ppy")
-except:
-    print("Could not connect to database.")
+# try:
+#     conn = psycopg2.connect(host="localhost", database="Math Courses", user="postgres",
+#                                 password="MN~D=bp~+WR2/ppy")
+# except:
+#     print("Could not connect to database.")
 
 class Student:
     """
@@ -129,38 +129,38 @@ class Student:
         """Function to test whether a student has already taken a course in a previous quarter. Returns boolean."""
         return course_name in self.classes_taken.keys()
 
-    def find_prereq_string(self, query_course):
-        solution = ""
-        cur = conn.cursor()
-        cur.execute("SELECT prerequisites FROM courses WHERE name = \'" + query_course + "\';")
-
-        unformatted_prereqs = cur.fetchone()[0]
-        if unformatted_prereqs == None:
-            return "True"
-
-        split_prereqs = unformatted_prereqs.split()
-
-        for word in split_prereqs:
-            if word not in ['or', 'and']:  # If word is a classname and not a logical operator
-                if word[0] == '(':
-                    num_left_parens = 1
-                    while word[num_left_parens] == '(':
-                        num_left_parens += 1
-                    new_word = ("(" * num_left_parens) + "self.has_taken" + "(\'" + word[
-                                                                                            num_left_parens:] + "\')"
-                else:
-                    new_word = "self.has_taken(\'" + word + "\')"
-                # Properly place end quote before right paren on words with right paren.
-                if word[len(word) - 1] == ')':
-                    num_right_parens = 1
-                    while word[len(word) - num_right_parens] == ')':
-                        num_right_parens += 1
-                    new_word = new_word[0:len(new_word) - (1 + num_right_parens)] + "\'" + (")" * num_right_parens)
-                solution += new_word + " "
-
-            else:
-                solution += word + " "
-        return solution
+    # def find_prereq_string(self, query_course):
+    #     solution = ""
+    #     cur = conn.cursor()
+    #     cur.execute("SELECT prerequisites FROM courses WHERE name = \'" + query_course + "\';")
+    #
+    #     unformatted_prereqs = cur.fetchone()[0]
+    #     if unformatted_prereqs == None:
+    #         return "True"
+    #
+    #     split_prereqs = unformatted_prereqs.split()
+    #
+    #     for word in split_prereqs:
+    #         if word not in ['or', 'and']:  # If word is a classname and not a logical operator
+    #             if word[0] == '(':
+    #                 num_left_parens = 1
+    #                 while word[num_left_parens] == '(':
+    #                     num_left_parens += 1
+    #                 new_word = ("(" * num_left_parens) + "self.has_taken" + "(\'" + word[
+    #                                                                                         num_left_parens:] + "\')"
+    #             else:
+    #                 new_word = "self.has_taken(\'" + word + "\')"
+    #             # Properly place end quote before right paren on words with right paren.
+    #             if word[len(word) - 1] == ')':
+    #                 num_right_parens = 1
+    #                 while word[len(word) - num_right_parens] == ')':
+    #                     num_right_parens += 1
+    #                 new_word = new_word[0:len(new_word) - (1 + num_right_parens)] + "\'" + (")" * num_right_parens)
+    #             solution += new_word + " "
+    #
+    #         else:
+    #             solution += word + " "
+    #     return solution
 
     def find_prereq_string_from_csv(self, query_course):
         solution = ""
@@ -202,10 +202,11 @@ class Student:
 
     def has_prereqs(self, course, block):
         """Function to test whether a student has the prereqs necessary to take a course. Returns boolean."""
-        try:
-            prereq_string = self.find_prereq_string(course.name)
-        except:
-            prereq_string = self.find_prereq_string_from_csv(course.name)
+        # try:
+        #     prereq_string = self.find_prereq_string(course.name)
+        # except:
+        #     prereq_string = self.find_prereq_string_from_csv(course.name)
+        prereq_string = self.find_prereq_string_from_csv(course.name)
         return eval(prereq_string)
 
 

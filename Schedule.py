@@ -23,7 +23,7 @@ class Schedule:
         interest_table (dict): A map whose keys are strings (interests), and whose values are lists of classes that fall under the interest.
     """
 
-    def __init__(self, student=Student(), classes_offered=[], elective_classes_offered = []):
+    def __init__(self, student=Student(), classes_offered=[], elective_classes_offered=[]):
         """The constructor for the Schedule class. Create schedule for student based on student attributes and what classes are offered."""
 
         self.student = student
@@ -209,7 +209,7 @@ class Schedule:
         if course.required[self.student.major] or (course.name in MAT128s and self.student.num_128s < self.student.num128s_needed[self.student.major]):
             return False
 
-        enrichments_needed = {"LMATAB1": 4, "LMATAB2": 4, "LMATBS1": 4, "LMATBS2": 4, "LAMA": 2, "LMCOBIO": 2, "LMCOMATH": 2, "LMOR": 4}
+        enrichments_needed = {"LMATAB1": 4, "LMATAB2": 4, "LMATBS1": 4, "LMATBS2": 4, "LAMA": 2, "LMCOBIO": 2, "LMCOMATH": 2, "LMOR": 4}  # FIXME: can read this from CSV/DB
 
         if self.student.major == "LMOR":
             if self.student.num_enrichments_b < 2 and course.enrichment_b:
