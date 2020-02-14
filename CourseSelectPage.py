@@ -6,7 +6,7 @@ from Student import Student
 from Schedule import Schedule
 from AcademicTime import AcademicTime
 from ScheduleBlock import ScheduleBlock
-import psycopg2
+#import psycopg2
 import csv
 
 class CourseSelectPage(tk.Frame):
