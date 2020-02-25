@@ -32,7 +32,7 @@ class ScheduleDisplayPage(tk.Frame):
         color_canvas.create_text(150, 10, text="= Enrichment Course", anchor="e")
         color_canvas.grid(sticky="nsew", in_=color_frame)
 
-        reschedule_button = Button(button_frame, text="Show Me a Different Schedule", command = lambda:self.init_schedule())
+        reschedule_button = Button(button_frame, text="Show Me a Different Schedule", command=lambda: self.init_schedule())
         reschedule_button.grid(row=25, column=1, padx=20, pady=10, sticky="se", in_=button_frame)
 
         failed = False
