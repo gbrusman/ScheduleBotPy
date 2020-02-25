@@ -6,7 +6,7 @@ from Student import Student
 from Schedule import Schedule
 from AcademicTime import AcademicTime
 from ScheduleBlock import ScheduleBlock
-#import psycopg2
+import psycopg2
 import csv
 import os
 import sys
@@ -81,7 +81,7 @@ class CourseSelectPage(tk.Frame):
                     count = 0
             conn.close()
         except:
-            with open('database/courses.csv', newline='') as courses_csv:
+            with open(resource_path('database/courses.csv'), newline='') as courses_csv:
                 reader = csv.reader(courses_csv)
                 for record in reader:
                     if record[0] == 'name':
