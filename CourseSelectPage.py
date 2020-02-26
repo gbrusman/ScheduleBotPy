@@ -63,7 +63,7 @@ class CourseSelectPage(tk.Frame):
         row = 1
         count = 0
         try:
-            conn = psycopg2.connect(host="localhost", database="Math Courses", user="postgres", password="MN~D=bp~+WR2/ppy")
+            conn = psycopg2.connect(host="rajje.db.elephantsql.com", database="ytmelfsd", user="ytmelfsd", password="PY2TKJsTJD2cOPlRbwQgVJPHgc4vhWvT")
             cur = conn.cursor()
             cur.execute("SELECT name FROM courses ORDER BY display_index ASC;")
             for record in cur:

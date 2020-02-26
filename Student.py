@@ -1,14 +1,8 @@
 from AcademicTime import AcademicTime
-import psycopg2
 import csv
 import os
 import sys
 
-try:
-    conn = psycopg2.connect(host="localhost", database="Math Courses", user="postgres",
-                                password="MN~D=bp~+WR2/ppy")
-except:
-    print("Could not connect to database.")
 def resource_path(relative_path):
     """ Get absolute path to resource, works for dev and for PyInstaller """
     try:
@@ -142,10 +136,9 @@ class Student:
 
     def find_prereq_string(self, query_course):
         solution = ""
-        cur = conn.cursor()
-        cur.execute("SELECT prerequisites FROM courses WHERE name = \'" + query_course + "\';")
 
-        unformatted_prereqs = cur.fetchone()[0]
+
+        unformatted_prereqs = query_course.prerequisites
         if unformatted_prereqs == None:
             return "True"
 
@@ -214,9 +207,9 @@ class Student:
     def has_prereqs(self, course, block):
         """Function to test whether a student has the prereqs necessary to take a course. Returns boolean."""
         try:
-            prereq_string = self.find_prereq_string(course.name)
+            prereq_string = self.find_prereq_string(course)
         except:
-            prereq_string = self.find_prereq_string_from_csv(course.name)
+            prereq_string = self.find_prereq_string_from_csv(course)
         # prereq_string = self.find_prereq_string_from_csv(course.name)
 
         return eval(prereq_string)

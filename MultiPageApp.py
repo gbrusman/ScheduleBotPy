@@ -60,14 +60,14 @@ class MultiPageApp(tk.Tk):
         self.show_frame("MajorSelectPage")
 
     def get_info_from_database(self):
-        conn = psycopg2.connect(host="localhost", database="Math Courses", user="postgres", password="MN~D=bp~+WR2/ppy")
+        conn = psycopg2.connect(host="rajje.db.elephantsql.com", database="ytmelfsd", user="ytmelfsd", password="PY2TKJsTJD2cOPlRbwQgVJPHgc4vhWvT")
         cur = conn.cursor()
         # Fill in data from 'courses' table and put it in the dict.
         cur.execute("SELECT * FROM courses ORDER BY display_index ASC;")
         for record in cur:
             new_course = Course(name=record[0], after=record[1], enrichment_a=record[2], enrichment_b=record[3],
                                 enrichment=record[4], approved_ud_nonmath=record[5], biology_requirement=record[6],
-                                computation_requirement=record[7])
+                                computation_requirement=record[7], prerequisites=record[8])
             self.classes_by_name[record[0]] = new_course
 
         # Get names of all of the majors currently offered
@@ -135,11 +135,12 @@ class MultiPageApp(tk.Tk):
                 approved_ud_nonmath = True if row['approved_ud_nonmath'] == 't' else False
                 biology_requirement = True if row['biology_requirement'] == 't' else False
                 computation_requirement = True if row['computation_requirement'] == 't' else False
+                prerequisites = row['prerequisites']
                 new_course = Course(name=row['name'], after=row['after'], enrichment_a=enrichment_a,
                                     enrichment_b=enrichment_b, enrichment=enrichment,
                                     approved_ud_nonmath=approved_ud_nonmath,
                                     biology_requirement=biology_requirement,
-                                    computation_requirement=computation_requirement)
+                                    computation_requirement=computation_requirement, prerequisites=prerequisites)
                 self.classes_by_name[row['name']] = new_course
 
         with open(resource_path('database/required.csv'), newline='') as required_csv:
