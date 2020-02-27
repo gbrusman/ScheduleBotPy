@@ -2,12 +2,12 @@
 
 block_cipher = None
 
-
+options = [ ('v', None, 'OPTION')]
 a = Analysis(['AcademicTime.py', 'AppliedSeriesChoicePage.py', 'Course.py', 'CourseSelectPage.py', 'InterestSelectPage.py', 'MajorSelectPage.py', 'MultiPageApp.py', 'ScheduleBlock.py', 'ScheduleDisplayPage.py', 'Schedule.py', 'Student.py'],
              pathex=['C:\\Users\\gabri\\PycharmProjects\\ScheduleBotPy'],
              binaries=[],
              datas=[('database/*', 'database')],
-             hiddenimports=[],
+             hiddenimports=['psycopg2'],
              hookspath=[],
              runtime_hooks=[],
              excludes=[],
