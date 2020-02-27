@@ -1,6 +1,7 @@
 import tkinter as tk
 import tkinter.font as tkfont
 from tkinter.ttk import *
+import datetime
 
 from AcademicTime import AcademicTime
 
@@ -51,10 +52,12 @@ class MajorSelectPage(tk.Frame):
         self.cur_quarter_select_box = Combobox(major_frame, values=cur_quarter_choices, textvariable=self.cur_quarter, state="readonly", width=25)
         self.cur_quarter_select_box.grid(row=1, column=1, in_=major_frame, sticky=tk.W, padx=5)
 
-
         cur_year_label = Label(major_frame, text="Current Year: ")
         cur_year_label.grid(column=0, row=2, in_=major_frame, pady=0, sticky="e", padx=5)
-        self.cur_year_entry = Entry(major_frame, width=15)
+        cur_year = datetime.datetime.now().year
+        cur_year_choices = [cur_year - 4, cur_year - 3, cur_year - 2, cur_year - 1, cur_year, cur_year + 1, cur_year + 2, cur_year + 3, cur_year + 4]
+        self.cur_year_entry = Combobox(major_frame, values=cur_year_choices, width=15)
+        self.cur_year_entry.current(4)
         self.cur_year_entry.grid(row=2, column=1, in_=major_frame, sticky=tk.W, padx=5)
 
         summer_session_label = Label(major_frame, text="Are you planning on taking any summer sessions?")
@@ -104,7 +107,10 @@ class MajorSelectPage(tk.Frame):
             summer_select_box.bind('<Configure>', self.on_combo_configure)
             summer_select_box.grid(row=self.cur_summer_row_index, column=1, in_=self.major_frame, sticky=tk.W, padx=5, pady=2)
 
-            summer_year_entry = Entry(self.major_frame, width=15)
+            cur_year = datetime.datetime.now().year
+            cur_year_choices = [cur_year - 4, cur_year - 3, cur_year - 2, cur_year - 1, cur_year, cur_year + 1, cur_year + 2, cur_year + 3, cur_year + 4]
+            summer_year_entry = Combobox(self.major_frame, values=cur_year_choices, width=15)
+            summer_year_entry.current(4)
             summer_year_entry.grid(row=self.cur_summer_row_index, column=1, in_=self.major_frame, sticky=tk.E, padx=5, pady=2)
 
             self.summer_session_array.append((summer_select_box, summer_year_entry))
