@@ -67,7 +67,7 @@ class MultiPageApp(tk.Tk):
         for record in cur:
             new_course = Course(name=record[0], after=record[1], enrichment_a=record[2], enrichment_b=record[3],
                                 enrichment=record[4], approved_ud_nonmath=record[5], biology_requirement=record[6],
-                                computation_requirement=record[7], prerequisites=record[8])
+                                computation_requirement=record[7], prerequisites=record[9])
             self.classes_by_name[record[0]] = new_course
 
         # Get names of all of the majors currently offered
