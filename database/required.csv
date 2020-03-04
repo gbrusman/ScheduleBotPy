@@ -23,8 +23,8 @@ MAT127A,t,t,t,t,t,t,t,t
 MAT127B,t,t,t,t,t,t,t,t
 MAT127C,t,t,t,t,t,t,t,t
 MAT128A,t,t,f,f,f,f,t,t
-MAT128B,f,t,f,f,f,f,f,t
-MAT128C,f,t,f,f,f,f,f,t
+MAT128B,t,t,f,f,f,f,t,t
+MAT128C,t,t,f,f,f,f,t,t
 MAT129,f,f,f,f,f,f,f,f
 MAT133,f,f,f,f,f,f,f,f
 MAT135A,t,t,t,t,t,t,t,t
