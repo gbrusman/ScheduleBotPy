@@ -51,6 +51,8 @@ class ScheduleDisplayPage(tk.Frame):
         schedule_data = Schedule(student, rand_classes_offered, elective_classes_offered)
         if not schedule_data.new_is_success():
             failed = True
+
+
         schedule = schedule_data.schedule
         start_time = AcademicTime(student.start_time.year, student.start_time.quarter)
         table_start_time = AcademicTime(start_time.year, start_time.quarter)

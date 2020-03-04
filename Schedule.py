@@ -102,7 +102,7 @@ class Schedule:
     def add_course_to_block(self, course, block, after, time):
         """Function to add a Course object to a ScheduleBlock object"""
         block.courses.append(course)
-        #print("Adding ", course.name, " at ", time.quarter,  " ", time.year)
+        print("Adding ", course.name, " at ", time.quarter,  " ", time.year)
         after.append(course.after)
         self.classes_offered.remove(course)
         self.student.update_128_count(course)
@@ -112,7 +112,7 @@ class Schedule:
     def add_course_from_after(self, course, block, after, time, index):
         """Function to add a Course object to a ScheduleBlock object from the after list of a previously added class."""
         block.courses.append(course)
-        #print("Adding ", course.name, " at ", time.quarter, " ", time.year)
+        print("Adding ", course.name, " at ", time.quarter, " ", time.year)
         self.classes_offered.remove(course)
         after.pop(index)
         self.student.update_enrichment_counts(course)
@@ -143,10 +143,6 @@ class Schedule:
         max_math_class_per_quarter = MAX_MATH_CLASSES_PER_QUARTER
         list_to_iterate = self.classes_offered
 
-        # FIXME: split while loop into two function calls where the function is the main body of the 2nd loop. Pass in required list for first pass and enrichment list (for that major) for second pass.
-        # FIXME: pass in required list in numerical order, but pass in enrichment list in random order.
-
-        # FIXME: better idea, instead of splitting into a bunch of functions, just have the list that's iterated over change depending on the value of required_or_electives.
             # Use normal self.classes_offered for first iteration, use randomly-ordered list only with not-required courses for the 2nd iteration.
         while required_or_electives < 2:
             i = 0
@@ -206,6 +202,17 @@ class Schedule:
     def is_pointless(self, course):  # checks to see if we're adding a class that provides absolutely no benefit
         """Function to test whether or not a class is pointless to take. Returns boolean."""
         MAT128s = ["MAT128A", "MAT128B", "MAT128C"]
+
+        #FIXME: make sure this is right, figure out where 128s are getting set to be not required anymore.
+        #FIXME: now we get infinite loops when the student sees that a 128 is required but they already have enough 128s so they never take it.
+        if course.name in MAT128s and self.student.num_128s >= self.student.num128s_needed[self.student.major]:
+
+            for name in self.student.not_taken_128s:
+                self.classes_by_name[name].required[self.student.major] = False
+                self.classes_by_name[name].enrichment_a = True
+
+            return True
+
         if course.required[self.student.major] or (course.name in MAT128s and self.student.num_128s < self.student.num128s_needed[self.student.major]):
             return False
 

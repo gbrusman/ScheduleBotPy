@@ -3,6 +3,8 @@ import csv
 import os
 import sys
 
+
+arr_128s = ["MAT128A", "MAT128B", "MAT128C"]
 def resource_path(relative_path):
     """ Get absolute path to resource, works for dev and for PyInstaller """
     try:
@@ -39,21 +41,28 @@ class Student:
         self.has_taken_biology_req = False
         self.has_taken_computation_req = False
         self.num_128s = 0
+        self.not_taken_128s = arr_128s
         self.summer_quarters = summer_quarters
 
         self.num128s_needed = {"LMATAB1": 0, "LMATAB2": 0, "LMATBS1": 0, "LMATBS2": 0, "LAMA": 2, "LMCOBIO": 3, "LMCOMATH": 3,
                        "LMOR": 1}
 
     def update_128_count(self, course):
-        if course.name == "MAT128A" or course.name == "MAT128B" or course.name == "MAT128C":
+        if course.name in arr_128s:
             self.num_128s += 1
+            self.not_taken_128s.remove(course.name)
+
 
     def initialize_128_count(self):
         for course_name in self.classes_taken:
-            if course_name == "MAT128A" or course_name == "MAT128B" or course_name == "MAT128C":
+            if course_name in arr_128s:
                 self.num_128s += 1
+                self.not_taken_128s.remove(course_name)
                 if self.num_128s > self.num128s_needed[self.major]:
                     self.num_enrichments += 1
+
+
+
 
     def check_major_specific_requirements(self):
         for course in self.classes_taken:
@@ -122,6 +131,7 @@ class Student:
             "MAT180": self.mat180_rec,
             "MAT150A": self.mat150a_rec,
             "MAT185A": self.mat185a_rec,
+            # FIXME: Add these two back and revert database changes and revert other 128 changes I made in Schedule.py?
             #"MAT128B": self.mat128b_rec,
             #"MAT128C": self.mat128c_rec
         }
