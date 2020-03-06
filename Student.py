@@ -222,6 +222,8 @@ class Student:
             prereq_string = self.find_prereq_string_from_csv(course)
         # prereq_string = self.find_prereq_string_from_csv(course.name)
 
+        if prereq_string == "":
+            return True
         return eval(prereq_string)
 
 
