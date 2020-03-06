@@ -2,6 +2,7 @@ import tkinter as tk
 import tkinter.font as tkfont
 from tkinter.ttk import *
 import datetime
+import psycopg2
 
 from AcademicTime import AcademicTime
 
@@ -30,11 +31,21 @@ class MajorSelectPage(tk.Frame):
         self.major_frame = major_frame
         major_label = Label(major_frame, text="Major: ")
         major_label.grid(column=0, row=0, in_=major_frame, pady=20, sticky="e", padx=5)
-        self.major_choices = ["AB Mathematics: Plan 1 - General Mathematics", "AB Mathematics: Plan 2 - Secondary Teaching",
-                         "BS Mathematics: Plan 1 - General Mathematics", "BS Mathematics: Plan 2 - Secondary Teaching",
-                         "Applied Mathematics", "Mathematical Analytics and Operations Research",
-                         "Mathematical and Scientific Computation - Bio Emphasis",
-                         "Mathematical and Scientific Computation - Math Emphasis"]
+
+        conn = psycopg2.connect(host="rajje.db.elephantsql.com", database="ytmelfsd", user="ytmelfsd",
+                                password="PY2TKJsTJD2cOPlRbwQgVJPHgc4vhWvT")
+        cur = conn.cursor()
+        cur.execute("SELECT full_name FROM student_vars ORDER BY display_index;")
+        self.major_choices = []
+        for result in cur:
+            self.major_choices.append(result[0])
+        conn.close()
+
+        # self.major_choices = ["AB Mathematics: Plan 1 - General Mathematics", "AB Mathematics: Plan 2 - Secondary Teaching",
+        #                  "BS Mathematics: Plan 1 - General Mathematics", "BS Mathematics: Plan 2 - Secondary Teaching",
+        #                  "Applied Mathematics", "Mathematical Analytics and Operations Research",
+        #                  "Mathematical and Scientific Computation - Bio Emphasis",
+        #                  "Mathematical and Scientific Computation - Math Emphasis"]
 
         # For styling the white backgrounds: https://wiki.tcl-lang.org/page/Changing+Widget+Colors
         style = Style()
