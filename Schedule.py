@@ -106,6 +106,7 @@ class Schedule:
         after.append(course.after)
         self.classes_offered.remove(course)
         self.student.update_128_count(course)
+        self.update_128_required()
         self.student.update_enrichment_counts(course)
 
 
@@ -198,6 +199,13 @@ class Schedule:
         if course.name == "MAT22A" or course.name == "MAT22AL" or course.name == "MAT67":
             return func(block)
         return func()
+
+    def update_128_required(self):
+        if self.student.num_128s >= self.student.num128s_needed[self.student.major]:
+            for name in self.student.not_taken_128s:
+                self.classes_by_name[name].required[self.student.major] = False
+                self.classes_by_name[name].enrichment_a = True
+
 
     def is_pointless(self, course):  # checks to see if we're adding a class that provides absolutely no benefit
         """Function to test whether or not a class is pointless to take. Returns boolean."""
