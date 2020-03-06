@@ -81,7 +81,7 @@ class MultiPageApp(tk.Tk):
         cur.execute("SELECT * FROM required;")
         for record in cur:
             required_dict = {}
-            for i in range(1, 9):
+            for i in range(1, len(record)):
                 required_dict[majors[i - 1]] = record[i]
             self.classes_by_name[record[0]].required = required_dict
 
@@ -96,8 +96,8 @@ class MultiPageApp(tk.Tk):
         cur.execute("SELECT * FROM course_offerings;")
         for record in cur:
             quarters_offered = []
-            for i in range(1, 6):
-                if (record[i]):
+            for i in range(1, len(record)):
+                if record[i]:
                     quarters_offered.append(quarters[i - 1])
             self.classes_by_name[record[0]].quarters_offered = quarters_offered
             self.classes_by_name[record[0]].offered_pattern = record[6]
