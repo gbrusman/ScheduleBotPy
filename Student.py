@@ -2,6 +2,7 @@ from AcademicTime import AcademicTime
 import csv
 import os
 import sys
+import psycopg2
 
 
 arr_128s = ["MAT128A", "MAT128B", "MAT128C"]
@@ -14,6 +15,17 @@ def resource_path(relative_path):
         base_path = os.path.abspath(".")
 
     return os.path.join(base_path, relative_path)
+
+
+conn = psycopg2.connect(host="rajje.db.elephantsql.com", database="ytmelfsd", user="ytmelfsd", password="PY2TKJsTJD2cOPlRbwQgVJPHgc4vhWvT")
+cur = conn.cursor()
+cur.execute("SELECT major, num_128s_needed FROM student_vars;")
+num128s_needed = {}
+
+for record in cur:
+    num128s_needed[record[0]] = record[1]
+conn.close()
+
 
 class Student:
     """
@@ -44,8 +56,8 @@ class Student:
         self.not_taken_128s = arr_128s
         self.summer_quarters = summer_quarters
 
-        self.num128s_needed = {"LMATAB1": 0, "LMATAB2": 0, "LMATBS1": 0, "LMATBS2": 0, "LAMA": 2, "LMCOBIO": 3, "LMCOMATH": 3,
-                       "LMOR": 1}
+        # FIXME: Pull from database.
+        self.num128s_needed = num128s_needed
 
     def update_128_count(self, course):
         if course.name in arr_128s:
@@ -58,7 +70,7 @@ class Student:
             if course_name in arr_128s:
                 self.num_128s += 1
                 self.not_taken_128s.remove(course_name)
-                if self.num_128s > self.num128s_needed[self.major]:
+                if self.num_128s > num128s_needed[self.major]:
                     self.num_enrichments += 1
 
 
@@ -103,7 +115,7 @@ class Student:
                 self.num_enrichments += 1
         if course.enrichment and not course.required[self.major]:
             if course.name in mat128s:
-                if self.num_128s > self.num128s_needed[self.major]:
+                if self.num_128s > num128s_needed[self.major]:
                     self.num_enrichments += 1
             else:
                 self.num_enrichments += 1
