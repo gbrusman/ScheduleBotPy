@@ -123,6 +123,7 @@ class MultiPageApp(tk.Tk):
 
         for course in self.classes_by_name:
             self.classes_offered.append(self.classes_by_name[course])
+        conn.close()
 
     def get_info_from_csv(self):
         with open(resource_path('database/courses.csv'), newline='') as courses_csv:
