@@ -1,6 +1,7 @@
 from AcademicTime import AcademicTime
 from ScheduleBlock import ScheduleBlock
 from Student import Student
+import psycopg2
 
 MAX_TOT_CLASSES_PER_QUARTER = 3
 MAX_MATH_CLASSES_PER_QUARTER = 2
@@ -10,6 +11,23 @@ SUMMER_MAX_MATH_CLASSES_PER_QUARTER = 1
 # FIXME: Pull these from database.
 LMOR_ENRICHMENTS_A_NEEDED = 2
 LMOR_ENRICHMENTS_B_NEEDED = 2
+
+
+def convert_interest_format(interest):
+    interest = interest.replace("_", " ").title()
+    return interest
+
+# Pull interests from database.
+conn = psycopg2.connect(host="rajje.db.elephantsql.com", database="ytmelfsd", user="ytmelfsd",
+                                password="PY2TKJsTJD2cOPlRbwQgVJPHgc4vhWvT")
+cur = conn.cursor()
+# Get names of all of the interests currently supported
+cur.execute(
+    "SELECT column_name FROM information_schema.columns WHERE table_name = 'interests' AND column_name != 'name';")
+interests = []
+for record in cur:
+    interests.append(convert_interest_format(record[0]))
+conn.close()
 
 class Schedule:
     """
@@ -39,7 +57,7 @@ class Schedule:
         #  doing interests a bit different than Java version. Making a dict of interests that map to list of class names
         #  as opposed to hash table of duplicate interests that map to class names
         self.interest_table = {}
-        interests = ["Teaching", "Geometry", "Physics", "Biology", "Computers", "Finance", "Abstract", "Data Analysis"] # FIXME: Change to pull from database, or just pass in the interests we already pulled from the db.
+
         for interest in interests:
             cur_interest = []
             for course in classes_offered:
@@ -173,6 +191,7 @@ class Schedule:
                 i += 1
             required_or_electives += 1
             list_to_iterate = self.elective_classes_offered
+
 
     def fix_ENG06(self, i):
         if(self.student.major == "LMOR" and self.classes_offered[i].name == "ENG06" and self.student.has_taken("MAT22AL") and self.student.has_taken("ECS32A")):
