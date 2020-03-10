@@ -59,7 +59,7 @@ except:
     with open(resource_path('database/student_vars.csv'), newline='') as student_vars_csv:
         reader = csv.DictReader(student_vars_csv)
         for row in reader:
-            enrichment_dict[row["major"]] = {"num_enrichments_a_needed": row["num_enrichments_a_needed"], "num_enrichments_b_needed": row["num_enrichments_b_needed"], "num_enrichments_needed": row["num_enrichments_needed"]}
+            enrichment_dict[row["major"]] = {"num_enrichments_a_needed": int(row["num_enrichments_a_needed"]), "num_enrichments_b_needed": int(row["num_enrichments_b_needed"]), "num_enrichments_needed": int(row["num_enrichments_needed"])}
 
 
 
