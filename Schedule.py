@@ -2,6 +2,9 @@ from AcademicTime import AcademicTime
 from ScheduleBlock import ScheduleBlock
 from Student import Student
 import psycopg2
+import sys
+import csv
+import os
 
 MAX_TOT_CLASSES_PER_QUARTER = 3
 MAX_MATH_CLASSES_PER_QUARTER = 2
@@ -9,28 +12,56 @@ SUMMER_MAX_TOT_CLASSES_PER_QUARTER = 2
 SUMMER_MAX_MATH_CLASSES_PER_QUARTER = 1
 
 
+def resource_path(relative_path):
+    """ Get absolute path to resource, works for dev and for PyInstaller """
+    try:
+        # PyInstaller creates a temp folder and stores path in _MEIPASS
+        base_path = sys._MEIPASS
+    except Exception:
+        base_path = os.path.abspath(".")
+
+    return os.path.join(base_path, relative_path)
+
 def convert_interest_format(interest):
     interest = interest.replace("_", " ").title()
     return interest
 
-# Pull interests from database.
-conn = psycopg2.connect(host="rajje.db.elephantsql.com", database="ytmelfsd", user="ytmelfsd",
-                                password="PY2TKJsTJD2cOPlRbwQgVJPHgc4vhWvT")
-cur = conn.cursor()
-# Get names of all of the interests currently supported
-cur.execute(
-    "SELECT column_name FROM information_schema.columns WHERE table_name = 'interests' AND column_name != 'name';")
-interests = []
-for record in cur:
-    interests.append(convert_interest_format(record[0]))
+try:
+    # Pull interests from database.
+    conn = psycopg2.connect(host="rajje.db.elephantsql.com", database="ytmelfsd", user="ytmelfsd",
+                                    password="PY2TKJsTJD2cOPlRbwQgVJPHgc4vhWvT")
+    cur = conn.cursor()
+    # Get names of all of the interests currently supported
+    cur.execute(
+        "SELECT column_name FROM information_schema.columns WHERE table_name = 'interests' AND column_name != 'name';")
+    interests = []
+    for record in cur:
+        interests.append(convert_interest_format(record[0]))
 
-cur.execute("SELECT major, num_enrichments_a_needed, num_enrichments_b_needed, num_enrichments_needed from student_vars;")
-# FIXME: make table or something to store number of enrichment_a's, b's, and total for each major.
-enrichment_dict = {}
-for record in cur:
-    enrichment_dict[record[0]] = {"num_enrichments_a_needed": record[1], "num_enrichments_b_needed": record[2], "num_enrichments_needed": record[3]}
+    cur.execute("SELECT major, num_enrichments_a_needed, num_enrichments_b_needed, num_enrichments_needed from student_vars;")
 
-conn.close()
+    enrichment_dict = {}
+    for record in cur:
+        enrichment_dict[record[0]] = {"num_enrichments_a_needed": record[1], "num_enrichments_b_needed": record[2], "num_enrichments_needed": record[3]}
+
+    conn.close()
+except:
+    interests = []
+    enrichment_dict = {}
+    with open(resource_path('database/interests.csv'), newline='') as interests_csv:
+        reader = csv.DictReader(interests_csv)
+        column_names = next(reader)
+        for name in column_names:
+            interests.append(name)
+        interests.pop(0)
+
+
+    with open(resource_path('database/student_vars.csv'), newline='') as student_vars_csv:
+        reader = csv.DictReader(student_vars_csv)
+        for row in reader:
+            enrichment_dict[row["major"]] = {"num_enrichments_a_needed": row["num_enrichments_a_needed"], "num_enrichments_b_needed": row["num_enrichments_b_needed"], "num_enrichments_needed": row["num_enrichments_needed"]}
+
+
 
 class Schedule:
     """
