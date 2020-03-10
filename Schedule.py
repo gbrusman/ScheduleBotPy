@@ -237,8 +237,6 @@ class Schedule:
         """Function to test whether or not a class is pointless to take. Returns boolean."""
         MAT128s = ["MAT128A", "MAT128B", "MAT128C"]
 
-        #FIXME: make sure this is right, figure out where 128s are getting set to be not required anymore.
-        #FIXME: now we get infinite loops when the student sees that a 128 is required but they already have enough 128s so they never take it.
         if course.name in MAT128s and self.student.num_128s >= self.student.num128s_needed[self.student.major]:
 
             for name in self.student.not_taken_128s:
@@ -388,14 +386,12 @@ class Schedule:
         for course_name in self.classes_by_name:
             if self.classes_by_name[course_name].required[self.student.major] and course_name not in self.student.classes_taken.keys():
                 return False
-        # FIXME: pull enrichments_needed from database
-        enrichments_needed = {"LMATAB1": 4, "LMATAB2": 4, "LMATBS1": 4, "LMATBS2": 4, "LAMA": 2, "LMCOBIO": 2, "LMCOMATH": 2, "LMOR": 4}
-        num_needed = enrichments_needed[self.student.major]
+        num_needed = enrichment_dict[self.student.major]["num_enrichments_needed"]
 
         if self.student.num_128s < self.student.num128s_needed[self.student.major]:
             return False
         if self.student.major == "LMOR":
-            if self.student.num_enrichments_a < LMOR_ENRICHMENTS_A_NEEDED or self.student.num_enrichments_b < LMOR_ENRICHMENTS_B_NEEDED:
+            if self.student.num_enrichments_a < enrichment_dict["LMOR"]["num_enrichments_a_needed"] or self.student.num_enrichments_b < enrichment_dict["LMOR"]["num_enrichments_b_needed"]:
                 return False
         elif self.student.num_enrichments < num_needed:
             return False
