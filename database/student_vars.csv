@@ -1,9 +1,9 @@
-major,num_enrichments_needed,num_enrichments_a_needed,num_enrichments_b_needed,num_128s_needed
-LMATAB1,4,0,0,0
-LMATAB2,4,0,0,0
-LMATBS1,4,0,0,0
-LMATBS2,4,0,0,0
-LAMA,2,0,0,2
-LMOR,4,2,2,1
-LMCOBIO,2,0,0,3
-LMCOMATH,2,0,0,3
+major,num_enrichments_needed,num_enrichments_a_needed,num_enrichments_b_needed,num_128s_needed,full_name,display_index
+LMATAB1,4,0,0,0,AB Mathematics: Plan 1 - General Mathematics,1
+LMATAB2,4,0,0,0,AB Mathematics: Plan 2 - Secondary Teaching,2
+LMATBS1,4,0,0,0,BS Mathematics: Plan 1 - General Mathematics,3
+LMATBS2,4,0,0,0,BS Mathematics: Plan 2 - Secondary Teaching,4
+LAMA,2,0,0,2,Applied Mathematics,5
+LMOR,4,2,2,1,Mathematical Analytics and Operations Research,6
+LMCOBIO,2,0,0,3,Mathematical and Scientific Computation - Bio Emphasis,7
+LMCOMATH,2,0,0,3,Mathematical and Scientific Computation - Math Emphasis,8
