@@ -8,10 +8,6 @@ MAX_MATH_CLASSES_PER_QUARTER = 2
 SUMMER_MAX_TOT_CLASSES_PER_QUARTER = 2
 SUMMER_MAX_MATH_CLASSES_PER_QUARTER = 1
 
-# FIXME: Pull these from database.
-LMOR_ENRICHMENTS_A_NEEDED = 2
-LMOR_ENRICHMENTS_B_NEEDED = 2
-
 
 def convert_interest_format(interest):
     interest = interest.replace("_", " ").title()
