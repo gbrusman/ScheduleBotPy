@@ -17,14 +17,21 @@ def resource_path(relative_path):
     return os.path.join(base_path, relative_path)
 
 
-conn = psycopg2.connect(host="rajje.db.elephantsql.com", database="ytmelfsd", user="ytmelfsd", password="PY2TKJsTJD2cOPlRbwQgVJPHgc4vhWvT")
-cur = conn.cursor()
-cur.execute("SELECT major, num_128s_needed FROM student_vars;")
-num128s_needed = {}
+try:
+    conn = psycopg2.connect(host="rajje.db.elephantsql.com", database="ytmelfsd", user="ytmelfsd", password="PY2TKJsTJD2cOPlRbwQgVJPHgc4vhWvT")
+    cur = conn.cursor()
+    cur.execute("SELECT major, num_128s_needed FROM student_vars;")
+    num128s_needed = {}
 
-for record in cur:
-    num128s_needed[record[0]] = record[1]
-conn.close()
+    for record in cur:
+        num128s_needed[record[0]] = record[1]
+    conn.close()
+except:
+    num128s_needed = {}
+    with open(resource_path('database/student_vars.csv'), newline='') as student_vars_csv:
+        reader = csv.DictReader(student_vars_csv)
+        for row in reader:
+            num128s_needed[row["major"]] = int(row["num_128s_needed"])
 
 
 class Student:
@@ -56,7 +63,6 @@ class Student:
         self.not_taken_128s = arr_128s
         self.summer_quarters = summer_quarters
 
-        # FIXME: Pull from database.
         self.num128s_needed = num128s_needed
 
     def update_128_count(self, course):
