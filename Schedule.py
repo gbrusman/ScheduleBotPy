@@ -27,6 +27,13 @@ cur.execute(
 interests = []
 for record in cur:
     interests.append(convert_interest_format(record[0]))
+
+cur.execute("SELECT major, num_enrichments_a_needed, num_enrichments_b_needed, num_enrichments_needed from student_vars;")
+# FIXME: make table or something to store number of enrichment_a's, b's, and total for each major.
+enrichment_dict = {}
+for record in cur:
+    enrichment_dict[record[0]] = {"num_enrichments_a_needed": record[1], "num_enrichments_b_needed": record[2], "num_enrichments_needed": record[3]}
+
 conn.close()
 
 class Schedule:
@@ -243,24 +250,22 @@ class Schedule:
         if course.required[self.student.major] or (course.name in MAT128s and self.student.num_128s < self.student.num128s_needed[self.student.major]):
             return False
 
-        enrichments_needed = {"LMATAB1": 4, "LMATAB2": 4, "LMATBS1": 4, "LMATBS2": 4, "LAMA": 2, "LMCOBIO": 2, "LMCOMATH": 2, "LMOR": 4}  # FIXME: can read this from CSV/DB
-
         if self.student.major == "LMOR":
-            if self.student.num_enrichments_b < 2 and course.enrichment_b:
+            if self.student.num_enrichments_b < enrichment_dict["LMOR"]["num_enrichments_b_needed"] and course.enrichment_b:
                 return False
-            if (self.student.num_enrichments_a >= 2 and course.enrichment_a) or (self.student.num_enrichments_b >= 2 and course.enrichment_b):
+            if (self.student.num_enrichments_a >= enrichment_dict["LMOR"]["num_enrichments_a_needed"] and course.enrichment_a) or (self.student.num_enrichments_b >= enrichment_dict["LMOR"]["num_enrichments_b_needed"] and course.enrichment_b):
                 return True
         elif self.student.major == "LAMA":
-            if (self.student.num_enrichments >= enrichments_needed[self.student.major] and course.enrichment) or (self.student.has_taken_approved_ud_nonmath_req and course.approved_ud_nonmath):
+            if (self.student.num_enrichments >= enrichment_dict["LAMA"]["num_enrichments_needed"] and course.enrichment) or (self.student.has_taken_approved_ud_nonmath_req and course.approved_ud_nonmath):
                 return True
         elif self.student.major == "LMCOBIO":
-            if (self.student.num_enrichments >= enrichments_needed[self.student.major] and course.enrichment) or (self.student.has_taken_biology_req and course.biology_requirement):
+            if (self.student.num_enrichments >= enrichment_dict["LMCOBIO"]["num_enrichments_needed"] and course.enrichment) or (self.student.has_taken_biology_req and course.biology_requirement):
                 return True
-        elif self.student.major == "LMCOBIO":
-            if (self.student.num_enrichments >= enrichments_needed[self.student.major] and course.enrichment) or (self.student.has_taken_biology_req and course.computation_requirement):
+        elif self.student.major == "LMCOMATH":
+            if (self.student.num_enrichments >= enrichment_dict["LMCOMATH"]["num_enrichments_needed"] and course.enrichment) or (self.student.has_taken_computation_req and course.computation_requirement):
                 return True
         else:
-            if (self.student.num_enrichments >= enrichments_needed[self.student.major] and course.enrichment) and (not course.approved_ud_nonmath):
+            if (self.student.num_enrichments >= enrichment_dict[self.student.major]["num_enrichments_needed"] and course.enrichment) and (not course.approved_ud_nonmath):
                 return True
 
 
@@ -383,6 +388,7 @@ class Schedule:
         for course_name in self.classes_by_name:
             if self.classes_by_name[course_name].required[self.student.major] and course_name not in self.student.classes_taken.keys():
                 return False
+        # FIXME: pull enrichments_needed from database
         enrichments_needed = {"LMATAB1": 4, "LMATAB2": 4, "LMATBS1": 4, "LMATBS2": 4, "LAMA": 2, "LMCOBIO": 2, "LMCOMATH": 2, "LMOR": 4}
         num_needed = enrichments_needed[self.student.major]
 
