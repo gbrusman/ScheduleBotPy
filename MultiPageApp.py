@@ -154,7 +154,7 @@ class MultiPageApp(tk.Tk):
             for row in reader:
                 required_dict = {}
                 for i in range(1,
-                               9):  # FIXME: want to make the range not hard-coded, want it to be able to dynamically figure out range.
+                               len(row)):  # FIXME: want to make the range not hard-coded, want it to be able to dynamically figure out range.
                     required_dict[majors[i - 1]] = True if row[i] == "t" else False
                 self.classes_by_name[row[0]].required = required_dict
 
@@ -167,11 +167,11 @@ class MultiPageApp(tk.Tk):
             # Fill in data about course offerings from 'course_offerings' table.
             for row in reader:
                 quarters_offered = []
-                for i in range(1, 6):
+                for i in range(1, len(row) - 1):
                     if row[i] == 't':
                         quarters_offered.append(quarters[i - 1])
                 self.classes_by_name[row[0]].quarters_offered = quarters_offered
-                self.classes_by_name[row[0]].offered_pattern = row[6]
+                self.classes_by_name[row[0]].offered_pattern = row[len(row) - 1]
 
         # Get names of all of the interests currently supported
         with open(resource_path('database/interests.csv'), newline='') as interests_csv:
