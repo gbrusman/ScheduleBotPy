@@ -43,7 +43,6 @@ class MultiPageApp(tk.Tk):
             self.get_info_from_database()
         except:
             self.get_info_from_csv()
-        # self.get_info_from_csv()
 
         self.frames = {}
         self.page_names = [MajorSelectPage, CourseSelectPage, InterestSelectPage, ScheduleDisplayPage, AppliedSeriesChoicePage]
