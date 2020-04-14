@@ -23,7 +23,7 @@ If you would like to update a classes prerequisites, you must ensure that the pr
     - **(A and B) or (C and D** will cause an error, since there needs to be another ")" after "D".
 
 ##### More about the Prerequisites:
-Some of the prerequisites in the database ...
+Some of the prerequisites in the database are not exactly what the prerequisites are officially. There are instances where I added artificial prerequisites to a class in order to push it further back in the schedule. This is because there are some classes that can be taken relatively early on, but it is recommended to take them closer to graduation.
 
 ### Updating the Database:
 I made scripts to update the database. The steps for updating the database are as follows:
